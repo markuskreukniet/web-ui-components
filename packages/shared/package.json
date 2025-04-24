@@ -1,0 +1,16 @@
+{
+  "name": "shared",
+  "private": true,
+  "files": ["dist"],
+  "exports": {
+    ".": {
+      "types": "./dist/tsc/index.d.ts",
+      "default": "./dist/tsc/index.js"
+    },
+    "./styles/*": "./dist/styles/*"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && node build/prepare-css.mjs",
+    "dev": "node build/prepare-css.mjs --watch"
+  }
+}

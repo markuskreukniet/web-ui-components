@@ -1,0 +1,10 @@
+{
+  "extends": "../tsconfig.app.json",
+  "compilerOptions": {
+    /* Bundler mode */
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
+
+    "types": ["vite/client"]
+  }
+}

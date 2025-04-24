@@ -1,0 +1,22 @@
+{
+  "name": "web-ui-components",
+  "version": "0.0.0",
+  "description": "npm version:",
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "npm run build -ws",
+    "dev:solid": "npm run dev -w apps/solid-playground",
+    "dev:solid:workspace": "node scripts/dev-solid-workspace.mjs"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "vite": "^6.0.0"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "ui-solid",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/tsc/index.d.ts",
+      "import": "./dist/vite/ui-solid.js",
+      "require": "./dist/vite/ui-solid.cjs"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && vite build"
+  },
+  "dependencies": {
+    "solid-js": "^1.9.5"
+  },
+  "devDependencies": {
+    "vite-plugin-solid": "^2.11.6"
+  }
+}
