@@ -1,0 +1,13 @@
+{
+  "name": "web-ui-components",
+  "version": "1.0.0",
+  "description": "npm version:",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ]
+}
