@@ -1,0 +1,9 @@
+{
+  "extends": "../tsconfig.package.json",
+  "compilerOptions": {
+    /* Bundler mode */
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js"
+  },
+  "include": ["src"]
+}
