@@ -3,17 +3,24 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "types": "dist-tsc/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist-vite/ui-solid.js",
+      "require": "./dist-vite/ui-solid.cjs"
+    }
+  },
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -p tsconfig.build.json && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
     "solid-js": "^1.9.5"
   },
   "devDependencies": {
-    "typescript": "~5.8.3",
-    "vite": "^6.3.5",
+    "typescript": "~5.7.2",
+    "vite": "^6.3.1",
     "vite-plugin-solid": "^2.11.6"
   }
 }
