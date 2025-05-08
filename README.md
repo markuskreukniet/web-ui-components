@@ -16,6 +16,7 @@ npm version:
 12. add `import { HelloWorld } from 'ui-solid';` and `<HelloWorld />` to web-ui-components/apps/solid-playground/src/App.tsx
 13. change the web-ui-components/packages/ui-solid/vite.config.ts with the config from below
 14. add web-ui-components/packages/ui-solid/tsconfig.build.json with the content from below
+15. change web-ui-components/packages/ui-solid/package.json with the content from below
 
 pnpm version:
 
