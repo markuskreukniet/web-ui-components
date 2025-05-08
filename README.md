@@ -13,6 +13,9 @@ npm version:
 9. web-ui-components/packages/ui-solid/src/components/HelloWorld.tsx: `import { Component } from 'solid-js';export const HelloWorld: Component = () => {return <p>Hello from ui-solid!</p>;};`
 10. web-ui-components/packages/ui-solid/src/index.ts: `export { HelloWorld } from './components/HelloWorld';`
 11. add `"dependencies": {"ui-solid": "workspace:*"}` to web-ui-components/apps/solid-playground/package.json
+12. add `import { HelloWorld } from 'ui-solid';` and `<HelloWorld />` to web-ui-components/apps/solid-playground/src/App.tsx
+13. change the web-ui-components/packages/ui-solid/vite.config.ts with the config from below
+14. add web-ui-components/packages/ui-solid/tsconfig.build.json with the content from below
 
 pnpm version:
 
