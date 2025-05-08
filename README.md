@@ -18,8 +18,7 @@ npm version:
 14. add web-ui-components/packages/ui-solid/tsconfig.build.json with the content from below
 15. change web-ui-components/packages/ui-solid/package.json with the content from below
 16. web-ui-components: npm install
-17. web-ui-components/apps/solid-playground: npm install
-18. web-ui-components/packages/ui-solid: npm run build
+17. web-ui-components/packages/ui-solid: npm run build
 
 pnpm version:
 
