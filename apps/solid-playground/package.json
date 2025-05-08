@@ -17,6 +17,6 @@
   },
   "dependencies": {
     "solid-js": "^1.9.5",
-    "ui-solid": "workspace:*"
+    "ui-solid": "*"
   }
 }

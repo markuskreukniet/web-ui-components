@@ -10,9 +10,15 @@ npm version:
 6. web-ui-components/packages/ui-solid: npm create vite@latest . -- --template solid-ts
 7. move .gitignore from web-ui-components/packages/ui-solid to web-ui-components
 8. add `dist-tsc` and `dist-vite` to web-ui-components/.gitignore
-9. web-ui-components/packages/ui-solid/src/components/HelloWorld.tsx: `import { Component } from 'solid-js';export const HelloWorld: Component = () => {return <p>Hello from ui-solid!</p>;};`
+9. web-ui-components/packages/ui-solid/src/components/HelloWorld.tsx: `import type { Component } from 'solid-js';export const HelloWorld: Component = () => {return <p>Hello from ui-solid!</p>;};`
 10. web-ui-components/packages/ui-solid/src/index.ts: `export { HelloWorld } from './components/HelloWorld';`
-11. add `"dependencies": {"ui-solid": "workspace:*"}` to web-ui-components/apps/solid-playground/package.json
+11. add `"dependencies": {"ui-solid": "*"}` to web-ui-components/apps/solid-playground/package.json
+12. add `import { HelloWorld } from 'ui-solid';` and `<HelloWorld />` to web-ui-components/apps/solid-playground/src/App.tsx
+13. change the web-ui-components/packages/ui-solid/vite.config.ts with the config from below
+14. add web-ui-components/packages/ui-solid/tsconfig.build.json with the content from below
+15. change web-ui-components/packages/ui-solid/package.json with the content from below
+16. web-ui-components: npm install
+17. web-ui-components/packages/ui-solid: npm run build
 
 pnpm version:
 
@@ -24,7 +30,7 @@ pnpm version:
 6. web-ui-components/packages/ui-solid: pnpm create vite . --template solid-ts
 7. move .gitignore from web-ui-components/packages/ui-solid to web-ui-components
 8. add `dist-tsc` and `dist-vite` to web-ui-components/.gitignore
-9. web-ui-components/packages/ui-solid/src/components/HelloWorld.tsx: `import { Component } from 'solid-js';export const HelloWorld: Component = () => {return <p>Hello from ui-solid!</p>;};`
+9. web-ui-components/packages/ui-solid/src/components/HelloWorld.tsx: `import type { Component } from 'solid-js';export const HelloWorld: Component = () => {return <p>Hello from ui-solid!</p>;};`
 10. web-ui-components/packages/ui-solid/src/index.ts: `export { HelloWorld } from './components/HelloWorld';`
 11. add `"dependencies": {"ui-solid": "workspace:*"}` to web-ui-components/apps/solid-playground/package.json
 12. add `import { HelloWorld } from 'ui-solid';` and `<HelloWorld />` to web-ui-components/apps/solid-playground/src/App.tsx
@@ -36,32 +42,44 @@ pnpm version:
 
 ```
 web-ui-components/
+├── docs/
+│   └── bootstrapping.md            # Initial project setup notes
 ├── packages/
-│   ├── ui-react/               # React-based UI components
+│   ├── ui-react/                   # React-based UI components
 │   │   ├── src/
-│   │   │   └── components/
+│   │   │   ├── components/
+│   │   │   │   └── buttons/
+│   │   │   └── modules/
+│   │   │       └── toasts/
 │   │   ├── package.json
 │   │   └── vite.config.ts
-│   ├── ui-solid/               # SolidJS-based UI components
+│   ├── ui-solid/                   # SolidJS-based UI components
 │   │   ├── src/
-│   │   │   └── components/
+│   │   │   ├── components/
+│   │   │   │   └── buttons/
+│   │   │   └── modules/
+│   │   │       └── toasts/
 │   │   ├── package.json
 │   │   └── vite.config.ts
-│   ├── ui-core/                # Shared styles and logic utilities
+│   ├── ui-core/                    # Shared styles and logic utilities
 │   │   ├── src/
+│   │   │   ├── monads/
+│   │   │   │   └── either.ts
 │   │   │   ├── utils/
+│   │   │   │   └── errors.ts
 │   │   │   └── styles/
-│   │   │       ├── index.css   # Entry point (e.g. @import './base.css')
+│   │   │       ├── index.css       # Entry point (e.g. @import './base.css')
 │   │   │       └── base.css
 │   │   ├── package.json
 │   │   └── vite.config.ts
 ├── apps/
 │   ├── react-playground/
 │   └── solid-playground/
-├── package.json                # Root workspace configuration
-├── pnpm-lock.yaml              # The only pnpm-lock.yaml
-├── pnpm-workspace.yaml
-├── tsconfig.json               # Shared TypeScript settings
+├── package-lock.json
+├── package.json                    # Root workspace configuration
+├── pnpm-lock.yaml                  # Generated lockfile (only present in a pnpm-managed project)
+├── pnpm-workspace.yaml             # Workspace configuration (only present in a pnpm-managed project)
+├── tsconfig.json                   # Shared TypeScript settings
 ├── .gitignore
 └── README.md
 ```
@@ -157,3 +175,15 @@ web-ui-components/packages/ui-solid/package.json:
   }
 }
 ```
+
+## File Naming Conventions
+
+- `.ts` files: Use *kebab-case* for all TypeScript modules that do not contain JSX or define React components. Examples: `data-utils.ts`, `api-service.ts`.
+
+- `.tsx` files: Use *PascalCase* (also known as *UpperCamelCase*) for all files that define React components or include JSX content. Examples: `UserProfile.tsx`, `LoginForm.tsx`.
+
+This convention enhances code readability and enforces a clear distinction between utility modules and React components, thereby supporting a maintainable and scalable codebase.
+
+## CSS Style Guide
+
+- Use CSS classes exclusively for all styling purposes. Reserve IDs solely for JavaScript-related behavior, such as DOM manipulation and event handling. This practice enforces a strict separation of concerns, mitigates CSS specificity issues, and promotes a maintainable, scalable codebase.
