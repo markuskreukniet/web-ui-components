@@ -1,4 +1,5 @@
 import type { Component } from 'solid-js';
+import { HelloWorld } from 'ui-solid';
 
 import logo from './logo.svg';
 import styles from './App.module.css';
@@ -20,6 +21,7 @@ const App: Component = () => {
           Learn Solid
         </a>
       </header>
+      <HelloWorld />
     </div>
   );
 };
