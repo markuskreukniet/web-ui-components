@@ -5,24 +5,24 @@ import type { Either } from '../monads/either'
 
 export type FilePathType = 'regularFile' | 'directory'
 
-export type FilePathEntry = {
-  selectedFilePath: string | null
-  selectedFilePathType: FilePathType | null
+type SelectedFilePath = {
+  filePath: string | null
+  isDirectory: boolean
 };
 
-export type FilePathEntryResult = Either<Error, FilePathEntry>
+export type SelectedFilePathResult = Either<Error, SelectedFilePath>
 
-type FilePathEntrySelectorProps = {
+type FilePathSelectorProps = {
   filePathType: FilePathType
-  selectFilePath: () => Promise<Either<Error, string>>
-  onChange: (result: Either<Error, FilePathEntry>) => void
+  selectFilePath: () => Promise<Either<Error, string | null>>
+  onChange: (result: Either<Error, SelectedFilePath>) => void
 }
 
-export const FilePathEntrySelector: Component<FilePathEntrySelectorProps> = (props) => {
+export const FilePathSelector: Component<FilePathSelectorProps> = (props) => {
   const handler = async () => {
     props.onChange(mapRight(await props.selectFilePath(), selectedFilePath => ({
-      selectedFilePath,
-      selectedFilePathType: selectedFilePath ? props.filePathType : null
+      filePath: selectedFilePath,
+      isDirectory: selectedFilePath !== null && props.filePathType === 'directory'
     })));
   }
 

@@ -1,29 +1,71 @@
 import { createSignal, For, Show } from 'solid-js'
 import { Button } from './Button'
-import { FilePathEntrySelector } from './FilePathEntrySelector'
+import { isRight } from '../monads/either'
+import { FilePathSelector } from './FilePathSelector'
 import { SubmitButton } from './SubmitButton'
 import type { Component } from 'solid-js'
 import type { Either } from '../monads/either'
-import type { FilePathEntry, FilePathEntryResult, FilePathType } from './FilePathEntrySelector'
+import type { FilePathType, SelectedFilePathResult } from './FilePathSelector'
 
-// TODO: add enums for both Show. Also for button variant. Also () => Promise<Either<Error, string>> type
+// TODO: add enums for both Show. Also for button variant. Also () => Promise<Either<Error, string | null>> type
+
+export type ResolvedFilePath = {
+  filePath: string
+  isDirectory: boolean
+};
 
 type FilePathSelectorMode = FilePathType | 'regularFileAndDirectory';
 
 type FilePathSelectionFormProps = {
   filePathSelectorMode: FilePathSelectorMode
-  selectFilePath: () => Promise<Either<Error, string>>
+  selectFilePath: () => Promise<Either<Error, string | null>>
+  singleSelection: boolean
 }
 
 export const FilePathSelectionForm: Component<FilePathSelectionFormProps> = (props) => {
-  const [filePathEntries, setFilePathEntries] = createSignal<FilePathEntry[]>([]);
+  const [resolvedFilePaths, setResolvedFilePaths] = createSignal<ResolvedFilePath[]>([]);
 
-  function showFilePathEntrySelector(mode: FilePathSelectorMode) {
+  function showFilePathSelector(mode: FilePathSelectorMode) {
     return (props.filePathSelectorMode === mode || props.filePathSelectorMode === 'regularFileAndDirectory')
   }
 
-  const handleChange = (result: FilePathEntryResult) => {
+  function createResolvedFilePath(filePath: string, isDirectory: boolean): ResolvedFilePath {
+    return {
+      filePath,
+      isDirectory
+    }
+  }
 
+  // Add a trailing slash to a file path.
+  // Without the trailing slash, /path/sub is a parent of /path/subpath.
+  // This trailing slash method should also work on non-Windows systems.
+  function addTrailingSlash(filePath: string) {
+    const forwardSlash = '/'
+    return filePath.startsWith(forwardSlash) ? filePath + forwardSlash : filePath + '\\'
+  }
+
+  const handleChange = (result: SelectedFilePathResult) => {
+    if (isRight(result) && result.value.filePath !== null) {
+      if (props.singleSelection) {
+        setResolvedFilePaths([createResolvedFilePath(result.value.filePath, result.value.isDirectory)])
+      } else {
+        const filteredPaths: ResolvedFilePath[] = [];
+        const newPathWithSlash = addTrailingSlash(result.value.filePath)
+        for (const path of resolvedFilePaths()) {
+          const pathWithSlash = addTrailingSlash(path.filePath)
+          if (newPathWithSlash === pathWithSlash || newPathWithSlash.startsWith(pathWithSlash)) {
+            break
+          }
+          if (!pathWithSlash.startsWith(newPathWithSlash)) {
+            filteredPaths.push(path)
+          }
+        }
+        setResolvedFilePaths([
+          ...filteredPaths,
+          createResolvedFilePath(result.value.filePath, result.value.isDirectory)
+        ])
+      }
+    }
   }
 
   const handlePress = () => {
@@ -33,15 +75,15 @@ export const FilePathSelectionForm: Component<FilePathSelectionFormProps> = (pro
   return (
     <div>
       <div>
-        <Show when={showFilePathEntrySelector('regularFile')}>
-          <FilePathEntrySelector
+        <Show when={showFilePathSelector('regularFile')}>
+          <FilePathSelector
             filePathType={'regularFile'}
             selectFilePath={props.selectFilePath}
             onChange={handleChange}
           />
         </Show>
-        <Show when={showFilePathEntrySelector('directory')}>
-          <FilePathEntrySelector
+        <Show when={showFilePathSelector('directory')}>
+          <FilePathSelector
             filePathType={'directory'}
             selectFilePath={props.selectFilePath}
             onChange={handleChange}
@@ -49,8 +91,8 @@ export const FilePathSelectionForm: Component<FilePathSelectionFormProps> = (pro
         </Show>
       </div>
       <ul>
-        <For each={filePathEntries()}>
-          {(entry) => <li>{entry.filePath}</li>}
+        <For each={resolvedFilePaths()}>
+          {(path) => <li>{path.filePath}</li>}
         </For>
       </ul>
       <div>
