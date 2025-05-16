@@ -51,19 +51,23 @@ export const FilePathSelectionForm: Component<FilePathSelectionFormProps> = (pro
       } else {
         const filteredPaths: ResolvedFilePath[] = [];
         const newPathWithSlash = addTrailingSlash(result.value.filePath)
+        let shouldReplace = true
         for (const path of resolvedFilePaths()) {
           const pathWithSlash = addTrailingSlash(path.filePath)
           if (newPathWithSlash === pathWithSlash || newPathWithSlash.startsWith(pathWithSlash)) {
+            shouldReplace = false
             break
           }
           if (!pathWithSlash.startsWith(newPathWithSlash)) {
             filteredPaths.push(path)
           }
         }
-        setResolvedFilePaths([
-          ...filteredPaths,
-          createResolvedFilePath(result.value.filePath, result.value.isDirectory)
-        ])
+        if (shouldReplace) {
+          setResolvedFilePaths([
+            ...filteredPaths,
+            createResolvedFilePath(result.value.filePath, result.value.isDirectory)
+          ])
+        }
       }
     }
   }
