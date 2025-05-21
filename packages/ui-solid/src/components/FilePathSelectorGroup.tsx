@@ -1,13 +1,11 @@
-import { createSignal, For, Show } from 'solid-js'
-import { Button } from './Button'
+import { createSignal, For } from 'solid-js'
+import { Button, ButtonVariant } from './Button'
 import { isRight, left, right } from '../monads/either'
 import { FilePathSelector, FilePathType } from './FilePathSelector'
 import type { Component } from 'solid-js'
 import type { Either } from '../monads/either'
 import type { SelectedFilePathResult } from './FilePathSelector'
 import type { SelectFilePath } from '../types/types'
-
-// TODO: Enum for button variant
 
 export const FilePathSelectorMode = {
   ...FilePathType,
@@ -31,12 +29,12 @@ type FilePathSelectorGroupProps = {
 export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = (props) => {
   const [resolvedFilePaths, setResolvedFilePaths] = createSignal<ResolvedFilePath[]>([]);
 
-  function showFilePathSelector(mode: FilePathSelectorMode): boolean {
+  function shouldRenderSelectorFor(mode: FilePathSelectorMode): boolean {
     return (
       props.filePathSelectorMode === mode || props.filePathSelectorMode === FilePathSelectorMode.RegularFileAndDirectory
     )
   }
-  
+
   function createResolvedFilePath(filePath: string, isDirectory: boolean): ResolvedFilePath {
     return {
       filePath,
@@ -95,14 +93,14 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = (pro
   return (
     <div>
       <div>
-        {showFilePathSelector(FilePathSelectorMode.RegularFile) && (
+        {shouldRenderSelectorFor(FilePathSelectorMode.RegularFile) && (
           <FilePathSelector
             filePathType={FilePathType.RegularFile}
             selectFilePath={props.selectFilePath}
             onChange={handleChange}
           />
         )}
-        {showFilePathSelector(FilePathSelectorMode.Directory) && (
+        {shouldRenderSelectorFor(FilePathSelectorMode.Directory) && (
           <FilePathSelector
             filePathType={FilePathType.Directory}
             selectFilePath={props.selectFilePath}
@@ -119,7 +117,7 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = (pro
         disabled={false}
         onPress={handlePress}
         text={'reset'}
-        variant={'tertiary'}
+        variant={ButtonVariant.Tertiary}
       />
     </div>
   )

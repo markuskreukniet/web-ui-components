@@ -2,14 +2,22 @@ import { createEffect, createSignal } from 'solid-js'
 import type { Component } from 'solid-js'
 import type { SubmitButtonProps } from './SubmitButton'
 
+export const ButtonVariant = {
+  Primary: 'primary',
+  Secondary: 'secondary',
+  Tertiary: 'tertiary'
+} as const
+
+type ButtonVariant = typeof ButtonVariant[keyof typeof ButtonVariant]
+
 type ButtonProps = SubmitButtonProps & {
-  variant: 'primary' | 'secondary' | 'tertiary'
+  variant: ButtonVariant
   text: string
 }
 
 type VariantAttribute =
   | { id: 'button--primary' }
-  | { class: 'button--secondary' | 'button--tertiary' };
+  | { class: 'button--secondary' | 'button--tertiary' }; // TODO: duplicate strings
 
 export const Button: Component<ButtonProps> = (props) => {
   const [disabled, setDisabled] = createSignal(false)
