@@ -1,15 +1,15 @@
 import { createSignal, For } from 'solid-js'
-import { Button, ButtonVariant } from './Button'
+import { Button, ButtonAttributes } from './Button'
 import { isRight, left, right } from '../monads/either'
 import { FilePathSelector, FilePathType } from './FilePathSelector'
-import type { Component } from 'solid-js'
+import type { Component, JSX } from 'solid-js'
 import type { Either } from '../monads/either'
 import type { SelectedFilePathResult } from './FilePathSelector'
 import type { SelectFilePath } from '../types/types'
 
 export const FilePathSelectorMode = {
   ...FilePathType,
-  RegularFileAndDirectory: 'regularFileAndDirectory'
+  regularFileAndDirectory: 'regularFileAndDirectory'
 } as const
 
 export type FilePathSelectorMode = typeof FilePathSelectorMode[keyof typeof FilePathSelectorMode]
@@ -19,11 +19,14 @@ export type ResolvedFilePath = {
   isDirectory: boolean
 };
 
+export type ResolvedPathsResult = Either<Error, ResolvedFilePath[]>
+
 type FilePathSelectorGroupProps = {
   filePathSelectorMode: FilePathSelectorMode
   selectFilePath: SelectFilePath
   singleSelection: boolean
-  onChange: (result: Either<Error, ResolvedFilePath[]>) => void
+  onChange: (result: ResolvedPathsResult) => void
+  submitButton: JSX.Element | null
 }
 
 export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = (props) => {
@@ -31,7 +34,7 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = (pro
 
   function shouldRenderSelectorFor(mode: FilePathSelectorMode): boolean {
     return (
-      props.filePathSelectorMode === mode || props.filePathSelectorMode === FilePathSelectorMode.RegularFileAndDirectory
+      props.filePathSelectorMode === mode || props.filePathSelectorMode === FilePathSelectorMode.regularFileAndDirectory
     )
   }
 
@@ -87,22 +90,22 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = (pro
   }
 
   const handlePress = () => {
-    setResolvedFilePaths([])
+    updateResolvedFilePaths([])
   }
 
   return (
     <div>
       <div>
-        {shouldRenderSelectorFor(FilePathSelectorMode.RegularFile) && (
+        {shouldRenderSelectorFor(FilePathSelectorMode.regularFile) && (
           <FilePathSelector
-            filePathType={FilePathType.RegularFile}
+            filePathType={FilePathType.regularFile}
             selectFilePath={props.selectFilePath}
             onChange={handleChange}
           />
         )}
-        {shouldRenderSelectorFor(FilePathSelectorMode.Directory) && (
+        {shouldRenderSelectorFor(FilePathSelectorMode.directory) && (
           <FilePathSelector
-            filePathType={FilePathType.Directory}
+            filePathType={FilePathType.directory}
             selectFilePath={props.selectFilePath}
             onChange={handleChange}
           />
@@ -117,8 +120,9 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = (pro
         disabled={false}
         onPress={handlePress}
         text={'reset'}
-        variant={ButtonVariant.Tertiary}
+        buttonAttributes={ButtonAttributes.tertiary}
       />
+      {props.submitButton}
     </div>
   )
 }

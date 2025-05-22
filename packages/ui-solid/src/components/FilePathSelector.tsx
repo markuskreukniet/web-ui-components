@@ -1,12 +1,12 @@
-import { Button, ButtonVariant } from './Button'
+import { Button, ButtonAttributes } from './Button'
 import { mapRight } from '../monads/either'
 import type { Component } from 'solid-js'
 import type { Either } from '../monads/either'
 import type { SelectFilePath } from '../types/types'
 
 export const FilePathType = {
-  RegularFile: 'regularFile',
-  Directory: 'directory'
+  regularFile: 'regularFile',
+  directory: 'directory'
 } as const
 
 type FilePathType = typeof FilePathType[keyof typeof FilePathType]
@@ -28,7 +28,7 @@ export const FilePathSelector: Component<FilePathSelectorProps> = (props) => {
   const handler = async () => {
     props.onChange(mapRight(await props.selectFilePath(), selectedFilePath => ({
       filePath: selectedFilePath,
-      isDirectory: selectedFilePath !== null && props.filePathType === FilePathType.Directory
+      isDirectory: selectedFilePath !== null && props.filePathType === FilePathType.directory
     })));
   }
 
@@ -36,8 +36,8 @@ export const FilePathSelector: Component<FilePathSelectorProps> = (props) => {
     <Button
       disabled={false}
       onPress={handler}
-      text={`add a ${props.filePathType === FilePathType.RegularFile ? 'file' : 'directory'}`}
-      variant={ButtonVariant.Secondary}
+      text={`add a ${props.filePathType === FilePathType.regularFile ? 'file' : 'directory'}`}
+      buttonAttributes={ButtonAttributes.secondary}
     />
   )
 }

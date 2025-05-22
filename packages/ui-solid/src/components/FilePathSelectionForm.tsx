@@ -1,9 +1,10 @@
+import { createSignal } from 'solid-js'
 import { isRight, left, right } from '../monads/either'
 import { FilePathSelectorGroup, FilePathSelectorMode } from './FilePathSelectorGroup'
 import { SubmitButton } from './SubmitButton'
 import type { Component } from 'solid-js'
 import type { Either } from '../monads/either'
-import type { ResolvedFilePath } from './FilePathSelectorGroup'
+import type { ResolvedFilePath, ResolvedPathsResult } from './FilePathSelectorGroup'
 import type { SelectFilePath } from '../types/types'
 
 type SourceTargetContext = {
@@ -20,10 +21,21 @@ type FilePathSelectionFormProps = {
 }
 
 export const FilePathSelectionForm: Component<FilePathSelectionFormProps> = (props) => {
+  const [isDisabled, setIsDisabled] = createSignal<boolean>(true);
+
   let sourceFilePaths: ResolvedFilePath[] = []
   let targetFilePaths: ResolvedFilePath[] = []
 
-  const handleChange = (result: Either<Error, ResolvedFilePath[]>, forSource: boolean) => {
+  // TODO: naming + WIP
+  const handleChangeSimple = (result: ResolvedPathsResult) => {
+    if (isRight(result)) {
+      sourceFilePaths = result.value
+    } else {
+      props.onChange(left(result.value))
+    }
+  }
+
+  const handleChange = (result: ResolvedPathsResult, forSource: boolean) => {
     if (isRight(result)) {
       if (forSource) {
         sourceFilePaths = result.value
@@ -42,28 +54,33 @@ export const FilePathSelectionForm: Component<FilePathSelectionFormProps> = (pro
     }))
   }
 
+  // Defined once to maintain consistent rendering and avoid duplication across conditional logic.
+  const submitButton = <SubmitButton
+    disabled={isDisabled()}
+    onPress={handlePress}
+  />
+
+  // Inline conditionals are simpler here than a single branching block with extra setup logic.
   return (
     <div>
-      <div>
-        <FilePathSelectorGroup
-          filePathSelectorMode={props.filePathSelectorMode}
-          selectFilePath={props.selectFilePath}
-          onChange={result => handleChange(result, true)}
-          singleSelection={false}
-        />
-        {props.enableTargetSelection && (
-          <FilePathSelectorGroup
-            filePathSelectorMode={FilePathSelectorMode.Directory}
-            selectFilePath={props.selectFilePath}
-            onChange={result => handleChange(result, false)}
-            singleSelection
-          />
-        )}
-      </div>
-      <SubmitButton
-        disabled={false}
-        onPress={handlePress}
+      <FilePathSelectorGroup
+        filePathSelectorMode={props.filePathSelectorMode}
+        selectFilePath={props.selectFilePath}
+        onChange={props.enableTargetSelection ? result => handleChange(result, true) : handleChangeSimple}
+        singleSelection={false}
+        submitButton={props.enableTargetSelection ? null : submitButton}
       />
+      {props.enableTargetSelection && (
+        <FilePathSelectorGroup
+          filePathSelectorMode={FilePathSelectorMode.directory}
+          selectFilePath={props.selectFilePath}
+          onChange={result => handleChange(result, false)}
+          singleSelection
+          submitButton={null}
+        />
+      ) && (
+        submitButton
+      )}
     </div>
   )
 }

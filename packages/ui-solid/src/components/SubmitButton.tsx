@@ -1,4 +1,4 @@
-import { Button, ButtonVariant } from './Button'
+import { Button, ButtonAttributes } from './Button'
 import type { Component } from 'solid-js'
 
 export type SubmitButtonProps = {
@@ -12,7 +12,7 @@ export const SubmitButton: Component<SubmitButtonProps> = (props) => {
       disabled={props.disabled}
       onPress={props.onPress}
       text={'submit'}
-      variant={ButtonVariant.Primary}
+      buttonAttributes={ButtonAttributes.primary}
     />
   )
 }
