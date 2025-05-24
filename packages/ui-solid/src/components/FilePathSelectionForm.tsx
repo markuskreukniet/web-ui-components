@@ -26,7 +26,7 @@ export const FilePathSelectionForm: Component<FilePathSelectionFormProps> = (pro
   let sourceFilePaths: ResolvedFilePath[] = []
   let targetFilePaths: ResolvedFilePath[] = []
 
-  // TODO: naming + WIP
+  // TODO: naming + WIP + handleChangeSimple and handleChange are similar
   const handleChangeSimple = (result: ResolvedPathsResult) => {
     if (isRight(result)) {
       sourceFilePaths = result.value
