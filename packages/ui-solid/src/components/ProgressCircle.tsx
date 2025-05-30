@@ -6,6 +6,6 @@ export type ProgressCircleProps = {
 
 export const ProgressCircle: Component<ProgressCircleProps> = (props) => {
   return (
-    <div id="progress-circle" classList={{ 'display-none': !props.isLoading }} /> // TODO: should be id or class?
+    <div class="progress-circle" classList={{ 'display-none': !props.isLoading }} />
   )
 }

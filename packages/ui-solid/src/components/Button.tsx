@@ -1,6 +1,5 @@
 import { createEffect, createSignal } from 'solid-js'
 import type { Component } from 'solid-js'
-import type { SubmitButtonProps } from './SubmitButton'
 
 export const ButtonAttributes = {
   primary: { id: 'button--primary' },
@@ -10,7 +9,12 @@ export const ButtonAttributes = {
 
 type ButtonAttributes = typeof ButtonAttributes[keyof typeof ButtonAttributes]
 
-type ButtonProps = SubmitButtonProps & {
+export type ButtonBaseProps = {
+  disabled: boolean
+  onPress: () => void
+}
+
+type ButtonProps = ButtonBaseProps & {
   buttonAttributes: ButtonAttributes
   text: string
 }
