@@ -6,7 +6,7 @@ type SubmitButtonProps = ButtonBaseProps & {
   isSubmitting: boolean
 }
 
-// TODO: moet eigenlijk on submitting hebben. en dan bij klikken gelijk disabled zijn tot submitting klaar is
+// TODO: make it possible to not only add text but also a progress spinner inside the button
 
 export const SubmitButton: Component<SubmitButtonProps> = (props) => {
   return (
