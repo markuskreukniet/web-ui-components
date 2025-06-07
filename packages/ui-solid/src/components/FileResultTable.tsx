@@ -29,10 +29,9 @@ type FileResultTableProps = {
   onChange: OnChangeRowSelection
 }
 
-// TODO: naming + can it be more efficient? 'value => value' seems strange
-const renderFileResultCell: Record<FileResultColumnType, (value: string) => string | JSX.Element> = {
+const fileResultCellContentRenderers: Record<FileResultColumnType, (value: string) => JSX.Element> = {
   [FileResultColumnType.thumbnail]: value => <img src={value} alt="" />,
-  [FileResultColumnType.text]: value => value
+  [FileResultColumnType.text]: value => <>{value}</>
 }
 
 export const FileResultTable: Component<FileResultTableProps> = (props) => {
@@ -44,7 +43,7 @@ export const FileResultTable: Component<FileResultTableProps> = (props) => {
     props.onChange(right(newSelection))
   }
 
-  const renderCellPerColumn = props.columns.map(col => renderFileResultCell[col.type]) // TODO: naming
+  const cellContentRenderers = props.columns.map(col => fileResultCellContentRenderers[col.type])
 
   return (
     <table>
@@ -64,7 +63,7 @@ export const FileResultTable: Component<FileResultTableProps> = (props) => {
           >
             <For each={row.cells}>
               {(cell, columnIndex) => (
-                <td>{renderCellPerColumn[columnIndex()](cell)}</td>
+                <td>{cellContentRenderers[columnIndex()](cell)}</td>
               )}
             </For>
           </tr>
