@@ -27,7 +27,7 @@ type FilePanelSwitcherProps = {
 }
 
 const FilePanelSwitcher: Component<FilePanelSwitcherProps> = (props) => {
-  const [activePanel, setActivePanel] = createSignal<FilePanelType>(FilePanelType.selection) // TODO: naming
+  const [activePanel, setActivePanel] = createSignal<FilePanelType>(FilePanelType.selection)
 
   return (
     <div>
