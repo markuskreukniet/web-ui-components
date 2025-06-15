@@ -8,10 +8,10 @@ type FileResultInspectorProps = {
   rows: FileResultRow[]
 }
 
-type CellContentRenderer = (value: string) => JSX.Element
+type CellContentRenderer = (value: string) => JSX.Element // TODO: value naming
 
 const baseCellContentRenderers = {
-  [FileResultColumnType.thumbnail]: (value: string) => <img src={value} alt="" />,
+  [FileResultColumnType.thumbnail]: (value: string) => <img src={value} alt="" />, // TODO: value naming
 } satisfies Partial<Record<FileResultColumnType, CellContentRenderer>>;
 
 export function extendCellRenderers(

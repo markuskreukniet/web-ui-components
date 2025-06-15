@@ -45,7 +45,7 @@ function addTrailingSlash(filePath: string): string {
 }
 
 export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = (props) => {
-  const [resolvedFilePaths, setResolvedFilePaths] = createSignal<ResolvedFilePath[]>([]);
+  const [resolvedFilePaths, setResolvedFilePaths] = createSignal<ResolvedFilePath[]>([]); // TODO: should be <Set<ResolvedFilePath>>(new Set())?
 
   function shouldRenderSelectorFor(mode: FilePathSelectorMode): boolean {
     return (
