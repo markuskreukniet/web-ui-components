@@ -35,8 +35,8 @@ export const FilePanelSwitcher: Component<FilePanelSwitcherProps> = (props) => {
         name="file-panel-type"
         legend="Select File Panel"
         options={[
-          { label: 'Select View', value: FilePanelType.selection }, // TODO: naming
-          { label: 'Result View', value: FilePanelType.inspection } // TODO: naming
+          { label: 'File Selection', value: FilePanelType.selection },
+          { label: 'File Inspection', value: FilePanelType.inspection }
         ]}
         selected={selectedPanel()}
         onChange={setSelectedPanel}
