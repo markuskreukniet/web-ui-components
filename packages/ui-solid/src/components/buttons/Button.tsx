@@ -13,9 +13,9 @@ export type ButtonBaseProps = {
   onPress: () => void
 }
 
-type ButtonProps = ButtonBaseProps & {
-  variant: ButtonVariant
+export type ButtonProps = ButtonBaseProps & {
   content: string | JSX.Element
+  variant: ButtonVariant
 }
 
 export const Button: Component<ButtonProps> = (props) => {

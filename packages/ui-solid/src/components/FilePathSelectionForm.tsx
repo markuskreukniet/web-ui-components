@@ -12,7 +12,9 @@ type SourceTargetContext = {
   targetFilePaths: ResolvedFilePath[] // Nullable is not used by design. Use an empty array to indicate no paths.
 }
 
-export type OnChangeSourceTargetContextResult = (result: Either<Error, SourceTargetContext>) => void
+export type SourceTargetContextResult = Either<Error, SourceTargetContext>
+
+export type OnChangeSourceTargetContextResult = (result: SourceTargetContextResult) => void
 
 type FilePathSelectionFormProps = {
   filePathSelectorMode: FilePathSelectorMode
@@ -26,8 +28,8 @@ type FilePathSelectionFormProps = {
 export const FilePathSelectionForm: Component<FilePathSelectionFormProps> = (props) => {
   const [isDisabled, setIsDisabled] = createSignal<boolean>(true);
 
-  let sourceFilePaths: ResolvedFilePath[] = []
-  let targetFilePaths: ResolvedFilePath[] = []
+  let sourcePaths: ResolvedFilePath[] = []
+  let targetPaths: ResolvedFilePath[] = []
 
   const processResolvedPathsResult = (result: ResolvedPathsResult, setPaths: (paths: ResolvedFilePath[]) => void) => {
     if (isRight(result)) {
@@ -39,16 +41,17 @@ export const FilePathSelectionForm: Component<FilePathSelectionFormProps> = (pro
 
   const handleChangeSourceOnly = (result: ResolvedPathsResult) => {
     processResolvedPathsResult(result, paths => {
-      sourceFilePaths = paths
+      sourcePaths = paths
     })
   }
 
+  // TODO: how does it work? Is the result type good?
   const createResolvedPathsHandler = (setPaths: (paths: ResolvedFilePath[]) => void) =>
     (result: ResolvedPathsResult) => {
       processResolvedPathsResult(result, paths => {
         setPaths(paths)
 
-        if (sourceFilePaths.length > 0 && targetFilePaths.length > 0) {
+        if (sourcePaths.length > 0 && targetPaths.length > 0) {
           setIsDisabled(false)
         } else {
           setIsDisabled(true)
@@ -56,13 +59,13 @@ export const FilePathSelectionForm: Component<FilePathSelectionFormProps> = (pro
       })
   }
 
-  const handleChangeSource = createResolvedPathsHandler(paths => { sourceFilePaths = paths })
-  const handleChangeTarget = createResolvedPathsHandler(paths => { targetFilePaths = paths })
+  const handleChangeSource = createResolvedPathsHandler(paths => { sourcePaths = paths })
+  const handleChangeTarget = createResolvedPathsHandler(paths => { targetPaths = paths })
 
   const handlePress = () => {
     props.onChange(right({
-      sourceFilePaths: sourceFilePaths,
-      targetFilePaths: targetFilePaths
+      sourceFilePaths: sourcePaths,
+      targetFilePaths: targetPaths
     }))
   }
 

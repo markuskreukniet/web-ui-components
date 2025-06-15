@@ -23,7 +23,7 @@ export const SegmentedControl: Component<SegmentedControlProps> = (props) => {
     <fieldset class="segmented-control">
       <legend class="display-none">{props.legend}</legend>
       <For each={props.options}>
-        {(option) => (
+        {option => (
           <label class="segmented-control__option">
             <input
               type="radio"

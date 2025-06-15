@@ -1,20 +1,19 @@
-import { Button, ButtonVariants } from './Button'
-import { ProgressCircle } from '../ProgressCircle'
+import { ButtonVariants } from './Button'
+import { LoadingButton } from './LoadingButton'
 import type { Component } from 'solid-js'
-import type { ButtonBaseProps } from './Button'
+import type { LoadingButtonBaseProps } from './LoadingButton'
 
-type SubmitButtonProps = ButtonBaseProps & {
-  isLoading: boolean
-}
+type SubmitButtonProps = LoadingButtonBaseProps
 
 export const SubmitButton: Component<SubmitButtonProps> = (props) => {
   const submit = 'submit'
 
   return (
-    <Button
+    <LoadingButton
+      isLoading={props.isLoading}
       disabled={props.disabled}
       onPress={props.onPress}
-      content={props.isLoading ? <span><ProgressCircle />{submit}</span> : submit}
+      content={submit}
       variant={ButtonVariants.primary}
     />
   )
