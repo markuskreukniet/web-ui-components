@@ -31,7 +31,7 @@ export function createSignalRowSelection() {
   return createSignal<RowSelection>(null)
 }
 
-const fileResultCellContentRenderers = extendCellRenderers(value => <>{value}</>) // TODO: value naming
+const fileResultCellContentRenderers = extendCellRenderers(cellData => <>{cellData}</>)
 
 function renderHeaderCell(label: string): JSX.Element {
   return (<th>{label}</th>)

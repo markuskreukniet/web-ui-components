@@ -6,12 +6,13 @@ import type { FileResultColumn, FileResultRow } from './FileResultTable'
 type FileResultInspectorProps = {
   columns: FileResultColumn[]
   rows: FileResultRow[]
+  showRowSelectionCheckboxes: boolean
 }
 
-type CellContentRenderer = (value: string) => JSX.Element // TODO: value naming
+type CellContentRenderer = (cellData: string) => JSX.Element
 
 const baseCellContentRenderers = {
-  [FileResultColumnType.thumbnail]: (value: string) => <img src={value} alt="" />, // TODO: value naming
+  [FileResultColumnType.thumbnail]: (cellData: string) => <img src={cellData} alt="" />,
 } satisfies Partial<Record<FileResultColumnType, CellContentRenderer>>;
 
 export function extendCellRenderers(
@@ -33,7 +34,12 @@ export const FileResultInspector: Component<FileResultInspectorProps> = (props) 
 
   return (
     <div>
-      <FileResultTable columns={props.columns} rows={props.rows} onChange={setRowSelectionIndex} />
+      <FileResultTable
+        columns={props.columns}
+        rows={props.rows}
+        showRowSelectionCheckboxes={props.showRowSelectionCheckboxes}
+        onChange={setRowSelectionIndex}
+      />
 
       <Show when={selectedRowIndex !== null}>
         <div>
