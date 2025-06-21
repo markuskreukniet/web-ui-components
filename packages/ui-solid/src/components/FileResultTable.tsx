@@ -41,7 +41,6 @@ function renderDataCell(content: JSX.Element): JSX.Element {
   return (<td>{content}</td>)
 }
 
-// TODO: naming, if changed also parent components naming
 export const FileResultTable: Component<FileResultTableProps> = (props) => {
   const [selectedCheckboxRowIndices, setSelectedCheckboxRowIndices] = createSignal<Set<number>>(new Set())
   const [selectedRowIndex, setSelectedRowIndex] = createSignalRowSelection()
