@@ -1,5 +1,4 @@
 // TODO: show a toast
-// TODO: isLoading and disabling buttons. If isLoading, should all the buttons be disabled?
 
 import { createSignal } from 'solid-js'
 import { FilePanelSwitcher } from './FilePanelSwitcher'
@@ -18,18 +17,17 @@ type FilePanelSwitcherPageProps = {
 }
 
 export const FilePanelSwitcherPage: Component<FilePanelSwitcherPageProps> = (props) => {
-  const [rows, setRows] = createSignal<FileResultRows>([]) // TODO: should it be a set same for columns?
+  const [rows, setRows] = createSignal<FileResultRows>([])
   const [isLoading, setIsLoading] = createSignal(false)
 
   const selectFilePath: SelectFilePath = async () => {
     return right('')
   }
 
-  const deleteSelectedFiles = async (selectedRows: SelectedRows): Promise<Set<number>> => {
+  const deleteSelectedFiles = async (selectedRows: SelectedRows): Promise<SelectedRows> => {
     return new Set()
   }
 
-  // TODO: What if columns is read after rows? Also, columns do not change?
   const columns: FileResultColumns = []
 
   async function executeWithLoading(action: () => Promise<void>): Promise<void> {

@@ -11,13 +11,11 @@ export type LoadingButtonBaseProps = ButtonBaseProps & IsLoading
 
 type LoadingButtonProps = ButtonProps & IsLoading
 
-export const LoadingButton: Component<LoadingButtonProps> = (props) => {
-  return (
-    <Button
-      disabled={props.disabled || props.isLoading}
-      onPress={props.onPress}
-      content={props.isLoading ? <span><ProgressCircle />{props.content}</span> : props.content}
-      variant={props.variant}
-    />
-  )
-}
+export const LoadingButton: Component<LoadingButtonProps> = (props) => (
+  <Button
+    disabled={props.disabled || props.isLoading}
+    onPress={props.onPress}
+    content={props.isLoading ? <span><ProgressCircle />{props.content}</span> : props.content}
+    variant={props.variant}
+  />
+)

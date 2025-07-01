@@ -20,13 +20,13 @@ type RowSelection = number | null
 
 export type SelectedRows = Set<number>
 
-export type OnChangeSelectedRows = (result: SelectedRows) => void
+export type OnChangeSelectedRows = (rows: SelectedRows) => void
 
 type FileResultTableProps = {
   columns: FileResultColumns
   rows: FileResultRows
   showRowSelectionCheckboxes: boolean
-  onChangeSelectedRow: (result: RowSelection) => void
+  onChangeSelectedRow: (selection: RowSelection) => void
   onChangeSelectedRows: OnChangeSelectedRows
 }
 

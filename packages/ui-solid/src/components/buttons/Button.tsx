@@ -18,14 +18,12 @@ export type ButtonProps = ButtonBaseProps & {
   variant: ButtonVariant
 }
 
-export const Button: Component<ButtonProps> = (props) => {
-  return (
-    <button
-      onMouseDown={() => props.onPress()}
-      disabled={props.disabled}
-      {...props.variant}
-    >
-      {props.content}
-    </button>
-  )
-}
+export const Button: Component<ButtonProps> = (props) => (
+  <button
+    onMouseDown={() => props.onPress()}
+    disabled={props.disabled}
+    {...props.variant}
+  >
+    {props.content}
+  </button>
+)

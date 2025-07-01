@@ -7,14 +7,14 @@ import {
   FileResultTable
 } from './FileResultTable'
 import type { Component, JSX } from 'solid-js'
-import type { FileResultColumns, FileResultRows, SelectedRows } from './FileResultTable'
+import type { FileResultColumns, FileResultRows, OnChangeSelectedRows } from './FileResultTable'
 
 type FileResultInspectorProps = {
   columns: FileResultColumns
   rows: FileResultRows
   isLoading: boolean
   canDelete: boolean
-  onChange: (rows: SelectedRows) => void // TODO: duplicate type
+  onChange: OnChangeSelectedRows
 }
 
 type CellContentRenderer = (cellData: string) => JSX.Element

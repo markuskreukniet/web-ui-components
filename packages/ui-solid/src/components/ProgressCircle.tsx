@@ -1,5 +1,3 @@
-export const ProgressCircle = () => {
-  return (
-    <div class="progress-circle" />
-  )
-}
+export const ProgressCircle = () => (
+  <div class="progress-circle" />
+)

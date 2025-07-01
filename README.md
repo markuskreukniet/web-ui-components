@@ -47,22 +47,24 @@ web-ui-components/
 ├── packages/
 │   ├── ui-react/                   # React-based UI components
 │   │   ├── src/
-│   │   │   └── components/
-│   │   │       └── buttons/
+│   │   │   ├── components/
+│   │   │   │   └── buttons/
+│   │   │   └── modules/
 │   │   ├── package.json
 │   │   └── vite.config.ts
 │   ├── ui-solid/                   # SolidJS-based UI components
 │   │   ├── src/
-│   │   │   └── components/
-│   │   │       └── buttons/
+│   │   │   ├── components/
+│   │   │   │   └── buttons/
+│   │   │   └── modules/
 │   │   ├── package.json
 │   │   └── vite.config.ts
 │   ├── ui-core/                    # Shared styles and logic utilities
 │   │   ├── src/
-│   │   │   └── monads/
-│   │   │       └── either.ts
+│   │   │   ├── monads/
+│   │   │   │   └── either.ts
 │   │   │   ├── utils/
-│   │   │       └── errors.ts
+│   │   │   │   └── errors.ts
 │   │   │   └── styles/
 │   │   │       ├── index.css       # Entry point (e.g. @import './base.css')
 │   │   │       └── base.css
@@ -71,9 +73,10 @@ web-ui-components/
 ├── apps/
 │   ├── react-playground/
 │   └── solid-playground/
+├── package-lock.json
 ├── package.json                    # Root workspace configuration
-├── pnpm-lock.yaml                  # The only pnpm-lock.yaml
-├── pnpm-workspace.yaml
+├── pnpm-lock.yaml                  # Generated lockfile (only present in a pnpm-managed project)
+├── pnpm-workspace.yaml             # Workspace configuration (only present in a pnpm-managed project)
 ├── tsconfig.json                   # Shared TypeScript settings
 ├── .gitignore
 └── README.md
