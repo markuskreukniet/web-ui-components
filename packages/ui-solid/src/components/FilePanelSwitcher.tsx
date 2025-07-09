@@ -3,7 +3,7 @@ import { FilePathSelectionForm } from './FilePathSelectionForm'
 import { FileResultInspector } from './FileResultInspector'
 import { SegmentedControl } from './SegmentedControl'
 import type { Component } from 'solid-js'
-import type { OnChangeSourceTargetContextResult } from './FilePathSelectionForm'
+import type { OnChangeSourceTargetContextEither } from './FilePathSelectionForm'
 import type { FilePathSelectorMode } from './FilePathSelectorGroup'
 import type { FileResultColumns, FileResultRows, OnChangeSelectedRows } from './FileResultTable'
 import type { SelectFilePath } from '../types/types'
@@ -24,7 +24,7 @@ type FilePanelSwitcherProps = {
   canDelete: boolean
   isLoading: boolean
   selectFilePath: SelectFilePath
-  onChangeSourceTargetContextResult: OnChangeSourceTargetContextResult
+  onChangeSourceTargetContextEither: OnChangeSourceTargetContextEither
   onChangeSelectedRows: OnChangeSelectedRows
 }
 
@@ -54,7 +54,7 @@ export const FilePanelSwitcher: Component<FilePanelSwitcherProps> = (props) => {
             singleSelection={props.singleSelection}
             enableTargetSelection={props.enableTargetSelection}
             selectFilePath={props.selectFilePath}
-            onChange={props.onChangeSourceTargetContextResult}
+            onChange={props.onChangeSourceTargetContextEither}
           />
         </Show>
 

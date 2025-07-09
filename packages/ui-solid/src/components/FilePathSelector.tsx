@@ -16,12 +16,12 @@ type SelectedFilePath = {
   isDirectory: boolean
 };
 
-export type SelectedFilePathResult = Either<Error, SelectedFilePath>
+export type SelectedFilePathEither = Either<Error, SelectedFilePath>
 
 type FilePathSelectorProps = {
   filePathType: FilePathType
   selectFilePath: SelectFilePath
-  onChange: (result: SelectedFilePathResult) => void
+  onChange: (either: SelectedFilePathEither) => void
 }
 
 export const FilePathSelector: Component<FilePathSelectorProps> = (props) => {

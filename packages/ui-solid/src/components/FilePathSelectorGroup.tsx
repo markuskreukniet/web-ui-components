@@ -3,7 +3,7 @@ import { Button, ButtonVariants } from './buttons/Button'
 import { isRight, left, right } from '../monads/either'
 import { FilePathSelector, FilePathTypes } from './FilePathSelector'
 import type { Component, JSX } from 'solid-js'
-import type { SelectedFilePathResult } from './FilePathSelector'
+import type { SelectedFilePathEither } from './FilePathSelector'
 import type { Either } from '../monads/either'
 import type { SelectFilePath } from '../types/types'
 
@@ -21,13 +21,13 @@ type ResolvedFilePath = {
 
 export type ResolvedFilePaths = ResolvedFilePath[]
 
-export type ResolvedPathsResult = Either<Error, ResolvedFilePaths>
+export type ResolvedPathsEither = Either<Error, ResolvedFilePaths>
 
 type FilePathSelectorGroupProps = {
   filePathSelectorMode: FilePathSelectorMode
   selectFilePath: SelectFilePath
   singleSelection: boolean
-  onChange: (result: ResolvedPathsResult) => void
+  onChange: (either: ResolvedPathsEither) => void
   submitButton: JSX.Element | null
 }
 
@@ -60,18 +60,18 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = (pro
     setResolvedFilePaths(paths)
     props.onChange(right(paths))
   }
-  
-  const handleChange = (result: SelectedFilePathResult) => {
-    if (isRight(result)) {
-      if (result.value.filePath === null) {
+
+  const handlerChange = (either: SelectedFilePathEither) => {
+    if (isRight(either)) {
+      if (either.value.filePath === null) {
         return
       }
 
       if (props.singleSelection) {
-        updateResolvedFilePaths([createResolvedFilePath(result.value.filePath, result.value.isDirectory)])
+        updateResolvedFilePaths([createResolvedFilePath(either.value.filePath, either.value.isDirectory)])
       } else {
         const filteredPaths: ResolvedFilePaths = [];
-        const newPathWithSlash = addTrailingSlash(result.value.filePath)
+        const newPathWithSlash = addTrailingSlash(either.value.filePath)
         for (const path of resolvedFilePaths()) {
           const pathWithSlash = addTrailingSlash(path.filePath)
           if (newPathWithSlash === pathWithSlash || newPathWithSlash.startsWith(pathWithSlash)) {
@@ -84,15 +84,15 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = (pro
         }
         updateResolvedFilePaths([
           ...filteredPaths,
-          createResolvedFilePath(result.value.filePath, result.value.isDirectory)
+          createResolvedFilePath(either.value.filePath, either.value.isDirectory)
         ])
       }
     } else {
-      props.onChange(left(result.value))
+      props.onChange(left(either.value))
     }
   }
 
-  const handlePress = () => {
+  const handlerPress = () => {
     updateResolvedFilePaths([])
   }
 
@@ -103,14 +103,14 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = (pro
           <FilePathSelector
             filePathType={FilePathTypes.regularFile}
             selectFilePath={props.selectFilePath}
-            onChange={handleChange}
+            onChange={handlerChange}
           />
         )}
         {shouldRenderSelectorFor(FilePathSelectorModes.directory) && (
           <FilePathSelector
             filePathType={FilePathTypes.directory}
             selectFilePath={props.selectFilePath}
-            onChange={handleChange}
+            onChange={handlerChange}
           />
         )}
       </div>
@@ -121,7 +121,7 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = (pro
       </ul>
       <Button
         disabled={false}
-        onPress={handlePress}
+        onPress={handlerPress}
         content={'reset'}
         variant={ButtonVariants.tertiary}
       />

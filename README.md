@@ -1,45 +1,5 @@
 # web-ui-components
 
-npm version:
-
-1. web-ui-components: npm init -y
-2. remove `"main": "index.js",` and `"scripts": {"test": "echo \"Error: no test specified\" && exit 1"},` from web-ui-components/package.json
-3. add `"private": true,"workspaces": ["packages/*","apps/*"]` to web-ui-components/package.json
-4. web-ui-components/apps/solid-playground: npx degit solidjs/templates/ts .
-5. remove .gitignore and pnpm-lock.yaml from web-ui-components/apps/solid-playground
-6. web-ui-components/packages/ui-solid: npm create vite@latest . -- --template solid-ts
-7. move .gitignore from web-ui-components/packages/ui-solid to web-ui-components
-8. add `dist-tsc` and `dist-vite` to web-ui-components/.gitignore
-9. web-ui-components/packages/ui-solid/src/components/HelloWorld.tsx: `import type { Component } from 'solid-js';export const HelloWorld: Component = () => {return <p>Hello from ui-solid!</p>;};`
-10. web-ui-components/packages/ui-solid/src/index.ts: `export { HelloWorld } from './components/HelloWorld';`
-11. add `"dependencies": {"ui-solid": "*"}` to web-ui-components/apps/solid-playground/package.json
-12. add `import { HelloWorld } from 'ui-solid';` and `<HelloWorld />` to web-ui-components/apps/solid-playground/src/App.tsx
-13. change the web-ui-components/packages/ui-solid/vite.config.ts with the config from below
-14. add web-ui-components/packages/ui-solid/tsconfig.build.json with the content from below
-15. change web-ui-components/packages/ui-solid/package.json with the content from below
-16. web-ui-components: npm install
-17. web-ui-components/packages/ui-solid: npm run build
-
-pnpm version:
-
-1. web-ui-components: pnpm init
-2. add `"private": true,` to web-ui-components/package.json
-3. add the web-ui-components/pnpm-workspace.yaml with the content from below
-4. web-ui-components/apps/solid-playground: pnpx degit solidjs/templates/ts .
-5. remove .gitignore and pnpm-lock.yaml from web-ui-components/apps/solid-playground
-6. web-ui-components/packages/ui-solid: pnpm create vite . --template solid-ts
-7. move .gitignore from web-ui-components/packages/ui-solid to web-ui-components
-8. add `dist-tsc` and `dist-vite` to web-ui-components/.gitignore
-9. web-ui-components/packages/ui-solid/src/components/HelloWorld.tsx: `import type { Component } from 'solid-js';export const HelloWorld: Component = () => {return <p>Hello from ui-solid!</p>;};`
-10. web-ui-components/packages/ui-solid/src/index.ts: `export { HelloWorld } from './components/HelloWorld';`
-11. add `"dependencies": {"ui-solid": "workspace:*"}` to web-ui-components/apps/solid-playground/package.json
-12. add `import { HelloWorld } from 'ui-solid';` and `<HelloWorld />` to web-ui-components/apps/solid-playground/src/App.tsx
-13. change the web-ui-components/packages/ui-solid/vite.config.ts with the config from below
-14. add web-ui-components/packages/ui-solid/tsconfig.build.json with the content from below
-15. change web-ui-components/packages/ui-solid/package.json with the content from below
-16. web-ui-components: pnpm install
-17. web-ui-components/packages/ui-solid: pnpm build
-
 ```
 web-ui-components/
 ├── docs/
@@ -84,105 +44,33 @@ web-ui-components/
 └── README.md
 ```
 
-web-ui-components/pnpm-workspace.yaml:
+## Naming Conventions
 
-```
-packages:
-  - "packages/*"
-  - "apps/*"
-```
+// TODO: check with AI
 
-Vite library mode configuration based on official guide: https://vitejs.dev/guide/build.html#library-mode<br>
-web-ui-components/packages/ui-solid/vite.config.ts:
+### File Naming
 
-```
-import { dirname, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
-import { defineConfig } from 'vite'
-import solid from 'vite-plugin-solid'
+- `.ts` files: Use _kebab-case_ for all TypeScript modules that do not contain JSX or define React components. Examples: `data-utils.ts`, `api-service.ts`.
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
-
-export default defineConfig({
-  plugins: [solid()],
-  build: {
-    target: 'esnext',
-    lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
-      name: 'UiSolid',
-      fileName: 'ui-solid',
-      formats: ['es', 'cjs']
-    },
-    outDir: 'dist-vite',
-    rollupOptions: {
-      external: ['solid-js'],
-      output: {
-        globals: {
-          'solid-js': 'SolidJs',
-        },
-      },
-    },
-  },
-});
-```
-
-web-ui-components/packages/ui-solid/tsconfig.build.json:
-
-```
-{
-  "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "declaration": true,
-    "emitDeclarationOnly": true,
-    "outDir": "dist-tsc",
-    "rootDir": "src",
-    "jsx": "preserve",
-    "jsxImportSource": "solid-js",
-    "moduleResolution": "node"
-  },
-  "include": ["src"]
-}
-```
-
-web-ui-components/packages/ui-solid/package.json:
-
-```
-{
-  "name": "ui-solid",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "types": "dist-tsc/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist-vite/ui-solid.js",
-      "require": "./dist-vite/ui-solid.cjs"
-    }
-  },
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc -p tsconfig.build.json && vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "solid-js": "^1.9.5"
-  },
-  "devDependencies": {
-    "typescript": "~5.7.2",
-    "vite": "^6.3.1",
-    "vite-plugin-solid": "^2.11.6"
-  }
-}
-```
-
-## File Naming Conventions
-
-- `.ts` files: Use *kebab-case* for all TypeScript modules that do not contain JSX or define React components. Examples: `data-utils.ts`, `api-service.ts`.
-
-- `.tsx` files: Use *PascalCase* (also known as *UpperCamelCase*) for all files that define React components or include JSX content. Examples: `UserProfile.tsx`, `LoginForm.tsx`.
+- `.tsx` files: Use _PascalCase_ (also known as _UpperCamelCase_) for all files that define React components or include JSX content. Examples: `UserProfile.tsx`, `LoginForm.tsx`.
 
 This convention enhances code readability and enforces a clear distinction between utility modules and React components, thereby supporting a maintainable and scalable codebase.
+
+// TODO: WIP and check with AI
+
+### Identifier Naming
+
+When naming functions, variables, and related identifiers, use clear and descriptive terms that reflect their purpose and behavior. The following words are recommended for consistent and meaningful naming across the codebase:
+
+- selected – Indicates an item that has been chosen or is currently active.
+
+- show – Suggests an action that makes an element visible.
+
+- previous, current, next – Denote position or sequence, particularly in navigation or state management contexts.
+
+- update – Refers to an operation that modifies or refreshes data or state.
+
+Consistent use of these terms promotes code readability and facilitates long-term maintenance.
 
 ## CSS Style Guide
 

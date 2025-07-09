@@ -1,13 +1,13 @@
 import { For, Show } from 'solid-js'
 import { DeleteButton, DeleteButtonVariants } from './buttons/DeleteButton'
 import {
-  createSignalRowSelection,
-  createSignalSelectedRows,
-  FileResultColumnType,
+  createSignalSelectedGroupRow,
+  createSignalSelectedGroupRows,
+  FileResultColumnTypes,
   FileResultTable
 } from './FileResultTable'
 import type { Component, JSX } from 'solid-js'
-import type { FileResultColumns, FileResultRows, OnChangeSelectedRows } from './FileResultTable'
+import type { FileResultColumns, FileResultColumnType, FileResultRows, OnChangeSelectedRows } from './FileResultTable'
 
 type FileResultInspectorProps = {
   columns: FileResultColumns
@@ -20,19 +20,19 @@ type FileResultInspectorProps = {
 type CellContentRenderer = (cellData: string) => JSX.Element
 
 const baseCellContentRenderers = {
-  [FileResultColumnType.thumbnail]: (cellData: string) => <img src={cellData} alt="" />
-} satisfies Partial<Record<FileResultColumnType, CellContentRenderer>>;
+  [FileResultColumnTypes.thumbnail]: (cellData: string) => <img src={cellData} alt="" />
+} satisfies Partial<Record<FileResultColumnType, CellContentRenderer>>
 
 export function extendCellRenderers(
   textCellRenderer: CellContentRenderer
 ): Record<FileResultColumnType, CellContentRenderer> {
   return {
     ...baseCellContentRenderers,
-    [FileResultColumnType.text]: textCellRenderer
-  };
+    [FileResultColumnTypes.text]: textCellRenderer
+  }
 }
 
-const cellContentRenderers = extendCellRenderers(value => <p>{value}</p>);
+const cellContentRenderers = extendCellRenderers(value => <p>{value}</p>)
 
 export const FileResultInspector: Component<FileResultInspectorProps> = (props) => {
   const [selectedRow, setSelectedRow] = createSignalRowSelection()

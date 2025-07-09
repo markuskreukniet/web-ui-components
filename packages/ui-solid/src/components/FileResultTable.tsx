@@ -2,7 +2,7 @@ import { createSignal, For } from 'solid-js'
 import { extendCellRenderers } from './FileResultInspector'
 import type { Component, JSX } from 'solid-js'
 
-const FileResultColumnTypes = {
+export const FileResultColumnTypes = {
   text: 'text',
   thumbnail: 'thumbnail'
 } as const
@@ -14,31 +14,36 @@ export type FileResultColumns = {
   type: FileResultColumnType
 }[]
 
-export type FileResultRows = { cells: string[] }[]
+export type RowGroups = { cells: string[] }[][]
 
-type RowSelection = number | null
+type GroupRow = {
+  group: number
+  row: number
+}
 
-export type SelectedRows = Set<number>
+type SelectedGroupRow = GroupRow | null
 
-export type OnChangeSelectedRows = (rows: SelectedRows) => void
+export type SelectedGroupRows = Set<string>
+
+export type OnChangeSelectedGroupRows = (rows: SelectedGroupRows) => void
 
 type FileResultTableProps = {
   columns: FileResultColumns
-  rows: FileResultRows
-  showRowSelectionCheckboxes: boolean
-  onChangeSelectedRow: (selection: RowSelection) => void
-  onChangeSelectedRows: OnChangeSelectedRows
+  rowGroups: RowGroups
+  showRowCheckboxes: boolean
+  onChangeSelectedGroupRow: (row: SelectedGroupRow) => void
+  onChangeSelectedGroupRows: OnChangeSelectedGroupRows
 }
 
-export function createSignalRowSelection() {
-  return createSignal<RowSelection>(null)
+export function createSignalSelectedGroupRow() {
+  return createSignal<SelectedGroupRow>(null)
 }
 
-export function createSignalSelectedRows() {
-  return createSignal<SelectedRows>(new Set())
+export function createSignalSelectedGroupRows() {
+  return createSignal<SelectedGroupRows>(new Set())
 }
 
-const fileResultCellContentRenderers = extendCellRenderers(cellData => <>{cellData}</>)
+const fileResultCellContentRenderers = extendCellRenderers(cellData => cellData) // TODO: naming and working makes sense?
 
 function renderHeaderCell(label: string): JSX.Element {
   return (<th>{label}</th>)
@@ -49,50 +54,57 @@ function renderDataCell(content: JSX.Element): JSX.Element {
 }
 
 export const FileResultTable: Component<FileResultTableProps> = (props) => {
-  const [selectedCheckboxRowIndices, setSelectedCheckboxRowIndices] = createSignalSelectedRows()
-  const [selectedRowIndex, setSelectedRowIndex] = createSignalRowSelection()
+  const [selectedGroupRow, setSelectedGroupRow] = createSignalSelectedGroupRow()
+  const [selectedGroupRows, setSelectedGroupRows] = createSignalSelectedGroupRows()
 
-  const setRowCheckboxState = (index: number, checked: boolean) => {
-    setSelectedCheckboxRowIndices(previous => {
-      const nextSelectedCheckboxRowIndices = new Set(previous)
-      checked ? nextSelectedCheckboxRowIndices.add(index) : nextSelectedCheckboxRowIndices.delete(index)
-      return nextSelectedCheckboxRowIndices
+  function updateSelectedGroupRow(row: SelectedGroupRow) {
+    setSelectedGroupRow(row)
+    props.onChangeSelectedGroupRow(row)
+  }
+
+  const setRowCheckboxState = (key: string, checked: boolean) => {
+    setSelectedGroupRows(previous => {
+      const nextSelectedGroupRows = new Set(previous)
+      checked ? nextSelectedGroupRows.add(key) : nextSelectedGroupRows.delete(key)
+      return nextSelectedGroupRows
     })
 
-    props.onChangeSelectedRows(selectedCheckboxRowIndices())
+    props.onChangeSelectedGroupRows(selectedGroupRows())
 
-    if (selectedRowIndex() !== null) {
-      setSelectedRowIndex(null)
-      props.onChangeSelectedRow(null)
+    if (!selectedGroupRow()) {
+      updateSelectedGroupRow(null)
     }
   }
 
-  const handler = (index: number) => {
-    if (selectedCheckboxRowIndices().size == 0) {
-      const newSelection: RowSelection = selectedRowIndex() === index ? null : index
-      setSelectedRowIndex(newSelection)
-      props.onChangeSelectedRow(newSelection)
+  const handler = (groupI: number, rowI: number) => {
+    if (selectedGroupRows().size === 0) {
+      const row = selectedGroupRow()
+      updateSelectedGroupRow((!row || (row.group !== groupI || row.row !== rowI)) ? { group: groupI, row: rowI } : null)
     }
   }
 
-  const cellContentRenderers = props.columns.map(column => fileResultCellContentRenderers[column.type])
+  const cellContentRenderers = props.columns.map(column => fileResultCellContentRenderers[column.type]) // TODO: naming
 
-  let headerCheckboxCell: JSX.Element = <></>
+  let headerCheckboxCell: JSX.Element = null
 
-  // Predefining a no-op renderer avoids adding a conditional inside each row.
-  // This approach is also cleaner than representing the checkbox as a column type,
-  // since it requires row index access and function-based rendering.
-  let rowCheckboxCellRenderer: (index: number) => JSX.Element = (_: number) => <></>
+  // TODO: render naming if returns html?
+  // TODO: comment check + naming
+  // A no-op renderer avoids introducing conditional logic into row rendering.
+  // Checkbox rendering is kept separate from column definitions, as it depends on row indices
+  // and relies on imperative logic, which conflicts with the declarative column model.
+  let rowCheckboxCellRenderer: (groupI: number, rowI: number) => JSX.Element = (_i: number, _j: number) => null
 
-  if (props.showRowSelectionCheckboxes) {
+  if (props.showRowCheckboxes) {
     headerCheckboxCell = renderHeaderCell('')
 
-    rowCheckboxCellRenderer = (index) => {
+    rowCheckboxCellRenderer = (groupI, rowI) => {
+      const key = `${groupI}:${rowI}`
+
       return renderDataCell(
         <input
           type="checkbox"
-          checked={selectedCheckboxRowIndices().has(index)}
-          onChange={(e) => setRowCheckboxState(index, e.currentTarget.checked)}
+          checked={selectedGroupRows().has(key)}
+          onChange={(e) => setRowCheckboxState(key, e.currentTarget.checked)}
         />
       )
     }
@@ -109,25 +121,35 @@ export const FileResultTable: Component<FileResultTableProps> = (props) => {
         </tr>
       </thead>
 
-      <tbody>
-        <For each={props.rows}>
-          {(row, rowIndex) => {
-            const rowI = rowIndex()
+      <For each={props.rowGroups}>
+        {(group, groupIndex) => {
+          const groupI = groupIndex()
+          return (
+            <tbody>
+              <For each={group}>
+                {(row, rowIndex) => {
+                  const rowI = rowIndex()
+                  const currentRow = selectedGroupRow()
 
-            return (
-              <tr
-                onMouseDown={() => handler(rowI)}
-                classList={{'file-result-table__selected-row': selectedRowIndex() === rowI}}
-              >
-                <For each={row.cells}>
-                  {(cell, columnIndex) => renderDataCell(cellContentRenderers[columnIndex()](cell))}
-                </For>
-                {rowCheckboxCellRenderer(rowI)}
-              </tr>
-            )
-          }}
-        </For>
-      </tbody>
+                  return (
+                    <tr
+                      onMouseDown={() => handler(groupI, rowI)}
+                      classList={{
+                        'file-result-table__selected-row': currentRow?.group === groupI && currentRow?.row === rowI
+                      }}
+                    >
+                      <For each={row.cells}>
+                        {(cell, cellIndex) => renderDataCell(cellContentRenderers[cellIndex()](cell))}
+                      </For>
+                      {rowCheckboxCellRenderer(groupI, rowI)}
+                    </tr>
+                  )
+                }}
+              </For>
+            </tbody>
+          )
+        }}
+      </For>
     </table>
   )
 }

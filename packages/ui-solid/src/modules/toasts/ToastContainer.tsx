@@ -1,23 +1,23 @@
 import { For } from 'solid-js'
-import { isLeft } from '../../monads/either'
+import { Button, ButtonVariants } from '../../components/buttons/Button'
 import { useToastContext } from './toast-context'
+import type { Component } from 'solid-js'
 
-export function ToastContainer() {
-  const result = useToastContext()
-
-  if (isLeft(result)) {
-    console.error(result.value)
-    return null
-  }
-
-  const { toastItems } = result.value
+export const ToastContainer: Component = () => {
+  const { removeToast, toastItems } = useToastContext()
 
   return (
     <div class="toast-container">
       <For each={toastItems()}>
         {item => (
           <div class={`toast-item toast-item--${item.variant}`}>
-            {item.text}
+            <span>{item.text}</span>
+            <Button
+              content="×" // × (U+00D7): correct typographic symbol for close/dismiss actions
+              variant={ButtonVariants.tertiary}
+              disabled={false}
+              onPress={() => removeToast(item.toastId)}
+            />
           </div>
         )}
       </For>
