@@ -1,45 +1,5 @@
 # web-ui-components
 
-npm version:
-
-1. web-ui-components: npm init -y
-2. remove `"main": "index.js",` and `"scripts": {"test": "echo \"Error: no test specified\" && exit 1"},` from web-ui-components/package.json
-3. add `"private": true,"workspaces": ["packages/*","apps/*"]` to web-ui-components/package.json
-4. web-ui-components/apps/solid-playground: npx degit solidjs/templates/ts .
-5. remove .gitignore and pnpm-lock.yaml from web-ui-components/apps/solid-playground
-6. web-ui-components/packages/ui-solid: npm create vite@latest . -- --template solid-ts
-7. move .gitignore from web-ui-components/packages/ui-solid to web-ui-components
-8. add `dist-tsc` and `dist-vite` to web-ui-components/.gitignore
-9. web-ui-components/packages/ui-solid/src/components/HelloWorld.tsx: `import type { Component } from 'solid-js';export const HelloWorld: Component = () => {return <p>Hello from ui-solid!</p>;};`
-10. web-ui-components/packages/ui-solid/src/index.ts: `export { HelloWorld } from './components/HelloWorld';`
-11. add `"dependencies": {"ui-solid": "*"}` to web-ui-components/apps/solid-playground/package.json
-12. add `import { HelloWorld } from 'ui-solid';` and `<HelloWorld />` to web-ui-components/apps/solid-playground/src/App.tsx
-13. change the web-ui-components/packages/ui-solid/vite.config.ts with the config from below
-14. add web-ui-components/packages/ui-solid/tsconfig.build.json with the content from below
-15. change web-ui-components/packages/ui-solid/package.json with the content from below
-16. web-ui-components: npm install
-17. web-ui-components/packages/ui-solid: npm run build
-
-pnpm version:
-
-1. web-ui-components: pnpm init
-2. add `"private": true,` to web-ui-components/package.json
-3. add the web-ui-components/pnpm-workspace.yaml with the content from below
-4. web-ui-components/apps/solid-playground: pnpx degit solidjs/templates/ts .
-5. remove .gitignore and pnpm-lock.yaml from web-ui-components/apps/solid-playground
-6. web-ui-components/packages/ui-solid: pnpm create vite . --template solid-ts
-7. move .gitignore from web-ui-components/packages/ui-solid to web-ui-components
-8. add `dist-tsc` and `dist-vite` to web-ui-components/.gitignore
-9. web-ui-components/packages/ui-solid/src/components/HelloWorld.tsx: `import type { Component } from 'solid-js';export const HelloWorld: Component = () => {return <p>Hello from ui-solid!</p>;};`
-10. web-ui-components/packages/ui-solid/src/index.ts: `export { HelloWorld } from './components/HelloWorld';`
-11. add `"dependencies": {"ui-solid": "workspace:*"}` to web-ui-components/apps/solid-playground/package.json
-12. add `import { HelloWorld } from 'ui-solid';` and `<HelloWorld />` to web-ui-components/apps/solid-playground/src/App.tsx
-13. change the web-ui-components/packages/ui-solid/vite.config.ts with the config from below
-14. add web-ui-components/packages/ui-solid/tsconfig.build.json with the content from below
-15. change web-ui-components/packages/ui-solid/package.json with the content from below
-16. web-ui-components: pnpm install
-17. web-ui-components/packages/ui-solid: pnpm build
-
 ```
 web-ui-components/
 ├── docs/
@@ -84,106 +44,84 @@ web-ui-components/
 └── README.md
 ```
 
-web-ui-components/pnpm-workspace.yaml:
+// TODO: WIP check with AI
 
-```
-packages:
-  - "packages/*"
-  - "apps/*"
-```
+### TypeScript Import Style
 
-Vite library mode configuration based on official guide: https://vitejs.dev/guide/build.html#library-mode<br>
-web-ui-components/packages/ui-solid/vite.config.ts:
+We enable `verbatimModuleSyntax: true` in our TypeScript configuration to enforce explicit separation of type-only imports.
 
-```
-import { dirname, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
-import { defineConfig } from 'vite'
-import solid from 'vite-plugin-solid'
+As a result, **do not** mix runtime and type imports in a single statement like:
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
-
-export default defineConfig({
-  plugins: [solid()],
-  build: {
-    target: 'esnext',
-    lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
-      name: 'UiSolid',
-      fileName: 'ui-solid',
-      formats: ['es', 'cjs']
-    },
-    outDir: 'dist-vite',
-    rollupOptions: {
-      external: ['solid-js'],
-      output: {
-        globals: {
-          'solid-js': 'SolidJs',
-        },
-      },
-    },
-  },
-});
+```ts
+import { nonType1, nonType2, type Type1 } from "module";
 ```
 
-web-ui-components/packages/ui-solid/tsconfig.build.json:
+Instead, use separate import and import type declarations:
 
-```
-{
-  "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "declaration": true,
-    "emitDeclarationOnly": true,
-    "outDir": "dist-tsc",
-    "rootDir": "src",
-    "jsx": "preserve",
-    "jsxImportSource": "solid-js",
-    "moduleResolution": "node"
-  },
-  "include": ["src"]
-}
+```ts
+import { nonType1, nonType2 } from "module";
+import type { Type1 } from "module";
 ```
 
-web-ui-components/packages/ui-solid/package.json:
+// TODO: WIP check with AI
 
-```
-{
-  "name": "ui-solid",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "types": "dist-tsc/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist-vite/ui-solid.js",
-      "require": "./dist-vite/ui-solid.cjs"
-    }
-  },
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc -p tsconfig.build.json && vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "solid-js": "^1.9.5"
-  },
-  "devDependencies": {
-    "typescript": "~5.7.2",
-    "vite": "^6.3.1",
-    "vite-plugin-solid": "^2.11.6"
-  }
-}
-```
+// TODO: add when a functions returns JSX, then the naming start with 'render'
 
-## File Naming Conventions
+## Naming Conventions
 
-- `.ts` files: Use *kebab-case* for all TypeScript modules that do not contain JSX or define React components. Examples: `data-utils.ts`, `api-service.ts`.
+This section defines consistent naming standards for files, identifiers, component props, and event handlers to promote code clarity and maintainability.
 
-- `.tsx` files: Use *PascalCase* (also known as *UpperCamelCase*) for all files that define React components or include JSX content. Examples: `UserProfile.tsx`, `LoginForm.tsx`.
+### 1. File Naming
 
-This convention enhances code readability and enforces a clear distinction between utility modules and React components, thereby supporting a maintainable and scalable codebase.
+- **`.ts` files**: Use _kebab-case_ for TypeScript modules that do not contain JSX or define React components.
+  _Examples_: `data-utils.ts`, `api-service.ts`
+
+- **`.tsx` files**: Use _PascalCase_ (also known as _UpperCamelCase_) for files that define React components or include JSX content.
+  _Examples_: `UserProfile.tsx`, `LoginForm.tsx`
+
+This distinction enhances readability and clearly separates utility modules from UI components.
+
+### 2. Identifier Naming
+
+Use clear and descriptive terms for naming functions, variables, and constants. The following terms are recommended to reflect common behaviors and states:
+
+- **selected** – An item that has been chosen or is currently active.
+- **show** – An action that makes an element visible.
+- **previous**, **current**, **next** – Denote position or sequence, particularly in navigation or state transitions.
+- **update** – Indicates data or state modification.
+
+Consistent use of these terms improves code readability and semantic understanding.
+
+If a function type is used in multiple places, consider defining a separate type for it to improve clarity and reusability. In such cases, name the type the same as the function, but with the first letter capitalized. This should be done when it adds meaningful structure to the codebase and avoids unnecessary duplication.
+
+### 3. Component Prop Naming
+
+Component properties that accept callbacks should follow a standardized prefix based on the nature of the interaction:
+
+- Use the **`onChange`** prefix for passive updates (e.g., selection or data changes).
+- Use the **`onPress`** prefix for user-triggered actions such as button clicks or taps.
+
+This naming convention communicates the intent and interaction model of the component API.
+
+### 4. Event Handler Naming
+
+Event handler functions—typically passed to `onChange`, `onPress`, and similar props—should be named with the `handler` prefix:
+
+- Use `const handlerX = () => {}` syntax, where `X` describes the specific interaction.
+- For example: `handlerSelectedRows`, `handlerPress`.
+
+This pattern makes it explicit that the function handles a specific UI event, enhancing maintainability and traceability within the component structure.
 
 ## CSS Style Guide
 
-- Use CSS classes exclusively for all styling purposes. Reserve IDs solely for JavaScript-related behavior, such as DOM manipulation and event handling. This practice enforces a strict separation of concerns, mitigates CSS specificity issues, and promotes a maintainable, scalable codebase.
+- **Use CSS classes exclusively for all styling purposes.** Reserve IDs strictly for JavaScript-related behavior, such as DOM manipulation and event handling. This separation of concerns reduces CSS specificity issues and supports a maintainable, scalable codebase.
+
+- **Do not use CSS margins.** Margins can introduce unpredictable layout behavior due to issues such as margin collapse, overflow clipping, and inconsistent spacing. Instead, use layout mechanisms like padding, the `gap` property (in Flexbox or Grid), or standardized spacing utilities.
+  References: [Max Stoiber](https://mxstbr.com/thoughts/margin), [Josh Comeau](https://www.joshwcomeau.com/css/rules-of-margin-collapse/)
+
+- **Prefer `mousedown` over `click` for event handling.** Using `mousedown` provides more immediate feedback and improves responsiveness, particularly in performance-sensitive contexts such as games or interactive interfaces.
+  Reference: [John Carmack](https://x.com/id_aa_carmack/status/1787850053912064005)
+
+```
+
+```

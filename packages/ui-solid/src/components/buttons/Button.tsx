@@ -14,7 +14,7 @@ export type ButtonBaseProps = {
 }
 
 export type ButtonProps = ButtonBaseProps & {
-  content: string | JSX.Element
+  content: JSX.Element
   variant: ButtonVariant
 }
 

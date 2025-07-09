@@ -3,9 +3,9 @@ import { FilePathSelectionForm } from './FilePathSelectionForm'
 import { FileResultInspector } from './FileResultInspector'
 import { SegmentedControl } from './SegmentedControl'
 import type { Component } from 'solid-js'
-import type { OnChangeSourceTargetContextResult } from './FilePathSelectionForm'
+import type { OnChangeSourceTargetContextEither } from './FilePathSelectionForm'
 import type { FilePathSelectorMode } from './FilePathSelectorGroup'
-import type { FileResultColumns, FileResultRows, OnChangeSelectedRows } from './FileResultTable'
+import type { FileResultColumns, OnChangeSelectedGroupRows, RowGroups } from './FileResultTable'
 import type { SelectFilePath } from '../types/types'
 
 const FilePanelTypes = {
@@ -17,15 +17,15 @@ type FilePanelType = typeof FilePanelTypes[keyof typeof FilePanelTypes]
 
 type FilePanelSwitcherProps = {
   columns: FileResultColumns
-  rows: FileResultRows
+  rowGroups: RowGroups
   filePathSelectorMode: FilePathSelectorMode
   singleSelection: boolean
   enableTargetSelection: boolean
   canDelete: boolean
   isLoading: boolean
   selectFilePath: SelectFilePath
-  onChangeSourceTargetContextResult: OnChangeSourceTargetContextResult
-  onChangeSelectedRows: OnChangeSelectedRows
+  onChangeSourceTargetContextEither: OnChangeSourceTargetContextEither
+  onChangeSelectedGroupRows: OnChangeSelectedGroupRows
 }
 
 export const FilePanelSwitcher: Component<FilePanelSwitcherProps> = (props) => {
@@ -40,7 +40,7 @@ export const FilePanelSwitcher: Component<FilePanelSwitcherProps> = (props) => {
         legend="Select File Panel"
         options={[
           { label: 'File Selection', value: FilePanelTypes.selection, disabled: false },
-          { label: 'File Inspection', value: FilePanelTypes.inspection, disabled: props.rows.length === 0 }
+          { label: 'File Inspection', value: FilePanelTypes.inspection, disabled: props.rowGroups.length === 0 }
         ]}
         selected={panel}
         onChange={setSelectedPanel}
@@ -54,17 +54,17 @@ export const FilePanelSwitcher: Component<FilePanelSwitcherProps> = (props) => {
             singleSelection={props.singleSelection}
             enableTargetSelection={props.enableTargetSelection}
             selectFilePath={props.selectFilePath}
-            onChange={props.onChangeSourceTargetContextResult}
+            onChange={props.onChangeSourceTargetContextEither}
           />
         </Show>
 
         <Show when={panel === FilePanelTypes.inspection}>
           <FileResultInspector
             columns={props.columns}
-            rows={props.rows}
+            rowGroups={props.rowGroups}
             isLoading={props.isLoading}
             canDelete={props.canDelete}
-            onChange={props.onChangeSelectedRows}
+            onChange={props.onChangeSelectedGroupRows}
           />
         </Show>
       </div>
