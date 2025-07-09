@@ -1,8 +1,8 @@
 import { ToastContext } from './toast-context'
 import { createToastStore } from './create-toast-store'
-import type { ParentProps } from 'solid-js';
+import type { ParentComponent } from 'solid-js';
 
-export function ToastProvider(props: Readonly<ParentProps>) {
+export const ToastProvider: ParentComponent = (props) => {
   return (
     <ToastContext.Provider value={createToastStore()}>
       {props.children}

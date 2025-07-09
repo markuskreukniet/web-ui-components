@@ -1,16 +1,9 @@
 import { For } from 'solid-js'
-import { isLeft } from '../../monads/either'
 import { useToastContext } from './toast-context'
+import type { Component } from 'solid-js'
 
-export function ToastContainer() {
-  const result = useToastContext()
-
-  if (isLeft(result)) {
-    console.error(result.value)
-    return null
-  }
-
-  const { toastItems } = result.value
+export const ToastContainer: Component = () => {
+  const { toastItems } = useToastContext()
 
   return (
     <div class="toast-container">

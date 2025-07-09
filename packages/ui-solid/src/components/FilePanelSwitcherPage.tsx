@@ -1,11 +1,10 @@
-// TODO: show a toast
-
 import { createSignal } from 'solid-js'
 import { FilePanelSwitcher } from './FilePanelSwitcher'
-import { FilePathSelectorMode } from './FilePathSelectorGroup'
-import { right } from '../monads/either'
+import { useToastContext } from '../modules/toasts/toast-context'
+import { isRight, right } from '../monads/either'
 import type { Component } from 'solid-js'
 import type { SourceTargetContextResult } from './FilePathSelectionForm'
+import type { FilePathSelectorMode } from './FilePathSelectorGroup'
 import type { FileResultColumns, FileResultRows, SelectedRows } from './FileResultTable'
 import type { SelectFilePath } from '../types/types'
 
@@ -19,6 +18,8 @@ type FilePanelSwitcherPageProps = {
 export const FilePanelSwitcherPage: Component<FilePanelSwitcherPageProps> = (props) => {
   const [rows, setRows] = createSignal<FileResultRows>([])
   const [isLoading, setIsLoading] = createSignal(false)
+
+  const context = useToastContext();
 
   const selectFilePath: SelectFilePath = async () => {
     return right('')
@@ -39,7 +40,12 @@ export const FilePanelSwitcherPage: Component<FilePanelSwitcherPageProps> = (pro
   }
 
   const handlerSourceTargetContextResult = (result: SourceTargetContextResult) => {
-    executeWithLoading(async () => console.log('result'))
+    if (isRight(result)) {
+      executeWithLoading(async () => console.log('result'))
+      context.addSuccessToast('') // TODO:
+    } else {
+      context.addErrorToast(result.value.message)
+    }
   }
 
   const handlerSelectedRows = (selectedRows: SelectedRows) => {

@@ -2,7 +2,7 @@ import { createSignal, For } from 'solid-js'
 import { extendCellRenderers } from './FileResultInspector'
 import type { Component, JSX } from 'solid-js'
 
-const FileResultColumnTypes = {
+export const FileResultColumnTypes = {
   text: 'text',
   thumbnail: 'thumbnail'
 } as const

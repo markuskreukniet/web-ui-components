@@ -3,11 +3,11 @@ import { DeleteButton, DeleteButtonVariants } from './buttons/DeleteButton'
 import {
   createSignalRowSelection,
   createSignalSelectedRows,
-  FileResultColumnType,
+  FileResultColumnTypes,
   FileResultTable
 } from './FileResultTable'
 import type { Component, JSX } from 'solid-js'
-import type { FileResultColumns, FileResultRows, OnChangeSelectedRows } from './FileResultTable'
+import type { FileResultColumns, FileResultColumnType, FileResultRows, OnChangeSelectedRows } from './FileResultTable'
 
 type FileResultInspectorProps = {
   columns: FileResultColumns
@@ -20,7 +20,7 @@ type FileResultInspectorProps = {
 type CellContentRenderer = (cellData: string) => JSX.Element
 
 const baseCellContentRenderers = {
-  [FileResultColumnType.thumbnail]: (cellData: string) => <img src={cellData} alt="" />
+  [FileResultColumnTypes.thumbnail]: (cellData: string) => <img src={cellData} alt="" />
 } satisfies Partial<Record<FileResultColumnType, CellContentRenderer>>;
 
 export function extendCellRenderers(
@@ -28,7 +28,7 @@ export function extendCellRenderers(
 ): Record<FileResultColumnType, CellContentRenderer> {
   return {
     ...baseCellContentRenderers,
-    [FileResultColumnType.text]: textCellRenderer
+    [FileResultColumnTypes.text]: textCellRenderer
   };
 }
 
