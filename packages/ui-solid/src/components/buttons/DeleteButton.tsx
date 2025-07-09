@@ -19,7 +19,7 @@ export const DeleteButton: Component<DeleteButtonProps> = (props) => (
     isLoading={props.isLoading}
     disabled={props.disabled}
     onPress={props.onPress}
-    content={props.variant == DeleteButtonVariants.single ? 'Delete' : 'Delete selected items'}
+    content={props.variant === DeleteButtonVariants.single ? 'Delete' : 'Delete selected items'}
     variant={ButtonVariants.secondary}
   />
 )

@@ -1,48 +1,48 @@
 import { For, Show } from 'solid-js'
 import { DeleteButton, DeleteButtonVariants } from './buttons/DeleteButton'
 import {
-  createSignalRowSelection,
-  createSignalSelectedRows,
-  FileResultColumnType,
+  createSignalSelectedGroupRow,
+  createSignalSelectedGroupRows,
+  FileResultColumnTypes,
   FileResultTable
 } from './FileResultTable'
 import type { Component, JSX } from 'solid-js'
-import type { FileResultColumns, FileResultRows, OnChangeSelectedRows } from './FileResultTable'
+import type { FileResultColumns, FileResultColumnType, OnChangeSelectedGroupRows, RowGroups } from './FileResultTable'
 
 type FileResultInspectorProps = {
   columns: FileResultColumns
-  rows: FileResultRows
+  rowGroups: RowGroups
   isLoading: boolean
   canDelete: boolean
-  onChange: OnChangeSelectedRows
+  onChange: OnChangeSelectedGroupRows
 }
 
 type CellContentRenderer = (cellData: string) => JSX.Element
 
 const baseCellContentRenderers = {
-  [FileResultColumnType.thumbnail]: (cellData: string) => <img src={cellData} alt="" />
-} satisfies Partial<Record<FileResultColumnType, CellContentRenderer>>;
+  [FileResultColumnTypes.thumbnail]: (cellData: string) => <img src={cellData} alt="" />
+} satisfies Partial<Record<FileResultColumnType, CellContentRenderer>>
 
 export function extendCellRenderers(
   textCellRenderer: CellContentRenderer
 ): Record<FileResultColumnType, CellContentRenderer> {
   return {
     ...baseCellContentRenderers,
-    [FileResultColumnType.text]: textCellRenderer
-  };
+    [FileResultColumnTypes.text]: textCellRenderer
+  }
 }
 
-const cellContentRenderers = extendCellRenderers(value => <p>{value}</p>);
+const cellContentRenderers = extendCellRenderers(value => <p>{value}</p>)
 
 export const FileResultInspector: Component<FileResultInspectorProps> = (props) => {
-  const [selectedRow, setSelectedRow] = createSignalRowSelection()
-  const [selectedRows, setSelectedRows] = createSignalSelectedRows()
+  const [selectedGroupRow, setSelectedGroupRow] = createSignalSelectedGroupRow()
+  const [selectedGroupRows, setSelectedGroupRows] = createSignalSelectedGroupRows()
 
   const handler = async () => {
-    props.onChange(selectedRows())
+    props.onChange(selectedGroupRows())
   }
 
-  const selectedRowIndex = selectedRow();
+  const groupRow = selectedGroupRow()
   const columnRenderers = props.columns.map(column => cellContentRenderers[column.type])
 
   return (
@@ -50,7 +50,7 @@ export const FileResultInspector: Component<FileResultInspectorProps> = (props) 
       {props.canDelete && (
         <DeleteButton
           isLoading={props.isLoading}
-          disabled={selectedRows().size === 0}
+          disabled={selectedGroupRows().size === 0}
           onPress={handler}
           variant={DeleteButtonVariants.selection}
         />
@@ -58,15 +58,15 @@ export const FileResultInspector: Component<FileResultInspectorProps> = (props) 
 
       <FileResultTable
         columns={props.columns}
-        rows={props.rows}
-        showRowSelectionCheckboxes={props.canDelete}
-        onChangeSelectedRow={setSelectedRow}
-        onChangeSelectedRows={setSelectedRows}
+        rowGroups={props.rowGroups}
+        showRowCheckboxes={props.canDelete}
+        onChangeSelectedGroupRow={setSelectedGroupRow}
+        onChangeSelectedGroupRows={setSelectedGroupRows}
       />
 
-      <Show when={selectedRowIndex !== null}>
+      <Show when={groupRow}>
         <div>
-          <For each={props.rows[selectedRowIndex!].cells}>
+          <For each={props.rowGroups[groupRow!.group][groupRow!.row].cells}>
             {(cell, index) => {
               const i = index()
 

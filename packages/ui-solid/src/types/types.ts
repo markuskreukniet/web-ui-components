@@ -1,3 +1,3 @@
-import type { Either } from '../monads/either'
+import type { Either } from '../modules/monads/either'
 
 export type SelectFilePath = () => Promise<Either<Error, string | null>>

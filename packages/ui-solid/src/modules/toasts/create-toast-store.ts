@@ -9,12 +9,14 @@ const ToastVariants = {
 
 type ToastVariant = typeof ToastVariants[keyof typeof ToastVariants]
 
-// TODO: Readonly<props>
 // TODO: add function return types
 // TODO: is the project naming still correct since there are modules and components
-// TODO: some component are modules
-// TODO: FileResultInspector.tsx with FileResultTable.tsx has parts that also should be part of a module?
-// TODO: CSS rules
+// TODO: check naming in all files
+// TODO: make UI core project
+// TODO: what to do with components that are not exported? In README add # comment and make text in README. Ook erbij zetten niet exporteren
+// TODO: should be toggle to make it possible to remove all rows?
+// TODO: toggle show removed rows
+// TODO: context gebruiken ipv prop downdrilling? Ook in README?
 
 type ToastItem = {
   toastId: string
@@ -25,20 +27,31 @@ type ToastItem = {
 export function createToastStore() {
   const [toastItems, setToastItems] = createSignal<ToastItem[]>([])
 
-  function addToast(text: string, variant: ToastVariant) {
+  function addSuccessToast(text: string) {
+    addToast(text, ToastVariants.success, false)
+  }
+
+  function addErrorToast(text: string) {
+    addToast(text, ToastVariants.error, true)
+  }
+
+  function addToast(text: string, variant: ToastVariant, persistent: boolean) {
     // Using UUID ensures global uniqueness, avoids ID collisions, and eliminates the need for manual counter logic.
     // It's a robust, built-in, and future-proof solution for transient UI identifiers.
-    const toastId = crypto.randomUUID();
+    const toastId = crypto.randomUUID()
 
     setToastItems(prev => [...prev, { toastId, text, variant }])
-    setTimeout(() => removeToast(toastId), 3000)
+
+    if (!persistent) {
+      setTimeout(() => removeToast(toastId), 3000)
+    }
   }
 
   function removeToast(id: string) {
     setToastItems(prev => prev.filter(t => t.toastId !== id))
   }
 
-  return { toastItems, addToast, removeToast }
+  return { addErrorToast, addSuccessToast, addToast, removeToast, toastItems }
 }
 
 export type ToastStore = ReturnType<typeof createToastStore>

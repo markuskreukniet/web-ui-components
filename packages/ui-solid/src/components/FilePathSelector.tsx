@@ -1,7 +1,7 @@
 import { Button, ButtonVariants } from './buttons/Button'
-import { mapRight } from '../monads/either'
+import { mapRight } from '../modules/monads/either'
 import type { Component } from 'solid-js'
-import type { Either } from '../monads/either'
+import type { Either } from '../modules/monads/either'
 import type { SelectFilePath } from '../types/types'
 
 export const FilePathTypes = {
@@ -14,14 +14,14 @@ type FilePathType = typeof FilePathTypes[keyof typeof FilePathTypes]
 type SelectedFilePath = {
   filePath: string | null
   isDirectory: boolean
-};
+}
 
-export type SelectedFilePathResult = Either<Error, SelectedFilePath>
+export type SelectedFilePathEither = Either<Error, SelectedFilePath>
 
 type FilePathSelectorProps = {
   filePathType: FilePathType
   selectFilePath: SelectFilePath
-  onChange: (result: SelectedFilePathResult) => void
+  onChange: (either: SelectedFilePathEither) => void
 }
 
 export const FilePathSelector: Component<FilePathSelectorProps> = (props) => {
@@ -29,7 +29,7 @@ export const FilePathSelector: Component<FilePathSelectorProps> = (props) => {
     props.onChange(mapRight(await props.selectFilePath(), path => ({
       filePath: path,
       isDirectory: path !== null && props.filePathType === FilePathTypes.directory
-    })));
+    })))
   }
 
   return (
