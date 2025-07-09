@@ -1,6 +1,8 @@
 import type { Component } from 'solid-js';
 import { HelloWorld } from 'ui-solid';
 
+import 'ui-solid/styles.css'
+
 import logo from './logo.svg';
 import styles from './App.module.css';
 

@@ -1,7 +1,7 @@
 import type { Component, JSX } from 'solid-js'
 
 export const ButtonVariants = {
-  primary: { id: 'button--primary' },
+  primary: { id: 'button--primary' }, // TODO: should also be a class
   secondary: { class: 'button--secondary' },
   tertiary: { class: 'button--tertiary' }
 } as const
@@ -14,7 +14,7 @@ export type ButtonBaseProps = {
 }
 
 export type ButtonProps = ButtonBaseProps & {
-  content: string | JSX.Element
+  content: JSX.Element
   variant: ButtonVariant
 }
 

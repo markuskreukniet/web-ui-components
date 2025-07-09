@@ -11,6 +11,7 @@ node_modules
 dist
 dist-tsc
 dist-vite
+dist-styles
 dist-ssr
 *.local
 

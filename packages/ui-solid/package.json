@@ -8,11 +8,12 @@
     ".": {
       "import": "./dist-vite/ui-solid.js",
       "require": "./dist-vite/ui-solid.cjs"
-    }
+    },
+    "./styles.css": "./dist-styles/index.css"
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc -p tsconfig.build.json && vite build",
+    "build": "tsc -p tsconfig.build.json && vite build && node build/prepare-css.js",
     "preview": "vite preview"
   },
   "dependencies": {

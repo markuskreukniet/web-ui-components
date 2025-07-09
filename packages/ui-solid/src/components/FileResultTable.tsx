@@ -2,7 +2,7 @@ import { createSignal, For } from 'solid-js'
 import { extendCellRenderers } from './FileResultInspector'
 import type { Component, JSX } from 'solid-js'
 
-const FileResultColumnTypes = {
+export const FileResultColumnTypes = {
   text: 'text',
   thumbnail: 'thumbnail'
 } as const
@@ -14,31 +14,37 @@ export type FileResultColumns = {
   type: FileResultColumnType
 }[]
 
-export type FileResultRows = { cells: string[] }[]
+export type RowGroup = { cells: string[] }[]
 
-type RowSelection = number | null
+export type RowGroups = RowGroup[]
 
-export type SelectedRows = Set<number>
+type GroupRow = {
+  group: number
+  row: number
+}
 
-export type OnChangeSelectedRows = (rows: SelectedRows) => void
+type SelectedGroupRow = GroupRow | null
+
+// Maps group indices to sets of selected row indices, used consistently for input and output.
+export type SelectedGroupRows = Map<number, Set<number>>
+
+export type OnChangeSelectedGroupRows = (rows: SelectedGroupRows) => void
 
 type FileResultTableProps = {
   columns: FileResultColumns
-  rows: FileResultRows
-  showRowSelectionCheckboxes: boolean
-  onChangeSelectedRow: (selection: RowSelection) => void
-  onChangeSelectedRows: OnChangeSelectedRows
+  rowGroups: RowGroups
+  showRowCheckboxes: boolean
+  onChangeSelectedGroupRow: (row: SelectedGroupRow) => void
+  onChangeSelectedGroupRows: OnChangeSelectedGroupRows
 }
 
-export function createSignalRowSelection() {
-  return createSignal<RowSelection>(null)
+export function createSignalSelectedGroupRow() {
+  return createSignal<SelectedGroupRow>(null)
 }
 
-export function createSignalSelectedRows() {
-  return createSignal<SelectedRows>(new Set())
+export function createSignalSelectedGroupRows() {
+  return createSignal<SelectedGroupRows>(new Map())
 }
-
-const fileResultCellContentRenderers = extendCellRenderers(cellData => <>{cellData}</>)
 
 function renderHeaderCell(label: string): JSX.Element {
   return (<th>{label}</th>)
@@ -49,50 +55,78 @@ function renderDataCell(content: JSX.Element): JSX.Element {
 }
 
 export const FileResultTable: Component<FileResultTableProps> = (props) => {
-  const [selectedCheckboxRowIndices, setSelectedCheckboxRowIndices] = createSignalSelectedRows()
-  const [selectedRowIndex, setSelectedRowIndex] = createSignalRowSelection()
+  const [selectedGroupRow, setSelectedGroupRow] = createSignalSelectedGroupRow()
+  const [selectedGroupRows, setSelectedGroupRows] = createSignalSelectedGroupRows()
 
-  const setRowCheckboxState = (index: number, checked: boolean) => {
-    setSelectedCheckboxRowIndices(previous => {
-      const nextSelectedCheckboxRowIndices = new Set(previous)
-      checked ? nextSelectedCheckboxRowIndices.add(index) : nextSelectedCheckboxRowIndices.delete(index)
-      return nextSelectedCheckboxRowIndices
+  // Do not invoke extendCellRenderers at module scope, as it runs immediately during module initialization.
+  // This led to a runtime error when an internal dependency was accessed before it was declared.
+  // Move the call inside FileResultTable to defer execution until render time,
+  // ensuring all dependencies are safely initialized.
+  const fileResultCellContentRenderers = extendCellRenderers(cellData => cellData) // TODO: naming and working makes sense?
+
+  function updateSelectedGroupRow(row: SelectedGroupRow) {
+    setSelectedGroupRow(row)
+    props.onChangeSelectedGroupRow(row)
+  }
+
+  const setRowCheckboxState = (groupI: number, rowI: number, checked: boolean) => {
+    setSelectedGroupRows((current: SelectedGroupRows) => {
+      const next = new Map(current)
+      const rows = next.has(groupI) ? next.get(groupI)! : new Set<number>()
+
+      function setGroupRows() {
+        next.set(groupI, rows)
+      }
+
+      if (checked) {
+        rows.add(rowI)
+        setGroupRows()
+      }
+
+      if (!checked) {
+        rows.delete(rowI)
+        if (!rows.size) {
+          next.delete(groupI)
+        } else {
+          setGroupRows()
+        }
+      }
+
+      return next
     })
 
-    props.onChangeSelectedRows(selectedCheckboxRowIndices())
+    props.onChangeSelectedGroupRows(selectedGroupRows())
 
-    if (selectedRowIndex() !== null) {
-      setSelectedRowIndex(null)
-      props.onChangeSelectedRow(null)
+    if (!selectedGroupRow()) {
+      updateSelectedGroupRow(null)
     }
   }
 
-  const handler = (index: number) => {
-    if (selectedCheckboxRowIndices().size == 0) {
-      const newSelection: RowSelection = selectedRowIndex() === index ? null : index
-      setSelectedRowIndex(newSelection)
-      props.onChangeSelectedRow(newSelection)
+  const handler = (groupI: number, rowI: number) => {
+    if (selectedGroupRows().size === 0) {
+      const row = selectedGroupRow()
+      updateSelectedGroupRow((!row || (row.group !== groupI || row.row !== rowI)) ? { group: groupI, row: rowI } : null)
     }
   }
 
-  const cellContentRenderers = props.columns.map(column => fileResultCellContentRenderers[column.type])
+  const cellContentRenderers = props.columns.map(column => fileResultCellContentRenderers[column.type]) // TODO: naming
 
-  let headerCheckboxCell: JSX.Element = <></>
+  let headerCheckboxCell: JSX.Element = null
 
-  // Predefining a no-op renderer avoids adding a conditional inside each row.
-  // This approach is also cleaner than representing the checkbox as a column type,
-  // since it requires row index access and function-based rendering.
-  let rowCheckboxCellRenderer: (index: number) => JSX.Element = (_: number) => <></>
+  // A no-op renderer avoids conditional logic in the row rendering loop.
+  // Checkbox rendering is kept separate from the column model, as it depends on row indices
+  // and imperative updates that violate the declarative rendering model.
+  let renderCheckbox: (_i: number, _j: number) => JSX.Element = (_i: number, _j: number) => null
 
-  if (props.showRowSelectionCheckboxes) {
+  if (props.showRowCheckboxes) {
     headerCheckboxCell = renderHeaderCell('')
 
-    rowCheckboxCellRenderer = (index) => {
+    renderCheckbox = (groupI, rowI) => {
       return renderDataCell(
         <input
           type="checkbox"
-          checked={selectedCheckboxRowIndices().has(index)}
-          onChange={(e) => setRowCheckboxState(index, e.currentTarget.checked)}
+          checked={selectedGroupRows().get(groupI)?.has(rowI)}
+          onChange={(e) => setRowCheckboxState(groupI, rowI, e.currentTarget.checked)}
         />
       )
     }
@@ -102,32 +136,42 @@ export const FileResultTable: Component<FileResultTableProps> = (props) => {
     <table>
       <thead>
         <tr>
+          {headerCheckboxCell}
           <For each={props.columns}>
             {(column) => renderHeaderCell(column.header)}
           </For>
-          {headerCheckboxCell}
         </tr>
       </thead>
 
-      <tbody>
-        <For each={props.rows}>
-          {(row, rowIndex) => {
-            const rowI = rowIndex()
+      <For each={props.rowGroups}>
+        {(group, groupIndex) => {
+          const groupI = groupIndex()
+          return (
+            <tbody>
+              <For each={group}>
+                {(row, rowIndex) => {
+                  const rowI = rowIndex()
+                  const currentRow = selectedGroupRow()
 
-            return (
-              <tr
-                onMouseDown={() => handler(rowI)}
-                classList={{'file-result-table__selected-row': selectedRowIndex() === rowI}}
-              >
-                <For each={row.cells}>
-                  {(cell, columnIndex) => renderDataCell(cellContentRenderers[columnIndex()](cell))}
-                </For>
-                {rowCheckboxCellRenderer(rowI)}
-              </tr>
-            )
-          }}
-        </For>
-      </tbody>
+                  return (
+                    <tr
+                      onMouseDown={() => handler(groupI, rowI)}
+                      classList={{
+                        'file-result-table__selected-row': currentRow?.group === groupI && currentRow?.row === rowI
+                      }}
+                    >
+                      {renderCheckbox(groupI, rowI)}
+                      <For each={row.cells}>
+                        {(cell, cellIndex) => renderDataCell(cellContentRenderers[cellIndex()](cell))}
+                      </For>
+                    </tr>
+                  )
+                }}
+              </For>
+            </tbody>
+          )
+        }}
+      </For>
     </table>
   )
 }
