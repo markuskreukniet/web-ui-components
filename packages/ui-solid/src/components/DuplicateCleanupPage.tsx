@@ -5,6 +5,7 @@ import { useToastContext } from '../modules/toasts/toast-context'
 import { isRight, right } from '../monads/either'
 import type { Component } from 'solid-js'
 import type { SourceTargetContextResult } from './FilePathSelectionForm'
+import type { ResolvedFilePaths } from './FilePathSelectorGroup'
 import type { FileResultColumns, FileResultRows, SelectedRows } from './FileResultTable'
 import type { SelectFilePath } from '../types/types'
 
@@ -22,6 +23,10 @@ export const DuplicateCleanupPage: Component = () => {
     return new Set()
   }
 
+  const findDuplicateFiles =  async (paths: ResolvedFilePaths): Promise<FileResultRows> => {
+    return []
+  }
+
   const columns: FileResultColumns = []
 
   async function executeWithLoading(action: () => Promise<void>): Promise<void> {
@@ -34,8 +39,12 @@ export const DuplicateCleanupPage: Component = () => {
 
   const handlerSourceTargetContextResult = (result: SourceTargetContextResult) => {
     if (isRight(result)) {
-      executeWithLoading(async () => console.log('result'))
-      context.addSuccessToast('found duplicate files') // TODO: string
+      executeWithLoading(async () => {
+        const rows = await findDuplicateFiles(result.value.sourceFilePaths)
+        setRows(rows)
+        // TODO: 2 rows is 1 duplicate
+        context.addSuccessToast(rows.length ? `Found ${rows.length} duplicate files` : 'No duplicates found') // TODO: strings
+      })
     } else {
       context.addErrorToast(result.value.message)
     }
