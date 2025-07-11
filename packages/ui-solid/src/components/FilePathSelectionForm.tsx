@@ -83,7 +83,7 @@ export const FilePathSelectionForm: Component<FilePathSelectionFormProps> = (pro
         filePathSelectorMode={props.filePathSelectorMode}
         selectFilePath={props.selectFilePath}
         onChange={props.enableTargetSelection ? handleChangeSource : handleChangeSourceOnly}
-        singleSelection={false}
+        singleSelection={props.singleSelection}
         submitButton={props.enableTargetSelection ? null : submitButton}
       />
       {props.enableTargetSelection && (

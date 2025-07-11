@@ -1,21 +1,14 @@
 import { createSignal } from 'solid-js'
 import { FilePanelSwitcher } from './FilePanelSwitcher'
+import { FilePathSelectorModes } from './FilePathSelectorGroup'
 import { useToastContext } from '../modules/toasts/toast-context'
 import { isRight, right } from '../monads/either'
 import type { Component } from 'solid-js'
 import type { SourceTargetContextResult } from './FilePathSelectionForm'
-import type { FilePathSelectorMode } from './FilePathSelectorGroup'
 import type { FileResultColumns, FileResultRows, SelectedRows } from './FileResultTable'
 import type { SelectFilePath } from '../types/types'
 
-type FilePanelSwitcherPageProps = {
-  filePathSelectorMode: FilePathSelectorMode
-  singleSelection: boolean
-  enableTargetSelection: boolean
-  canDelete: boolean
-}
-
-export const FilePanelSwitcherPage: Component<FilePanelSwitcherPageProps> = (props) => {
+export const DuplicateCleanupPage: Component = () => {
   const [rows, setRows] = createSignal<FileResultRows>([])
   const [isLoading, setIsLoading] = createSignal(false)
 
@@ -42,7 +35,7 @@ export const FilePanelSwitcherPage: Component<FilePanelSwitcherPageProps> = (pro
   const handlerSourceTargetContextResult = (result: SourceTargetContextResult) => {
     if (isRight(result)) {
       executeWithLoading(async () => console.log('result'))
-      context.addSuccessToast('') // TODO:
+      context.addSuccessToast('found duplicate files') // TODO: string
     } else {
       context.addErrorToast(result.value.message)
     }
@@ -61,10 +54,10 @@ export const FilePanelSwitcherPage: Component<FilePanelSwitcherPageProps> = (pro
     <FilePanelSwitcher
       columns={columns}
       rows={rows()}
-      filePathSelectorMode={props.filePathSelectorMode}
-      singleSelection={props.singleSelection}
-      enableTargetSelection={props.enableTargetSelection}
-      canDelete={props.canDelete}
+      filePathSelectorMode={FilePathSelectorModes.regularFileAndDirectory}
+      singleSelection={false}
+      enableTargetSelection={false}
+      canDelete
       isLoading={isLoading()}
       onChangeSelectedRows={handlerSelectedRows}
       onChangeSourceTargetContextResult={handlerSourceTargetContextResult}
