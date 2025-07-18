@@ -44,34 +44,59 @@ web-ui-components/
 └── README.md
 ```
 
+// TODO: WIP check with AI
+
 ## Naming Conventions
 
-// TODO: check with AI
+This section defines consistent naming standards for files, identifiers, component props, and event handlers to promote code clarity and maintainability.
 
-### File Naming
+### 1. File Naming
 
-- `.ts` files: Use _kebab-case_ for all TypeScript modules that do not contain JSX or define React components. Examples: `data-utils.ts`, `api-service.ts`.
+- **`.ts` files**: Use _kebab-case_ for TypeScript modules that do not contain JSX or define React components.  
+  _Examples_: `data-utils.ts`, `api-service.ts`
 
-- `.tsx` files: Use _PascalCase_ (also known as _UpperCamelCase_) for all files that define React components or include JSX content. Examples: `UserProfile.tsx`, `LoginForm.tsx`.
+- **`.tsx` files**: Use _PascalCase_ (also known as _UpperCamelCase_) for files that define React components or include JSX content.  
+  _Examples_: `UserProfile.tsx`, `LoginForm.tsx`
 
-This convention enhances code readability and enforces a clear distinction between utility modules and React components, thereby supporting a maintainable and scalable codebase.
+This distinction enhances readability and clearly separates utility modules from UI components.
 
-// TODO: WIP and check with AI
+### 2. Identifier Naming
 
-### Identifier Naming
+Use clear and descriptive terms for naming functions, variables, and constants. The following terms are recommended to reflect common behaviors and states:
 
-When naming functions, variables, and related identifiers, use clear and descriptive terms that reflect their purpose and behavior. The following words are recommended for consistent and meaningful naming across the codebase:
+- **selected** – An item that has been chosen or is currently active.
+- **show** – An action that makes an element visible.
+- **previous**, **current**, **next** – Denote position or sequence, particularly in navigation or state transitions.
+- **update** – Indicates data or state modification.
 
-- selected – Indicates an item that has been chosen or is currently active.
+Consistent use of these terms improves code readability and semantic understanding.
 
-- show – Suggests an action that makes an element visible.
+If a function type is used in multiple places, consider defining a separate type for it to improve clarity and reusability. In such cases, name the type the same as the function, but with the first letter capitalized. This should be done when it adds meaningful structure to the codebase and avoids unnecessary duplication.
 
-- previous, current, next – Denote position or sequence, particularly in navigation or state management contexts.
+### 3. Component Prop Naming
 
-- update – Refers to an operation that modifies or refreshes data or state.
+Component properties that accept callbacks should follow a standardized prefix based on the nature of the interaction:
 
-Consistent use of these terms promotes code readability and facilitates long-term maintenance.
+- Use the **`onChange`** prefix for passive updates (e.g., selection or data changes).
+- Use the **`onPress`** prefix for user-triggered actions such as button clicks or taps.
+
+This naming convention communicates the intent and interaction model of the component API.
+
+### 4. Event Handler Naming
+
+Event handler functions—typically passed to `onChange`, `onPress`, and similar props—should be named with the `handler` prefix:
+
+- Use `const handlerX = () => {}` syntax, where `X` describes the specific interaction.
+- For example: `handlerSelectedRows`, `handlerPress`.
+
+This pattern makes it explicit that the function handles a specific UI event, enhancing maintainability and traceability within the component structure.
 
 ## CSS Style Guide
 
-- Use CSS classes exclusively for all styling purposes. Reserve IDs solely for JavaScript-related behavior, such as DOM manipulation and event handling. This practice enforces a strict separation of concerns, mitigates CSS specificity issues, and promotes a maintainable, scalable codebase.
+- **Use CSS classes exclusively for all styling purposes.** Reserve IDs strictly for JavaScript-related behavior, such as DOM manipulation and event handling. This separation of concerns reduces CSS specificity issues and supports a maintainable, scalable codebase.
+
+- **Do not use CSS margins.** Margins can introduce unpredictable layout behavior due to issues such as margin collapse, overflow clipping, and inconsistent spacing. Instead, use layout mechanisms like padding, the `gap` property (in Flexbox or Grid), or standardized spacing utilities.  
+  References: [Max Stoiber](https://mxstbr.com/thoughts/margin), [Josh Comeau](https://www.joshwcomeau.com/css/rules-of-margin-collapse/)
+
+- **Prefer `mousedown` over `click` for event handling.** Using `mousedown` provides more immediate feedback and improves responsiveness, particularly in performance-sensitive contexts such as games or interactive interfaces.  
+  Reference: [John Carmack](https://x.com/id_aa_carmack/status/1787850053912064005)
