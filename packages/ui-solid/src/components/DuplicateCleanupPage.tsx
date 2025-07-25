@@ -2,7 +2,7 @@ import { createSignal } from 'solid-js'
 import { FilePanelSwitcher } from './FilePanelSwitcher'
 import { FilePathSelectorModes } from './FilePathSelectorGroup'
 import { useToastContext } from '../modules/toasts/toast-context'
-import { isRight, right } from '../monads/either'
+import { isLeft, isRight, right } from '../monads/either'
 import type { Component } from 'solid-js'
 import type { SourceTargetContextEither } from './FilePathSelectionForm'
 import type { ResolvedFilePaths } from './FilePathSelectorGroup'
@@ -11,12 +11,12 @@ import type { Either } from '../monads/either'
 import type { SelectFilePath } from '../types/types'
 
 // TODO: add to README. If function returns a unique result, then name the result of of the function the as the function with the Result postfix
+// TODO: also add line length rule to README
 type DetectDuplicateFilesResult = {
   rowGroups: RowGroups,
   duplicateFileCount: number
 }
 
-// TODO: useful type? or should it be an either for each removed row?
 type DetectDuplicateFilesResultEither = Either<Error, DetectDuplicateFilesResult>
 
 export const DuplicateCleanupPage: Component = () => {
@@ -29,12 +29,13 @@ export const DuplicateCleanupPage: Component = () => {
     return right('')
   }
 
+  // TODO: should it be an either for each removed row?
   const deleteSelectedFiles = async (selectedGroupRows: SelectedGroupRows): Promise<SelectedGroupRows> => {
     return new Map()
   }
 
-  const detectDuplicateFiles =  async (paths: ResolvedFilePaths): Promise<DetectDuplicateFilesResult> => {
-    return {rowGroups: [], duplicateFileCount: 0}
+  const detectDuplicateFiles =  async (paths: ResolvedFilePaths): Promise<DetectDuplicateFilesResultEither> => {
+    return right({rowGroups: [], duplicateFileCount: 0})
   }
 
   const columns: FileResultColumns = []
@@ -48,19 +49,25 @@ export const DuplicateCleanupPage: Component = () => {
   }
 
   const handlerSourceTargetContextEither = (either: SourceTargetContextEither) => {
-    if (isRight(either)) {
-      executeWithLoading(async () => {
-        const files = await detectDuplicateFiles(either.value.sourceFilePaths)
-        setRowGroups(files.rowGroups)
-        context.addSuccessToast(
-          files.duplicateFileCount
-            ? `${files.duplicateFileCount} duplicate file${files.duplicateFileCount === 1 ? '' : 's'} detected`
-            : 'No duplicate files detected'
-        )
-      })
-    } else {
+    if (isLeft(either)) {
       context.addErrorToast(either.value.message)
+      return
     }
+
+    executeWithLoading(async () => {
+      const files = await detectDuplicateFiles(either.value.sourceFilePaths)
+      if (isRight(files)) {
+        setRowGroups(files.value.rowGroups)
+        // Stored the duplicate file count in a variable to improve clarity and comply with line length limits
+        const count = files.value.duplicateFileCount
+        context.addSuccessToast(
+          files.value.duplicateFileCount
+            ? `${count} duplicate file${count === 1 ? '' : 's'} detected` : 'No duplicate files detected'
+        )
+      } else {
+        context.addErrorToast(files.value.message) // TODO: duplicate
+      }
+    })
   }
 
   const handlerSelectedGroupRows = (selectedGroupRows: SelectedGroupRows) => {
