@@ -1,5 +1,6 @@
 import { createContext, useContext } from 'solid-js'
 import type { ToastStore } from './create-toast-store'
+import type { Either } from '../../monads/either'
 
 // ToastContext is a globally accessible SolidJS context object that provides access to the toast store.
 // It is named using PascalCase to align with JSX conventions,
@@ -17,4 +18,8 @@ export function useToastContext(): ToastStore {
     )
   }
   return context
+}
+
+export function addErrorToastFromEither(either: Either<Error, never>): void {
+  useToastContext().addErrorToast(either.value.message)
 }

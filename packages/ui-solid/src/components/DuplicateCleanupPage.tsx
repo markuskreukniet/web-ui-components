@@ -1,7 +1,7 @@
 import { createSignal } from 'solid-js'
 import { FilePanelSwitcher } from './FilePanelSwitcher'
 import { FilePathSelectorModes } from './FilePathSelectorGroup'
-import { useToastContext } from '../modules/toasts/toast-context'
+import { addErrorToastFromEither, useToastContext } from '../modules/toasts/toast-context'
 import { isLeft, isRight, right } from '../monads/either'
 import type { Component } from 'solid-js'
 import type { SourceTargetContextEither } from './FilePathSelectionForm'
@@ -50,7 +50,7 @@ export const DuplicateCleanupPage: Component = () => {
 
   const handlerSourceTargetContextEither = (either: SourceTargetContextEither) => {
     if (isLeft(either)) {
-      context.addErrorToast(either.value.message)
+      addErrorToastFromEither(either)
       return
     }
 
@@ -65,7 +65,7 @@ export const DuplicateCleanupPage: Component = () => {
             ? `${count} duplicate file${count === 1 ? '' : 's'} detected` : 'No duplicate files detected'
         )
       } else {
-        context.addErrorToast(files.value.message) // TODO: duplicate
+        addErrorToastFromEither(files)
       }
     })
   }
