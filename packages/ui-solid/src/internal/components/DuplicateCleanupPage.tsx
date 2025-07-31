@@ -17,6 +17,7 @@ type DetectDuplicateFilesResult = {
 
 type DetectDuplicateFilesResultEither = Either<Error, DetectDuplicateFilesResult>
 
+// TODO: comment about that is more efficient than having two SelectedGroupRows, removed and not removed. Since two SelectedGroupRows can have than duplicate groups
 type DeleteSelectedFilesResult = Map<number, Map<number, Error | null>>
 
 export const DuplicateCleanupPage: Component = () => {
@@ -69,29 +70,46 @@ export const DuplicateCleanupPage: Component = () => {
     })
   }
 
-  // TODO: if too many error in error toast, scrollbar + is efficient?
+  // TODO: if too many error in error toast, scrollbar
   const handlerSelectedGroupRows = (selectedGroupRows: SelectedGroupRows) => {
     executeWithLoading(
       async () => {
-        const files = await deleteSelectedFiles(selectedGroupRows)
+        const result = await deleteSelectedFiles(selectedGroupRows)
 
-        function hasMoreThanOneRow(group: RowGroup) {
-          return group.length > 1
-        }
+        const groups: RowGroups = []
+        const errorMessages: string[] = []
 
-        setRowGroups((current: RowGroups) => {
-          const next = [...current]
+        rowGroups().forEach((group, groupIndex) => {
+          const rowMap = result.get(groupIndex)
+          let nextRows: RowGroup = []
 
-          for (const [key, value] of files) {
-            // !value.get(index) indicates that the row was either unselected (undefined) or successfully deleted (null)
-            const group = next[key].filter((_, index) => !value.get(index))
-            if (hasMoreThanOneRow(group)) {
-              next[key] = group
-            }
+          if (rowMap) {
+            group.forEach((row, rowIndex) => {
+              if (!rowMap.has(rowIndex)) {
+                nextRows.push(row)
+              } else {
+                const error = rowMap.get(rowIndex)
+
+                if (error) {
+                  errorMessages.push(error.message)
+                  nextRows.push(row)
+                }
+              }
+            })
+          } else {
+            nextRows = group
           }
 
-          return next.filter(group => hasMoreThanOneRow(group))
+          if (nextRows.length > 1) {
+            groups.push(nextRows)
+          }
         })
+
+        setRowGroups(groups)
+
+        if (errorMessages.length > 0) {
+          context.addErrorToast(errorMessages.join('\n'))
+        }
       }
     )
   }

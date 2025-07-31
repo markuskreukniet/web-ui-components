@@ -1,0 +1,58 @@
+:root {
+  /* golden ratio */
+  --g-ratio: 1.618;
+  --g-ratio-reciprocal: 0.618;
+
+  --size-1: 1rem;
+  --size-2: calc(var(--size-1) * 2);
+  --size-3: calc(var(--size-1) * 3);
+  --size-1-s: calc(var(--size-1) * var(--g-ratio-reciprocal));
+
+  --hue-green: 140;
+  --hue-red: 30;
+  --hue-blue: 240;
+  --hue-amber: 70;
+
+  --light-theme-toast-item-lightness: 0.6;
+  --dark-theme-toast-item-lightness: 0.4;
+  --toast-item-chroma: 0.2;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;
+}
+
+/* toast-item */
+.toast-item--success {
+  background-color: light-dark(
+    oklch(var(--light-theme-toast-item-lightness) var(--toast-chroma) var(--hue-green)),
+    oklch(var(--dark-theme-toast-item-lightness) var(--toast-chroma) var(--hue-green))
+  );
+}
+
+.toast-item--error {
+  background-color: light-dark(
+    oklch(var(--light-theme-toast-item-lightness) var(--toast-chroma) var(--hue-red)),
+    oklch(var(--dark-theme-toast-item-lightness) var(--toast-chroma) var(--hue-red))
+  );
+}
+
+.toast-item--info {
+  background-color: light-dark(
+    oklch(var(--light-theme-toast-item-lightness) var(--toast-chroma) var(--hue-blue)),
+    oklch(var(--dark-theme-toast-item-lightness) var(--toast-chroma) var(--hue-blue))
+  );
+}
+
+.toast-item--warning {
+  background-color: light-dark(
+    oklch(var(--light-theme-toast-item-lightness) var(--toast-chroma) var(--hue-amber)),
+    oklch(var(--dark-theme-toast-item-lightness) var(--toast-chroma) var(--hue-amber))
+  );
+}
