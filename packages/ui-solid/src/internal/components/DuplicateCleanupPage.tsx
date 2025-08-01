@@ -17,7 +17,11 @@ type DetectDuplicateFilesResult = {
 
 type DetectDuplicateFilesResultEither = Either<Error, DetectDuplicateFilesResult>
 
-// TODO: comment about that is more efficient than having two SelectedGroupRows, removed and not removed. Since two SelectedGroupRows can have than duplicate groups
+// A mapping from group indices to row indices,
+// where each inner map captures the deletion status of individual rows within a group.
+// Each row index maps to `null` for a successful deletion, or to an `Error` if deletion failed.
+// This unified structure eliminates the redundancy of maintaining separate maps for deleted and retained rows,
+// ensuring each group index is represented only once.
 type DeleteSelectedFilesResult = Map<number, Map<number, Error | null>>
 
 export const DuplicateCleanupPage: Component = () => {
@@ -70,7 +74,6 @@ export const DuplicateCleanupPage: Component = () => {
     })
   }
 
-  // TODO: if too many error in error toast, scrollbar
   const handlerSelectedGroupRows = (selectedGroupRows: SelectedGroupRows) => {
     executeWithLoading(
       async () => {

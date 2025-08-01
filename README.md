@@ -202,3 +202,14 @@ This pattern makes it explicit that the function handles a specific UI event, en
 ---
 
 > These conventions support consistency across UI, logic, and state layers, and are foundational to a maintainable codebase.
+
+## TODO
+
+- add function return types
+- Is the project naming still correct since there are modules and components?
+- check naming in all files
+- make UI core project
+- Add a toggle to make it possible to remove all rows in a group?
+- Add a toggle to show removed rows
+- Use context instead of prop down drilling? Also update README then
+- if too many error in error toast, show scrollbar

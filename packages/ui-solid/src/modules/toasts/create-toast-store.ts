@@ -9,15 +9,6 @@ const ToastVariants = {
 
 type ToastVariant = typeof ToastVariants[keyof typeof ToastVariants]
 
-// TODO: add function return types
-// TODO: is the project naming still correct since there are modules and components
-// TODO: check naming in all files
-// TODO: make UI core project
-// TODO: what to do with components that are not exported? In README add # comment and make text in README. Ook erbij zetten niet exporteren
-// TODO: should be toggle to make it possible to remove all rows?
-// TODO: toggle show removed rows
-// TODO: context gebruiken ipv prop downdrilling? Ook in README?
-
 type ToastItem = {
   toastId: string
   text: string
