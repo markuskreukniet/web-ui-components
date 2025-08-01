@@ -8,6 +8,9 @@
   --size-3: calc(var(--size-1) * 3);
   --size-1-s: calc(var(--size-1) * var(--g-ratio-reciprocal));
 
+  --layer-0-lightness: 0.1;
+  --layer-1-lightness: 0.3;
+
   --hue-green: 140;
   --hue-red: 30;
   --hue-blue: 240;
@@ -26,6 +29,18 @@
 
 html {
   font-size: 100%;
+}
+
+body {
+  background-color: light-dark(
+    oklch(calc(1 - var(--layer-0-lightness) 0 0)), oklch(calc(0 + var(--layer-0-lightness) 0 0))
+  );
+}
+
+.segmented-control {
+  background-color: light-dark(
+    oklch(calc(1 - var(--layer-1-lightness) 0 0)), oklch(calc(0 + var(--layer-1-lightness) 0 0))
+  );
 }
 
 /* toast-item */
