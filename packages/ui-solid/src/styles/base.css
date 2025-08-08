@@ -16,12 +16,14 @@
   --hue-blue: 240;
   --hue-amber: 70;
 
-  --light-theme-toast-item-lightness: 0.6;
-  --dark-theme-toast-item-lightness: 0.4;
+  --light-theme-toast-item-lightness: 0.6; /* TODO: text readable? */
+  --dark-theme-toast-item-lightness: 0.4; /* TODO: text readable? */
   --toast-item-chroma: 0.2;
 
   --light-theme-layer-0: oklch(calc(1 - var(--layer-0-lightness)) 0 0);
   --dark-theme-layer-0: oklch(calc(0 + var(--layer-0-lightness)) 0 0);
+
+  --theme-layer-0-fg: light-dark(var(--dark-theme-layer-0), var(--light-theme-layer-0));
 }
 
 * {
@@ -36,13 +38,24 @@ html {
 
 body {
   background-color: light-dark(var(--light-theme-layer-0), var(--dark-theme-layer-0));
-  color: light-dark(var(--dark-theme-layer-0), var(--light-theme-layer-0));
+  color: var(--theme-layer-0-fg);
 }
 
 .segmented-control {
   background-color: light-dark(
     oklch(calc(1 - var(--layer-1-lightness)) 0 0), oklch(calc(0 + var(--layer-1-lightness)) 0 0)
   );
+}
+
+/* buttons */
+button {
+  padding: var(--size-1-s) var(--size-1);
+  border: 1px solid var(--theme-layer-0-fg);
+  border-radius: var(--size-1-s);
+}
+
+button:disabled {
+  cursor: not-allowed;
 }
 
 /* toast-item */
