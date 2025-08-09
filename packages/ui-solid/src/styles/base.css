@@ -5,7 +5,7 @@
   --size-1: 1rem;
   --size-2: calc(var(--size-1) * 2);
   --size-3: calc(var(--size-1) * 3);
-  --size-1-s: calc(var(--size-1) * var(--golden-ratio-reciprocal));
+  --size-r-1: calc(var(--size-1) * var(--golden-ratio-reciprocal));
 
   /* TODO: is layer good naming? tone is better? */
   --layer-0-lightness: 0.1;
@@ -51,9 +51,9 @@ body {
 
 /* buttons */
 button {
-  padding: var(--size-1-s) var(--size-1);
+  padding: var(--size-r-1) var(--size-1);
   border: var(--theme-layer-0-fg-border);
-  border-radius: var(--size-1-s);
+  border-radius: var(--size-r-1);
 }
 
 button:disabled {

@@ -222,4 +222,3 @@ This pattern makes it explicit that the function handles a specific UI event, en
 - change dist-tsc, dist-vite, en dist-styles to dist with sub folders? Then also update gitignore
 - update bootstrapping.md with styles, possible when there is the UI core project
 - remove all useless files from ui-solid
-- multiple buttons have 'disabled={false}'. Add an always enabled button.

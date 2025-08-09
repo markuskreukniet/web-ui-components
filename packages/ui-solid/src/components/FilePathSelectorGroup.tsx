@@ -120,7 +120,6 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = (pro
         </For>
       </ul>
       <Button
-        disabled={false}
         onPress={handlerPress}
         content={'reset'}
         variant={ButtonVariants.tertiary}

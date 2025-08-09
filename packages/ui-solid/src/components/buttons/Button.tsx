@@ -9,7 +9,7 @@ export const ButtonVariants = {
 type ButtonVariant = typeof ButtonVariants[keyof typeof ButtonVariants]
 
 export type ButtonBaseProps = {
-  disabled: boolean
+  disabled?: boolean // TODO: use the ? also on other where | null?
   onPress: () => void
 }
 

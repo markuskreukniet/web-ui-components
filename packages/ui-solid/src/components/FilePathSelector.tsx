@@ -34,7 +34,6 @@ export const FilePathSelector: Component<FilePathSelectorProps> = (props) => {
 
   return (
     <Button
-      disabled={false}
       onPress={handler}
       content={`add a ${props.filePathType === FilePathTypes.regularFile ? 'file' : 'directory'}`}
       variant={ButtonVariants.secondary}

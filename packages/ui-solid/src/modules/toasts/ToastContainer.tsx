@@ -15,7 +15,6 @@ export const ToastContainer: Component = () => {
             <Button
               content="×" // × (U+00D7): correct typographic symbol for close/dismiss actions
               variant={ButtonVariants.tertiary}
-              disabled={false}
               onPress={() => removeToast(item.toastId)}
             />
           </div>
