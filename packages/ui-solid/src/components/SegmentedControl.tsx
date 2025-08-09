@@ -22,7 +22,7 @@ export const SegmentedControl: Component<SegmentedControlProps> = (props) => {
 
   return (
     <fieldset class="segmented-control">
-      <legend class="display-none">{props.legend}</legend>
+      <legend class="visually-hidden">{props.legend}</legend>
       <For each={props.options}>
         {option => (
           <label class="segmented-control__option">
