@@ -24,6 +24,7 @@
   --dark-theme-layer-0: oklch(calc(0 + var(--layer-0-lightness)) 0 0);
 
   --theme-layer-0-fg: light-dark(var(--dark-theme-layer-0), var(--light-theme-layer-0));
+  --theme-layer-0-fg-border: 1px solid var(--theme-layer-0-fg);
 }
 
 * {
@@ -45,12 +46,13 @@ body {
   background-color: light-dark(
     oklch(calc(1 - var(--layer-1-lightness)) 0 0), oklch(calc(0 + var(--layer-1-lightness)) 0 0)
   );
+  border: var(--theme-layer-0-fg-border);
 }
 
 /* buttons */
 button {
   padding: var(--size-1-s) var(--size-1);
-  border: 1px solid var(--theme-layer-0-fg);
+  border: var(--theme-layer-0-fg-border);
   border-radius: var(--size-1-s);
 }
 
