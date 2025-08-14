@@ -4,7 +4,7 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "start": "vite",
+    "start": "npm run --prefix ../../packages/ui-solid build && npm install && npm run dev",
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview"

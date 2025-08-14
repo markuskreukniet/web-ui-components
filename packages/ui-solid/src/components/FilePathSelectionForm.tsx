@@ -2,6 +2,7 @@ import { createSignal } from 'solid-js'
 import { SubmitButton } from './buttons/SubmitButton'
 import { FilePathSelectorGroup, FilePathSelectorModes } from './FilePathSelectorGroup'
 import { isRight, left, right } from '../modules/monads/either'
+import { isArrayEmpty } from '../utils/isEmpty'
 import type { Component } from 'solid-js'
 import type { FilePathSelectorGroupBaseProps, ResolvedFilePaths, ResolvedPathsEither } from './FilePathSelectorGroup'
 import type { Either } from '../modules/monads/either'
@@ -14,19 +15,14 @@ type SourceTargetContext = {
 
 export type SourceTargetContextEither = Either<Error, SourceTargetContext>
 
-export type OnChangeSourceTargetContextEither = (either: SourceTargetContextEither) => void
-
-export type FilePathSelectionFormBaseProps = FilePathSelectorGroupBaseProps & IsLoadingProps & {
+type FilePathSelectionFormProps = FilePathSelectorGroupBaseProps & IsLoadingProps & {
   enableTargetSelection: boolean
-}
-
-type FilePathSelectionFormProps = FilePathSelectionFormBaseProps & {
-  onChange: OnChangeSourceTargetContextEither
+  onChange: (either: SourceTargetContextEither) => void
 }
 
 type UpdateResolvedPathsState = (paths: ResolvedFilePaths) => void
 
-export const FilePathSelectionForm: Component<FilePathSelectionFormProps> = (props) => {
+export const FilePathSelectionForm: Component<FilePathSelectionFormProps> = props => {
   const [isDisabled, setIsDisabled] = createSignal<boolean>(true)
 
   let sourcePaths: ResolvedFilePaths = []
@@ -45,7 +41,7 @@ export const FilePathSelectionForm: Component<FilePathSelectionFormProps> = (pro
   const handlerChangeSourceOnly = (either: ResolvedPathsEither) => {
     applyResolvedPathsResult(either, paths => {
       sourcePaths = paths
-      setIsDisabled(sourcePaths.length === 0)
+      setIsDisabled(isArrayEmpty(sourcePaths))
     })
   }
 
@@ -53,7 +49,7 @@ export const FilePathSelectionForm: Component<FilePathSelectionFormProps> = (pro
     (either: ResolvedPathsEither) => {
       applyResolvedPathsResult(either, paths => {
         updateResolvedPathsState(paths)
-        setIsDisabled(sourcePaths.length === 0 || targetPaths.length === 0)
+        setIsDisabled(isArrayEmpty(sourcePaths) || isArrayEmpty(targetPaths))
       })
     }
 
@@ -67,6 +63,7 @@ export const FilePathSelectionForm: Component<FilePathSelectionFormProps> = (pro
     }))
   }
 
+  // TODO: does isDisabled makes sense?
   // Defined once to maintain consistent rendering and avoid duplication across conditional logic.
   const submitButton = <SubmitButton
     disabled={isDisabled()}
@@ -76,13 +73,13 @@ export const FilePathSelectionForm: Component<FilePathSelectionFormProps> = (pro
 
   // Inline conditionals are simpler here than a single branching block with extra setup logic.
   return (
-    <div>
+    <div class="file-path-selection-form">
       <FilePathSelectorGroup
         filePathSelectorMode={props.filePathSelectorMode}
         selectFilePath={props.selectFilePath}
         onChange={props.enableTargetSelection ? handlerChangeSource : handlerChangeSourceOnly}
         singleSelection={props.singleSelection}
-        submitButton={props.enableTargetSelection ? null : submitButton}
+        {...(!props.enableTargetSelection && { submitButton })}
       />
       {props.enableTargetSelection && (
         <FilePathSelectorGroup
@@ -90,7 +87,6 @@ export const FilePathSelectionForm: Component<FilePathSelectionFormProps> = (pro
           selectFilePath={props.selectFilePath}
           onChange={handlerChangeTarget}
           singleSelection
-          submitButton={null}
         />
       ) && (
         submitButton

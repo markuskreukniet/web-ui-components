@@ -23,7 +23,7 @@ type FilePathSelectorProps = SelectFilePathProps & {
   onChange: (either: SelectedFilePathEither) => void
 }
 
-export const FilePathSelector: Component<FilePathSelectorProps> = (props) => {
+export const FilePathSelector: Component<FilePathSelectorProps> = props => {
   const handler = async () => {
     props.onChange(mapRight(await props.selectFilePath(), path => ({
       filePath: path,
@@ -34,8 +34,9 @@ export const FilePathSelector: Component<FilePathSelectorProps> = (props) => {
   return (
     <Button
       onPress={handler}
-      content={`add a ${props.filePathType === FilePathTypes.regularFile ? 'file' : 'directory'}`}
       variant={ButtonVariants.secondary}
-    />
+    >
+      {`Add a ${props.filePathType === FilePathTypes.regularFile ? 'file' : 'directory'}`}
+    </Button>
   )
 }

@@ -3,33 +3,34 @@
 ```
 web-ui-components/
 ├── docs/
-│   └── bootstrapping.md            # Initial project setup notes
+│   └── bootstrapping.md              # Initial project setup notes
 ├── packages/
-│   ├── ui-react/                   # React-based UI components
+│   ├── ui-react/                     # React-based UI components
 │   │   ├── src/
 │   │   │   ├── components/
 │   │   │   │   └── buttons/
+│   │   │   │   │   └── iconButtons/
 │   │   │   ├── modules/
 │   │   │   │   └── toasts/
-│   │   │   ├── internal/           # Internal-only code for development; excluded from the public API
+│   │   │   ├── internal/             # Internal-only code for development; excluded from the public API
 │   │   │   │   ├── components/
 │   │   │   │   └── modules/
-│   │   │   └── index.ts            # Module entry point: re-exports public TypeScript modules and components only; no side-effect imports (e.g., global CSS)
-│   │   ├── build/                  # TODO: comment
-│   │   │       └── prepare-css.js  # TODO: comment. Also comment why it is a js file, to keep it simpler. Changing to ts is not ideal since it mixes implementation code with tooling.
-│   │   ├── dist/                   # Generated build outputs excluded from source control.
+│   │   │   └── index.ts              # Module entry point: re-exports public TypeScript modules and components only; no side-effect imports (e.g., global CSS)
+│   │   ├── build/                    # Package-local build tooling, excluded from source and distribution.
+│   │   │       └── prepare-css.js    # Prepares CSS for build; implemented in JS to keep tooling lightweight and separate from TypeScript code.
+│   │   ├── dist/                     # Generated build outputs excluded from source control.
 │   │   ├── package.json
 │   │   └── vite.config.ts
-│   ├── ui-solid/                   # SolidJS-based UI components, mirroring the structure of the ui-react/ directory.
-│   ├── ui-core/                    # Shared styles and logic utilities
+│   ├── ui-solid/                     # SolidJS-based UI components, mirroring the structure of the ui-react/ directory.
+│   ├── ui-core/                      # Shared styles and logic utilities
 │   │   ├── src/
 │   │   │   ├── monads/
 │   │   │   │   └── either.ts
-│   │   │   ├── utils/              # Framework-agnostic utility modules organized under ui-core, rather than modules/, to reflect their shared use across UI implementations.
+│   │   │   ├── utils/                # Framework-agnostic utility modules organized under ui-core, rather than modules/, to reflect their shared use across UI implementations.
 │   │   │   │   └── errors.ts
-│   │   │   ├── types/              # Framework-agnostic type definitions in ui-core, rather than modules/, to reflect their shared use across UI implementations.
+│   │   │   ├── types/                # Framework-agnostic type definitions in ui-core, rather than modules/, to reflect their shared use across UI implementations.
 │   │   │   └── styles/
-│   │   │       ├── index.css       # Entry point (e.g. @import './base.css')
+│   │   │       ├── index.css         # Entry point (e.g. @import './base.css')
 │   │   │       └── base.css
 │   │   ├── package.json
 │   │   └── vite.config.ts
@@ -37,15 +38,13 @@ web-ui-components/
 │   ├── react-playground/
 │   └── solid-playground/
 ├── package-lock.json
-├── package.json                    # Root workspace configuration
-├── pnpm-lock.yaml                  # Generated lockfile (only present in a pnpm-managed project)
-├── pnpm-workspace.yaml             # Workspace configuration (only present in a pnpm-managed project)
-├── tsconfig.json                   # Shared TypeScript settings
+├── package.json                      # Root workspace configuration
+├── pnpm-lock.yaml                    # Generated lockfile (only present in a pnpm-managed project)
+├── pnpm-workspace.yaml               # Workspace configuration (only present in a pnpm-managed project)
+├── tsconfig.json                     # Shared TypeScript settings
 ├── .gitignore
 └── README.md
 ```
-
-// TODO: WIP check with AI
 
 # Codebase Standards
 
@@ -224,3 +223,10 @@ This pattern makes it explicit that the function handles a specific UI event, en
 - remove all useless files from ui-solid
 - check for ARIA and role=
 - add to solid-playground .gitignore?
+- make the whole td with a checkbox clickable without adding JS/TS?
+- give some SolidJs Show components a keyed attribute?
+- some Function expression (arrow) 'const handler = () =>' should be Function declaration 'function handler()'?
+- check README with AI?
+- add translations
+- add filter/order on filer extension
+- fix texts
