@@ -1,18 +1,11 @@
 import { createSignal, Show } from 'solid-js'
 import { FilePathSelectionForm } from './FilePathSelectionForm'
 import { FileResultInspector } from './FileResultInspector'
-import { SegmentedControl } from './SegmentedControl'
+import { Stepper } from './Stepper'
 import type { Component } from 'solid-js'
 import type { FilePathSelectionFormBaseProps, OnChangeSourceTargetContextEither } from './FilePathSelectionForm'
 import type { CanDeleteProps } from './FileResultInspector'
 import type { FileResultTableDataProps, OnChangeSelectedGroupRowsProps } from './FileResultTable'
-
-const FilePanelTypes = {
-  selection: 'selection',
-  inspection: 'inspection'
-} as const
-
-type FilePanelType = typeof FilePanelTypes[keyof typeof FilePanelTypes]
 
 type FilePanelSwitcherProps =
   FilePathSelectionFormBaseProps & FileResultTableDataProps & CanDeleteProps & OnChangeSelectedGroupRowsProps & {
@@ -20,26 +13,20 @@ type FilePanelSwitcherProps =
 }
 
 export const FilePanelSwitcher: Component<FilePanelSwitcherProps> = (props) => {
-  const [selectedPanel, setSelectedPanel] = createSignal<FilePanelType>(FilePanelTypes.selection)
+  const [activeStepIndex, setActiveStepIndex] = createSignal(0)
 
-  const panel = selectedPanel()
+  const index = activeStepIndex()
 
-  // TODO: function for option creation
   return (
     <div>
-      <SegmentedControl
-        name="file-panel-type"
-        legend="Select File Panel"
-        options={[
-          { label: 'File Selection', value: FilePanelTypes.selection, disabled: false },
-          { label: 'File Inspection', value: FilePanelTypes.inspection, disabled: props.rowGroups.length === 0 }
-        ]}
-        selected={panel}
-        onChange={setSelectedPanel}
+      <Stepper
+        labels={['File Selection', 'File Inspection']}
+        lastEnabledStepIndex={props.rowGroups.length === 0 ? 0 : 1}
+        onChange={setActiveStepIndex}
       />
 
       <div>
-        <Show when={panel === FilePanelTypes.selection}>
+        <Show when={index === 0}>
           <FilePathSelectionForm
             filePathSelectorMode={props.filePathSelectorMode}
             isLoading={props.isLoading}
@@ -50,7 +37,7 @@ export const FilePanelSwitcher: Component<FilePanelSwitcherProps> = (props) => {
           />
         </Show>
 
-        <Show when={panel === FilePanelTypes.inspection}>
+        <Show when={index === 1}>
           <FileResultInspector
             columns={props.columns}
             rowGroups={props.rowGroups}
