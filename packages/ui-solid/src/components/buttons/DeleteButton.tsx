@@ -1,3 +1,4 @@
+import { splitProps } from 'solid-js';
 import { Button, ButtonVariants } from './Button'
 import type { Component } from 'solid-js'
 import type { ButtonBaseProps } from './Button'
@@ -13,10 +14,15 @@ type DeleteButtonProps = ButtonBaseProps & {
   variant: DeleteButtonVariant
 }
 
-export const DeleteButton: Component<DeleteButtonProps> = ({ variant, ...restProps }) => (
-  <Button
-    {...restProps}
-    content={variant === DeleteButtonVariants.single ? 'Delete' : 'Delete selected items'}
-    variant={ButtonVariants.secondary}
-  />
-)
+export const DeleteButton: Component<DeleteButtonProps> = props => {
+  const [local, rest] = splitProps(props, ['variant'])
+
+  return (
+    <Button
+      {...rest}
+      variant={ButtonVariants.secondary}
+    >
+      {local.variant === DeleteButtonVariants.single ? 'Delete' : 'Delete selected items'}
+    </Button>
+  )
+}

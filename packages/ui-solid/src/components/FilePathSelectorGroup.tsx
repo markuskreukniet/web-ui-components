@@ -2,6 +2,7 @@ import { createSignal, For } from 'solid-js'
 import { TertiaryButton } from './buttons/TertiaryButton'
 import { isRight, left, right } from '../modules/monads/either'
 import { FilePathSelector, FilePathTypes } from './FilePathSelector'
+import { isArrayEmpty } from '../utils/isEmpty'
 import type { Component, JSX } from 'solid-js'
 import type { SelectedFilePathEither } from './FilePathSelector'
 import type { Either } from '../modules/monads/either'
@@ -30,7 +31,7 @@ export type FilePathSelectorGroupBaseProps = SelectFilePathProps & {
 
 type FilePathSelectorGroupProps = FilePathSelectorGroupBaseProps & {
   onChange: (either: ResolvedPathsEither) => void
-  submitButton: JSX.Element
+  submitButton?: JSX.Element
 }
 
 function createResolvedFilePath(filePath: string, isDirectory: boolean): ResolvedFilePath {
@@ -48,7 +49,7 @@ function addTrailingSlash(filePath: string): string {
   return filePath.startsWith(forwardSlash) ? filePath + forwardSlash : filePath + '\\'
 }
 
-export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = (props) => {
+export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = props => {
   const [resolvedFilePaths, setResolvedFilePaths] = createSignal<ResolvedFilePaths>([])
 
   function shouldRenderSelectorFor(mode: FilePathSelectorMode): boolean {
@@ -99,8 +100,8 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = (pro
   }
 
   return (
-    <div>
-      <div>
+    <div class="file-path-selector-group">
+      <div class="file-path-selector-group__buttons">
         {shouldRenderSelectorFor(FilePathSelectorModes.regularFile) && (
           <FilePathSelector
             filePathType={FilePathTypes.regularFile}
@@ -121,11 +122,15 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = (pro
           {path => <li>{path.filePath}</li>}
         </For>
       </ul>
-      <TertiaryButton
-        onPress={handlerPress}
-        content={'reset'}
-      />
-      {props.submitButton}
+      <div class="file-path-selector-group__buttons">
+        <TertiaryButton
+          onPress={handlerPress}
+          disabled={isArrayEmpty(resolvedFilePaths())}
+        >
+          reset
+        </TertiaryButton>
+        {props.submitButton}
+      </div>
     </div>
   )
 }

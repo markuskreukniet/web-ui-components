@@ -1,5 +1,5 @@
 import { ProgressCircle } from '../ProgressCircle'
-import type { Component, JSX } from 'solid-js'
+import type { Component, ParentProps } from 'solid-js'
 
 export const ButtonVariants = {
   primary: 'button--primary',
@@ -15,20 +15,18 @@ export type ButtonBaseProps = {
   onPress: () => void
 }
 
-export type ButtonContentProps = ButtonBaseProps & {
-  content: JSX.Element
-}
+export type ButtonParentProps = ButtonBaseProps & ParentProps
 
-type ButtonProps = ButtonContentProps & {
+export type ButtonProps = ButtonParentProps & {
   variant: ButtonVariant
 }
 
-export const Button: Component<ButtonProps> = (props) => (
+export const Button: Component<ButtonProps> = props => (
   <button
     onMouseDown={() => props.onPress()}
     disabled={props.disabled || props.isLoading}
     class={props.variant}
   >
-    {props.isLoading ? <span><ProgressCircle />{props.content}</span> : props.content}
+    {props.isLoading ? <span><ProgressCircle />{props.children}</span> : props.children}
   </button>
 )

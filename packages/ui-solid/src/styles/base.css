@@ -1,30 +1,75 @@
 :root {
   --golden-ratio: 1.618;
+  --golden-ratio-rem: 1.618rem;
   --golden-ratio-reciprocal: 0.618;
 
   --size-1: 1rem;
   --size-2: calc(var(--size-1) * 2);
   --size-3: calc(var(--size-1) * 3);
-  --size-r-1: calc(var(--size-1) * var(--golden-ratio-reciprocal));
+  --size-5: calc(var(--size-1) * 5);
+  --size-8: calc(var(--size-1) * 8);
+  --size-13: calc(var(--size-1) * 13);
+  --size-21: calc(var(--size-1) * 21);
 
-  /* TODO: is layer good naming? tone is better? */
-  --layer-0-lightness: 0.1;
-  --layer-1-lightness: 0.3;
+  --size-r-1: calc(var(--size-1) * var(--golden-ratio-reciprocal));
+  --size-r-2: calc(var(--size-r-1) * var(--golden-ratio-reciprocal));
+  --size-r-3: calc(var(--size-r-2) * var(--golden-ratio-reciprocal));
+
+  /* TODO: comment why 0.1 or less, text readable */
+  --lightness-level-0: 0.1;
+  --lightness-level-1: calc(var(--lightness-level-0) * 2);
+  --lightness-level-2: calc(var(--lightness-level-0) * 3);
+
+  --light-theme-lightness-level-0: calc(1 - var(--lightness-level-0));
+  --light-theme-lightness-level-1: calc(1 - var(--lightness-level-1));
+  --light-theme-lightness-level-2: calc(1 - var(--lightness-level-2));
+
+  --dark-theme-lightness-level-0: calc(0 + var(--lightness-level-0));
+  --dark-theme-lightness-level-1: calc(0 + var(--lightness-level-1));
+  --dark-theme-lightness-level-2: calc(0 + var(--lightness-level-2));
+
+  --light-theme-level-0: oklch(var(--light-theme-lightness-level-0) 0 0);
+  --light-theme-level-1: oklch(var(--light-theme-lightness-level-1) 0 0);
+  --light-theme-level-2: oklch(var(--light-theme-lightness-level-2) 0 0);
+
+  --dark-theme-level-0: oklch(var(--dark-theme-lightness-level-0) 0 0);
+  --dark-theme-level-1: oklch(var(--dark-theme-lightness-level-1) 0 0);
+  --dark-theme-level-2: oklch(var(--dark-theme-lightness-level-2) 0 0);
+
+  --theme-bg-level-0: light-dark(var(--light-theme-level-0), var(--dark-theme-level-0));
+  --theme-bg-level-1: light-dark(var(--light-theme-level-1), var(--dark-theme-level-1));
+  --theme-bg-level-2: light-dark(var(--light-theme-level-2), var(--dark-theme-level-2));
+
+  --theme-fg-level-0: light-dark(var(--dark-theme-level-0), var(--light-theme-level-0));
+  --theme-fg-level-1: light-dark(var(--dark-theme-level-1), var(--light-theme-level-1));
+  --theme-fg-level-2: light-dark(var(--dark-theme-level-2), var(--light-theme-level-2));
+
+  --theme-fg-border-level-0: 1px solid var(--theme-fg-level-0);
+  --theme-fg-border-level-1: 2px solid var(--theme-fg-level-1);
+  --theme-fg-border-level-2: 3px solid var(--theme-fg-level-2);
+
+  /* TODO: are the chromas correct? */
+  --light-theme-chroma: 0.15;
+  --dark-theme-chroma: 0.12;
+
+  --toast-item-chroma: 0.2; /* TODO: is it correct? Maybe there are two needed for light and mode mode */
 
   --hue-green: 140;
   --hue-red: 30;
-  --hue-blue: 240;
+  --hue-blue: 250;
   --hue-amber: 70;
 
-  --light-theme-toast-item-lightness: 0.6; /* TODO: text readable? */
-  --dark-theme-toast-item-lightness: 0.4; /* TODO: text readable? */
-  --toast-item-chroma: 0.2;
+  --light-theme-primary-level-0: oklch(var(--light-theme-lightness-level-0) var(--light-theme-chroma) var(--hue-blue));
+  --light-theme-primary-level-1: oklch(var(--light-theme-lightness-level-1) var(--light-theme-chroma) var(--hue-blue));
+  --light-theme-primary-level-2: oklch(var(--light-theme-lightness-level-2) var(--light-theme-chroma) var(--hue-blue));
 
-  --light-theme-layer-0: oklch(calc(1 - var(--layer-0-lightness)) 0 0);
-  --dark-theme-layer-0: oklch(calc(0 + var(--layer-0-lightness)) 0 0);
+  --dark-theme-primary-level-0: oklch(var(--dark-theme-lightness-level-0) var(--dark-theme-chroma) var(--hue-blue));
+  --dark-theme-primary-level-1: oklch(var(--dark-theme-lightness-level-1) var(--dark-theme-chroma) var(--hue-blue));
+  --dark-theme-primary-level-2: oklch(var(--dark-theme-lightness-level-2) var(--dark-theme-chroma) var(--hue-blue));
 
-  --theme-layer-0-fg: light-dark(var(--dark-theme-layer-0), var(--light-theme-layer-0));
-  --theme-layer-0-fg-border: 1px solid var(--theme-layer-0-fg);
+  --primary-level-0: light-dark(var(--light-theme-primary-level-0), var(--dark-theme-primary-level-0));
+  --primary-level-1: light-dark(var(--light-theme-primary-level-1), var(--dark-theme-primary-level-1));
+  --primary-level-2: light-dark(var(--light-theme-primary-level-2), var(--dark-theme-primary-level-2));
 }
 
 * {
@@ -38,21 +83,45 @@ html {
 }
 
 body {
-  background-color: light-dark(var(--light-theme-layer-0), var(--dark-theme-layer-0));
-  color: var(--theme-layer-0-fg);
+  color: var(--theme-fg-level-0);
+  line-height: var(--golden-ratio);
 }
 
-.segmented-control {
-  background-color: light-dark(
-    oklch(calc(1 - var(--layer-1-lightness)) 0 0), oklch(calc(0 + var(--layer-1-lightness)) 0 0)
-  );
-  border: var(--theme-layer-0-fg-border);
+h2 {
+  line-height: var(--golden-ratio-rem);
+  color: var(--theme-fg-level-1);
+}
+
+small {
+  color: var(--theme-fg-level-2);
+}
+
+/* page */
+.page {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom, var(--theme-bg-level-0) 0%, var(--theme-bg-level-1) 100%);
+}
+
+.page > div {
+  --v-offset: 2px;
+
+  border: var(--theme-fg-border-level-0);
+  border-radius: var(--size-3);
+  padding: var(--size-3);
+  background-color: var(--theme-bg-level-0);
+  box-shadow:
+    0 1px var(--v-offset) var(--theme-fg-level-1),
+    0 3px calc(var(--size-r-1) + var(--v-offset)) var(--theme-fg-level-2);
 }
 
 /* buttons */
 button {
-  padding: var(--size-r-1) var(--size-1);
-  border: var(--theme-layer-0-fg-border);
+  cursor: pointer;
+  border: var(--theme-fg-border-level-0);
   border-radius: var(--size-r-1);
 }
 
@@ -60,32 +129,154 @@ button:disabled {
   cursor: not-allowed;
 }
 
+.button--primary:has(> svg), .button--secondary:has(> svg), .button--tertiary:has(> svg) {
+  padding: var(--size-r-3);
+  display: inline-flex;
+}
+
+.button--primary:not(:has(> svg)) {
+  background-color: var(--primary-level-2);
+  padding: var(--size-r-1) var(--size-2);
+}
+
+.button--secondary:not(:has(> svg)) {
+  background-color: var(--theme-bg-level-1);
+  padding: var(--size-r-1) var(--size-1);
+}
+
+.button--tertiary:not(:has(> svg)) {
+  background-color: var(--theme-bg-level-0);
+  padding: var(--size-r-1);
+}
+
+/* icon-buttons */
+.icon-button__svg {
+  width: var(--size-1);
+  height: var(--size-1);
+}
+
+/* table */
+table {
+  margin: var(--size-1) 0; /* Padding is not applied to <table>; use margin instead */
+  border-collapse: collapse;
+}
+
+th {
+  padding: var(--size-r-3);
+}
+
+td {
+  padding: var(--size-r-1);
+}
+
+td > img {
+  max-height: var(--size-5);
+}
+
+tbody + tbody {
+  border-top: var(--theme-fg-border-level-0);
+}
+
+.file-result-table__selected-row {
+  background-color: var(--theme-bg-level-1);
+}
+
+/* stepper */
+.stepper {
+  padding: var(--size-1);
+}
+
+.stepper > ol {
+  display: flex;
+  list-style: none;
+}
+
+.stepper > ol > li + li {
+  padding-left: var(--size-1);
+}
+
+.stepper__steps__active-step > button {
+  border: var(--theme-fg-border-level-1); /* overriding, TODO: is correct? */
+  padding: calc(var(--size-r-1) - 1px); /* overriding, TODO: is correct? */
+  font-weight: bold;
+  box-shadow: inset 0 -3px 0 0 var(--primary-level-0);
+}
+
+.stepper__step-info {
+  padding-top: var(--size-1);
+}
+
+/* file-result-inspector */
+.file-result-inspector {
+  padding: var(--size-1);
+}
+
+.file-result-inspector > div {
+  display: flex;
+}
+
+.file-result-inspector > div > div {
+  padding: var(--size-1) var(--size-1) var(--size-1) var(--size-2);
+  width: var(--size-21);
+  height: var(--size-21);
+}
+
+.file-result-inspector > div > div > div {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.file-result-inspector > div > div > div > span {
+  font-weight: bold;
+}
+
+.file-result-inspector > div > div > div + div {
+  padding-top: var(--size-1);
+}
+
+/* file-path-selection-form */
+.file-path-selection-form {
+  padding: var(--size-1) 0;
+}
+
+/* file-path-selector-group */
+.file-path-selector-group > ul {
+  padding: var(--size-1);
+  list-style: none;
+}
+
+.file-path-selector-group__buttons {
+  display: flex;
+  column-gap: var(--size-1);
+}
+
 /* toast-item */
 .toast-item--success {
   background-color: light-dark(
-    oklch(var(--light-theme-toast-item-lightness) var(--toast-chroma) var(--hue-green)),
-    oklch(var(--dark-theme-toast-item-lightness) var(--toast-chroma) var(--hue-green))
+    oklch(var(--light-theme-lightness-level-2) var(--toast-chroma) var(--hue-green)),
+    oklch(var(--dark-theme-lightness-level-2) var(--toast-chroma) var(--hue-green))
   );
 }
 
 .toast-item--error {
   background-color: light-dark(
-    oklch(var(--light-theme-toast-item-lightness) var(--toast-chroma) var(--hue-red)),
-    oklch(var(--dark-theme-toast-item-lightness) var(--toast-chroma) var(--hue-red))
+    oklch(var(--light-theme-lightness-level-2) var(--toast-chroma) var(--hue-red)),
+    oklch(var(--dark-theme-lightness-level-2) var(--toast-chroma) var(--hue-red))
   );
 }
 
 .toast-item--info {
   background-color: light-dark(
-    oklch(var(--light-theme-toast-item-lightness) var(--toast-chroma) var(--hue-blue)),
-    oklch(var(--dark-theme-toast-item-lightness) var(--toast-chroma) var(--hue-blue))
+    oklch(var(--light-theme-lightness-level-2) var(--toast-chroma) var(--hue-blue)),
+    oklch(var(--dark-theme-lightness-level-2) var(--toast-chroma) var(--hue-blue))
   );
 }
 
 .toast-item--warning {
   background-color: light-dark(
-    oklch(var(--light-theme-toast-item-lightness) var(--toast-chroma) var(--hue-amber)),
-    oklch(var(--dark-theme-toast-item-lightness) var(--toast-chroma) var(--hue-amber))
+    oklch(var(--light-theme-lightness-level-2) var(--toast-chroma) var(--hue-amber)),
+    oklch(var(--dark-theme-lightness-level-2) var(--toast-chroma) var(--hue-amber))
   );
 }
 

@@ -1,7 +1,7 @@
-import { createSignal, Show } from 'solid-js'
 import { FilePathSelectionForm } from './FilePathSelectionForm'
 import { FileResultInspector } from './FileResultInspector'
-import { Stepper } from './Stepper'
+import { createStep, Stepper } from './Stepper'
+import { isArrayEmpty } from '../utils/isEmpty'
 import type { Component } from 'solid-js'
 import type { FilePathSelectionFormBaseProps, OnChangeSourceTargetContextEither } from './FilePathSelectionForm'
 import type { CanDeleteProps } from './FileResultInspector'
@@ -9,24 +9,19 @@ import type { FileResultTableDataProps, OnChangeSelectedGroupRowsProps } from '.
 
 type FilePanelSwitcherProps =
   FilePathSelectionFormBaseProps & FileResultTableDataProps & CanDeleteProps & OnChangeSelectedGroupRowsProps & {
+  // Declares a separate prop of type OnChangeSourceTargetContextEither
   onChangeSourceTargetContextEither: OnChangeSourceTargetContextEither
 }
 
-export const FilePanelSwitcher: Component<FilePanelSwitcherProps> = (props) => {
-  const [activeStepIndex, setActiveStepIndex] = createSignal(0)
-
-  const index = activeStepIndex()
-
+// TODO: this component is useless? When removing also check props above here
+export const FilePanelSwitcher: Component<FilePanelSwitcherProps> = props => {
   return (
-    <div>
-      <Stepper
-        labels={['File Selection', 'File Inspection']}
-        lastEnabledStepIndex={props.rowGroups.length === 0 ? 0 : 1}
-        onChange={setActiveStepIndex}
-      />
-
-      <div>
-        <Show when={index === 0}>
+    <Stepper
+      steps={[
+        createStep(
+          'File Selection',
+          'Select file(s) and/or folder(s)',
+          'Choose file(s) and/or folder(s) that you want to check for duplicates.',
           <FilePathSelectionForm
             filePathSelectorMode={props.filePathSelectorMode}
             isLoading={props.isLoading}
@@ -34,19 +29,25 @@ export const FilePanelSwitcher: Component<FilePanelSwitcherProps> = (props) => {
             enableTargetSelection={props.enableTargetSelection}
             selectFilePath={props.selectFilePath}
             onChange={props.onChangeSourceTargetContextEither}
-          />
-        </Show>
-
-        <Show when={index === 1}>
+          />,
+          'Add file(s) and/or folder(s) to continue'
+        ),
+        createStep(
+          'File Inspection',
+          '',
+          '',
           <FileResultInspector
             columns={props.columns}
             rowGroups={props.rowGroups}
             isLoading={props.isLoading}
             canDelete={props.canDelete}
             onChange={props.onChangeSelectedGroupRows}
-          />
-        </Show>
-      </div>
-    </div>
+          />,
+          ''
+        )
+      ]}
+      lastEnabledStepIndex={isArrayEmpty(props.rowGroups) ? 0 : 1}
+      showNavigationControls={false}
+    />
   )
 }
