@@ -224,3 +224,6 @@ This pattern makes it explicit that the function handles a specific UI event, en
 - remove all useless files from ui-solid
 - check for ARIA and role=
 - add to solid-playground .gitignore?
+- make the whole td with a checkbox clickable without adding JS/TS?
+- give some SolidJs Show components a keyed attribute?
+- some Function expression (arrow) 'const handler = () =>' should be Function declaration 'function handler()'?

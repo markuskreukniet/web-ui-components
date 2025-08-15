@@ -1,33 +1,29 @@
-import { createSignal, For } from 'solid-js'
+import { For } from 'solid-js'
 import { TertiaryButton } from './buttons/TertiaryButton'
-import type { Component } from 'solid-js'
+import type { Accessor, Component, Setter } from 'solid-js'
 
 type StepperProps = {
   labels: string[]
   lastEnabledStepIndex: number
-  onChange: (index: number) => void
+  showNavigationControls: boolean
+  onChangeStepIndex: Accessor<number>
+  onChangeSetStepIndex: Setter<number>
 }
 
 function decrement(n: number): number {
   return n - 1
 }
 
+// TODO: show the active step as active
 export const Stepper: Component<StepperProps> = (props) => {
-  const [currentStepIndex, setCurrentStepIndex] = createSignal(0)
-
-  function updateCurrentStepIndex(index: number): void {
-    setCurrentStepIndex(index)
-    props.onChange(index)
-  }
-
   function isStepDisabled(index: number): boolean {
     return index > props.lastEnabledStepIndex
   }
 
-  const stepIndex = currentStepIndex()
+  const stepIndex = props.onChangeStepIndex()
 
   return (
-    <div>
+    <div class="stepper">
       <ol>
         <For each={props.labels}>
           {(label, labelIndex) => {
@@ -37,7 +33,7 @@ export const Stepper: Component<StepperProps> = (props) => {
               <li>
                 <TertiaryButton
                   disabled={isStepDisabled(index)}
-                  onPress={() => updateCurrentStepIndex(index)}
+                  onPress={() => props.onChangeSetStepIndex(index)}
                   content={label}
                 />
               </li>
@@ -45,18 +41,20 @@ export const Stepper: Component<StepperProps> = (props) => {
           }}
         </For>
       </ol>
-      <div>
-        <TertiaryButton
-          disabled={stepIndex === 0}
-          onPress={() => updateCurrentStepIndex(decrement(stepIndex))}
-          content="Previous"
-        />
-        <TertiaryButton
-          disabled={isStepDisabled(stepIndex) || stepIndex === decrement(props.labels.length)}
-          onPress={() => updateCurrentStepIndex(stepIndex + 1)}
-          content="Next"
-        />
-      </div>
+      {props.showNavigationControls && (
+        <div>
+          <TertiaryButton
+            disabled={stepIndex === 0}
+            onPress={() => props.onChangeSetStepIndex(decrement(stepIndex))}
+            content="Back"
+          />
+          <TertiaryButton
+            disabled={isStepDisabled(stepIndex) || stepIndex === decrement(props.labels.length)}
+            onPress={() => props.onChangeSetStepIndex(stepIndex + 1)}
+            content="Next"
+          />
+        </div>
+      )}
     </div>
   )
 }

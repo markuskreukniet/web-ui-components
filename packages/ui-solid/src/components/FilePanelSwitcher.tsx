@@ -13,20 +13,20 @@ type FilePanelSwitcherProps =
 }
 
 export const FilePanelSwitcher: Component<FilePanelSwitcherProps> = (props) => {
-  const [activeStepIndex, setActiveStepIndex] = createSignal(0)
-
-  const index = activeStepIndex()
+  const [stepIndex, setStepIndex] = createSignal(0)
 
   return (
     <div>
       <Stepper
         labels={['File Selection', 'File Inspection']}
         lastEnabledStepIndex={props.rowGroups.length === 0 ? 0 : 1}
-        onChange={setActiveStepIndex}
+        showNavigationControls={false}
+        onChangeStepIndex={stepIndex}
+        onChangeSetStepIndex={setStepIndex}
       />
 
       <div>
-        <Show when={index === 0}>
+        <Show when={stepIndex() === 0}>
           <FilePathSelectionForm
             filePathSelectorMode={props.filePathSelectorMode}
             isLoading={props.isLoading}
@@ -37,7 +37,7 @@ export const FilePanelSwitcher: Component<FilePanelSwitcherProps> = (props) => {
           />
         </Show>
 
-        <Show when={index === 1}>
+        <Show when={stepIndex() === 1}>
           <FileResultInspector
             columns={props.columns}
             rowGroups={props.rowGroups}
