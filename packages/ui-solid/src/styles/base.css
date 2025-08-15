@@ -42,12 +42,17 @@ body {
   color: var(--theme-layer-0-fg);
 }
 
-.segmented-control {
+.stepper > ol {
+  display: flex;
+  list-style: none;
+}
+
+/* .segmented-control {
   background-color: light-dark(
     oklch(calc(1 - var(--layer-1-lightness)) 0 0), oklch(calc(0 + var(--layer-1-lightness)) 0 0)
   );
   border: var(--theme-layer-0-fg-border);
-}
+} */
 
 /* buttons */
 button {
@@ -59,6 +64,12 @@ button {
 button:disabled {
   cursor: not-allowed;
 }
+
+.button--primary {}
+
+.button--secondary {}
+
+.button--tertiary {}
 
 /* toast-item */
 .toast-item--success {

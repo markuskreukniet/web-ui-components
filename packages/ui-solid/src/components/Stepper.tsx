@@ -27,7 +27,7 @@ export const Stepper: Component<StepperProps> = (props) => {
   const stepIndex = currentStepIndex()
 
   return (
-    <div>
+    <div class="stepper">
       <ol>
         <For each={props.labels}>
           {(label, labelIndex) => {
