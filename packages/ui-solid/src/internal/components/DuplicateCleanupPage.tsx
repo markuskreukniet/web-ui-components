@@ -1,6 +1,7 @@
 import { createSignal } from 'solid-js'
 import { FilePanelSwitcher } from '../../components/FilePanelSwitcher'
 import { FilePathSelectorModes } from '../../components/FilePathSelectorGroup'
+import { FileResultColumnTypes } from '../../components/FileResultTable'
 import { isLeft, isRight, right } from '../../modules/monads/either'
 import { addErrorToastFromEither, useToastContext } from '../../modules/toasts/toast-context'
 import type { Component } from 'solid-js'
@@ -42,7 +43,11 @@ export const DuplicateCleanupPage: Component = () => {
     return right({rowGroups: [], duplicateFileCount: 0})
   }
 
-  const columns: FileResultColumns = []
+  // const columns: FileResultColumns = []
+  const columns: FileResultColumns = [
+    {header: 'File Path', type: FileResultColumnTypes.text}, // TODO: 'File Path' good naming?
+    {header: 'Preview', type: FileResultColumnTypes.thumbnail} // TODO: 'Preview' good naming?
+  ]
 
   async function executeWithLoading(action: () => Promise<void>): Promise<void> {
     if (isLoading()) return // Ensure the action does not run concurrently
