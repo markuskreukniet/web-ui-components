@@ -9,7 +9,8 @@
 
   /* TODO: is layer good naming? tone is better? */
   --layer-0-lightness: 0.1;
-  --layer-1-lightness: 0.3;
+  --layer-1-lightness: 0.2;
+  --layer-2-lightness: 0.3;
 
   --hue-green: 140;
   --hue-red: 30;
@@ -21,7 +22,16 @@
   --toast-item-chroma: 0.2;
 
   --light-theme-layer-0: oklch(calc(1 - var(--layer-0-lightness)) 0 0);
+  --light-theme-layer-1: oklch(calc(1 - var(--layer-1-lightness)) 0 0);
+  --light-theme-layer-2: oklch(calc(1 - var(--layer-2-lightness)) 0 0);
+
   --dark-theme-layer-0: oklch(calc(0 + var(--layer-0-lightness)) 0 0);
+  --dark-theme-layer-1: oklch(calc(0 + var(--layer-1-lightness)) 0 0);
+  --dark-theme-layer-2: oklch(calc(0 + var(--layer-2-lightness)) 0 0);
+
+  --theme-layer-0-bg: light-dark(var(--light-theme-layer-0), var(--dark-theme-layer-0));
+  --theme-layer-1-bg: light-dark(var(--light-theme-layer-1), var(--dark-theme-layer-1));
+  --theme-layer-2-bg: light-dark(var(--light-theme-layer-2), var(--dark-theme-layer-2));
 
   --theme-layer-0-fg: light-dark(var(--dark-theme-layer-0), var(--light-theme-layer-0));
   --theme-layer-0-fg-border: 1px solid var(--theme-layer-0-fg);
@@ -38,7 +48,7 @@ html {
 }
 
 body {
-  background-color: light-dark(var(--light-theme-layer-0), var(--dark-theme-layer-0));
+  background-color: var(--theme-layer-0-bg);
   color: var(--theme-layer-0-fg);
 }
 
@@ -65,11 +75,17 @@ button:disabled {
   cursor: not-allowed;
 }
 
-.button--primary {}
+.button--primary {
+  background-color: var(--theme-layer-2-bg);
+}
 
-.button--secondary {}
+.button--secondary {
+  background-color: var(--theme-layer-1-bg);
+}
 
-.button--tertiary {}
+.button--tertiary {
+  background-color: var(--theme-layer-0-bg);
+}
 
 /* toast-item */
 .toast-item--success {
