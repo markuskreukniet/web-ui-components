@@ -9,7 +9,7 @@ import type { FileResultTableDataProps, OnChangeSelectedGroupRowsProps } from '.
 
 type FilePanelSwitcherProps =
   FilePathSelectionFormBaseProps & FileResultTableDataProps & CanDeleteProps & OnChangeSelectedGroupRowsProps & {
-  onChangeSourceTargetContextEither: OnChangeSourceTargetContextEither
+  onChangeSourceTargetContextEither: OnChangeSourceTargetContextEither // TODO: duplicate prop?
 }
 
 export const FilePanelSwitcher: Component<FilePanelSwitcherProps> = (props) => {
