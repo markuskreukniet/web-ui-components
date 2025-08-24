@@ -9,7 +9,7 @@ import type { FileResultTableDataProps, OnChangeSelectedGroupRowsProps } from '.
 
 type FilePanelSwitcherProps =
   FilePathSelectionFormBaseProps & FileResultTableDataProps & CanDeleteProps & OnChangeSelectedGroupRowsProps & {
-  // It is not a duplicate prop, but is a duplicate type.  <<< check comment
+  // Declares a separate prop of type OnChangeSourceTargetContextEither
   onChangeSourceTargetContextEither: OnChangeSourceTargetContextEither
 }
 
