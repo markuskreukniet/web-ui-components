@@ -49,8 +49,6 @@ type FileResultTableProps = FileResultTableDataProps & OnChangeSelectedGroupRows
   onChangeSetHasNotSelectedGroupRows: Setter<boolean>
 }
 
-// TODO: don't use this. With this we re-wrap a the same createSignal <<<<<
-
 function renderHeaderCell(label: JSX.Element): JSX.Element {
   return (<th>{label}</th>)
 }
