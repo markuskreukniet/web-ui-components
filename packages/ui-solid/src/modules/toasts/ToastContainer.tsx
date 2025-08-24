@@ -13,9 +13,10 @@ export const ToastContainer: Component = () => {
           <div class={`toast-item toast-item--${item.variant}`}>
             <span>{item.text}</span>
             <TertiaryButton
-              content="×" // × (U+00D7): correct typographic symbol for close/dismiss actions
               onPress={() => removeToast(item.toastId)}
-            />
+            >
+              × {/* × (U+00D7): correct typographic symbol for close/dismiss actions */}
+            </TertiaryButton>
           </div>
         )}
       </For>

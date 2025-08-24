@@ -34,8 +34,9 @@ export const Stepper: Component<StepperProps> = (props) => {
                 <TertiaryButton
                   disabled={isStepDisabled(index)}
                   onPress={() => props.onChangeSetStepIndex(index)}
-                  content={label}
-                />
+                >
+                  {label}
+                </TertiaryButton>
               </li>
             )
           }}
@@ -46,13 +47,15 @@ export const Stepper: Component<StepperProps> = (props) => {
           <TertiaryButton
             disabled={stepIndex === 0}
             onPress={() => props.onChangeSetStepIndex(decrement(stepIndex))}
-            content="Back"
-          />
+          >
+            Back
+          </TertiaryButton>
           <TertiaryButton
             disabled={isStepDisabled(stepIndex) || stepIndex === decrement(props.labels.length)}
             onPress={() => props.onChangeSetStepIndex(stepIndex + 1)}
-            content="Next"
-          />
+          >
+            Next
+          </TertiaryButton>
         </div>
       )}
     </div>

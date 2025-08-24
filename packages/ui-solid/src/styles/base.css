@@ -94,8 +94,15 @@ button:disabled {
   background-color: var(--theme-level-0-bg);
 }
 
+/* icon-buttons */
+.icon-button__svg {
+  width: var(--size-1);
+  height: var(--size-1);
+}
+
 /* table */
 table {
+  margin: var(--size-1); /* Padding is not applied to <table>; use margin instead */
   border-collapse: collapse;
 }
 
@@ -109,6 +116,10 @@ td > img {
 
 tbody + tbody {
   border-top: var(--theme-level-0-fg-border);
+}
+
+.file-result-table__selected-row {
+  background-color: var(--theme-level-1-bg);
 }
 
 /* - */
@@ -134,8 +145,15 @@ tbody + tbody {
 }
 
 .file-result-inspector > div > div {
+  padding: var(--size-1);
   width: var(--size-21);
   height: var(--size-21);
+}
+
+.file-result-inspector > div > div > div {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
 }
 
 .file-result-inspector > div > div > div + div {

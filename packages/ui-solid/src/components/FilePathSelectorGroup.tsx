@@ -123,8 +123,9 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = (pro
       </ul>
       <TertiaryButton
         onPress={handlerPress}
-        content={'reset'}
-      />
+      >
+        reset
+      </TertiaryButton>
       {props.submitButton}
     </div>
   )

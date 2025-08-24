@@ -20,8 +20,9 @@ export const DeleteButton: Component<DeleteButtonProps> = (props) => {
   return (
     <Button
       {...rest}
-      content={local.variant === DeleteButtonVariants.single ? 'Delete' : 'Delete selected items'}
       variant={ButtonVariants.secondary}
-    />
+    >
+      {local.variant === DeleteButtonVariants.single ? 'Delete' : 'Delete selected items'}
+    </Button>
   )
 }
