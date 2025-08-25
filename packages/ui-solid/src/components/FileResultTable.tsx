@@ -128,7 +128,7 @@ export const FileResultTable: Component<FileResultTableProps> = (props) => {
   let renderCheckbox: (_i: number, _j: number) => JSX.Element = (_i: number, _j: number) => null
 
   /* TODO: square outline is the name of the icon? width="20" and height="20" should come from CSS? Button title. type="button"? */
-  // TODO: should content be not a prop? Should it just receive children?
+  // TODO: should content be not a prop? Should it just receive children? also {props.children}?
   if (props.showRowCheckboxes) {
     headerCheckboxCell = renderHeaderCell(
       <TertiaryIconButton
