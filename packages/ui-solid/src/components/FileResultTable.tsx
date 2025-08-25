@@ -1,5 +1,6 @@
 import { For } from 'solid-js'
 import { extendCellRenderers } from './FileResultInspector'
+import { TertiaryIconButton } from './buttons/IconButtons/TertiaryIconButton'
 import type { Accessor, Component, JSX, Setter } from 'solid-js'
 
 export const FileResultColumnTypes = {
@@ -126,31 +127,20 @@ export const FileResultTable: Component<FileResultTableProps> = (props) => {
   // and imperative updates that violate the declarative rendering model.
   let renderCheckbox: (_i: number, _j: number) => JSX.Element = (_i: number, _j: number) => null
 
+  /* TODO: square outline is the name of the icon? width="20" and height="20" should come from CSS? Button title. type="button"? */
+  // TODO: should content be not a prop? Should it just receive children?
   if (props.showRowCheckboxes) {
     headerCheckboxCell = renderHeaderCell(
-      <button
-        type="button"
-        title="Clear selection"
+      <TertiaryIconButton
         disabled={props.onChangeHasNotSelectedGroupRows()}
-        onClick={() => handlerCheckboxes()}
-      >
-        {/* TODO: WIP + WIP disabled */}
-        {/* TODO: square outline is the name of the icon? width="20" and height="20" should come from CSS? Button title. Make component of it? type="button"? */}
-        <svg
-          viewBox="0 0 24 24"
-          width="20"
-          height="20"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-        >
-          <rect x="3" y="3" width="18" height="18" rx="3" ry="3" />
-          <line x1="2" y1="2" x2="22" y2="22" />
-        </svg>
-      </button>
+        onPress={() => handlerCheckboxes()}
+        content={
+          <>
+            <rect x="3" y="3" width="18" height="18" rx="3" ry="3" />
+            <line x1="2" y1="2" x2="22" y2="22" />
+          </>
+        }
+      />
     )
 
     renderCheckbox = (groupI, rowI) => {
