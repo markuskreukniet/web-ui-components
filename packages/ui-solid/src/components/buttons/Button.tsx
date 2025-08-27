@@ -1,5 +1,5 @@
 import { ProgressCircle } from '../ProgressCircle'
-import type { Component, JSX, ParentProps } from 'solid-js'
+import type { Component, ParentProps } from 'solid-js'
 
 export const ButtonVariants = {
   primary: 'button--primary',
