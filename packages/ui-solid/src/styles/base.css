@@ -94,6 +94,10 @@ button:disabled {
   background-color: var(--theme-level-0-bg);
 }
 
+.button--tertiary:has(> svg) {
+  background-color: red;
+}
+
 /* icon-buttons */
 .icon-button__svg {
   width: var(--size-1);
