@@ -11,6 +11,8 @@
   --size-21: calc(var(--size-1) * 21);
 
   --size-r-1: calc(var(--size-1) * var(--golden-ratio-reciprocal));
+  --size-r-2: calc(var(--size-r-1) * var(--golden-ratio-reciprocal));
+  --size-r-3: calc(var(--size-r-2) * var(--golden-ratio-reciprocal));
 
   /* comment why 0.1 or or less, text readable */
   --level-0-lightness: 0.1;
@@ -73,9 +75,17 @@ body {
 /* buttons */
 button {
   cursor: pointer;
-  padding: var(--size-r-1) var(--size-1);
   border: var(--theme-level-0-fg-border);
   border-radius: var(--size-r-1);
+}
+
+button:has(> svg) {
+  padding: var(--size-r-3);
+  display: inline-flex;
+}
+
+button:not(:has(> svg)) {
+  padding: var(--size-r-1) var(--size-1);
 }
 
 button:disabled {
@@ -92,10 +102,6 @@ button:disabled {
 
 .button--tertiary {
   background-color: var(--theme-level-0-bg);
-}
-
-.button--tertiary:has(> svg) {
-  background-color: red;
 }
 
 /* icon-buttons */
