@@ -1,6 +1,6 @@
 import { For } from 'solid-js'
 import { extendCellRenderers } from './FileResultInspector'
-import { TertiaryIconButton } from './buttons/IconButtons/TertiaryIconButton'
+import { TertiaryIconButton } from './buttons/iconButtons/TertiaryIconButton'
 import type { Accessor, Component, JSX, Setter } from 'solid-js'
 
 export const FileResultColumnTypes = {
