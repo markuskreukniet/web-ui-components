@@ -228,3 +228,4 @@ This pattern makes it explicit that the function handles a specific UI event, en
 - make the whole td with a checkbox clickable without adding JS/TS?
 - give some SolidJs Show components a keyed attribute?
 - some Function expression (arrow) 'const handler = () =>' should be Function declaration 'function handler()'?
+- should close button (in toast) be an svg?
