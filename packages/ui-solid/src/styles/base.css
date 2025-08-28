@@ -132,7 +132,7 @@ tbody + tbody {
   background-color: var(--theme-level-1-bg);
 }
 
-/* - */
+/* stepper */
 .stepper {
   padding: var(--size-1);
 }
@@ -146,6 +146,11 @@ tbody + tbody {
   padding-left: var(--size-1);
 }
 
+.stepper__steps__active-step > button {
+  background-color: var(--theme-level-1-bg);
+}
+
+/* file-result-inspector */
 .file-result-inspector {
   padding: var(--size-1);
 }

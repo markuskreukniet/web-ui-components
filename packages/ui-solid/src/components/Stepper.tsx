@@ -14,13 +14,10 @@ function decrement(n: number): number {
   return n - 1
 }
 
-// TODO: show the active step as active
 export const Stepper: Component<StepperProps> = (props) => {
   function isStepDisabled(index: number): boolean {
     return index > props.lastEnabledStepIndex
   }
-
-  const stepIndex = props.onChangeStepIndex()
 
   return (
     <div class="stepper">
@@ -30,7 +27,9 @@ export const Stepper: Component<StepperProps> = (props) => {
             const index = labelIndex()
 
             return (
-              <li>
+              <li
+                classList={{'stepper__steps__active-step': props.onChangeStepIndex() === index}}
+              >
                 <TertiaryButton
                   disabled={isStepDisabled(index)}
                   onPress={() => props.onChangeSetStepIndex(index)}
@@ -45,14 +44,16 @@ export const Stepper: Component<StepperProps> = (props) => {
       {props.showNavigationControls && (
         <div>
           <TertiaryButton
-            disabled={stepIndex === 0}
-            onPress={() => props.onChangeSetStepIndex(decrement(stepIndex))}
+            disabled={props.onChangeStepIndex() === 0}
+            onPress={() => props.onChangeSetStepIndex(decrement(props.onChangeStepIndex()))}
           >
             Back
           </TertiaryButton>
           <TertiaryButton
-            disabled={isStepDisabled(stepIndex) || stepIndex === decrement(props.labels.length)}
-            onPress={() => props.onChangeSetStepIndex(stepIndex + 1)}
+            disabled={
+              isStepDisabled(props.onChangeStepIndex()) || props.onChangeStepIndex() === decrement(props.labels.length)
+            }
+            onPress={() => props.onChangeSetStepIndex(props.onChangeStepIndex() + 1)}
           >
             Next
           </TertiaryButton>
