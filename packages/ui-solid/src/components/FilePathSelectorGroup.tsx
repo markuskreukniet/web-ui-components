@@ -2,6 +2,7 @@ import { createSignal, For } from 'solid-js'
 import { TertiaryButton } from './buttons/TertiaryButton'
 import { isRight, left, right } from '../modules/monads/either'
 import { FilePathSelector, FilePathTypes } from './FilePathSelector'
+import { isArrayEmpty } from '../utils/isEmpty'
 import type { Component, JSX } from 'solid-js'
 import type { SelectedFilePathEither } from './FilePathSelector'
 import type { Either } from '../modules/monads/either'
@@ -124,7 +125,7 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = (pro
       {/* TODO: .length === 0 is duplicate */}
       <TertiaryButton
         onPress={handlerPress}
-        disabled={resolvedFilePaths().length === 0}
+        disabled={isArrayEmpty(resolvedFilePaths())}
       >
         reset
       </TertiaryButton>
