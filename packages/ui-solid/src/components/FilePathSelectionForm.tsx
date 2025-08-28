@@ -67,6 +67,7 @@ export const FilePathSelectionForm: Component<FilePathSelectionFormProps> = (pro
     }))
   }
 
+  // TODO: does isDisabled makes sense?
   // Defined once to maintain consistent rendering and avoid duplication across conditional logic.
   const submitButton = <SubmitButton
     disabled={isDisabled()}
