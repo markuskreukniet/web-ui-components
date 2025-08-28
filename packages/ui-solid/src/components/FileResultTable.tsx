@@ -1,6 +1,7 @@
 import { For } from 'solid-js'
 import { extendCellRenderers } from './FileResultInspector'
 import { TertiaryIconButton } from './buttons/iconButtons/TertiaryIconButton'
+import { isMapEmpty } from '../utils/isEmpty'
 import type { Accessor, Component, JSX, Setter } from 'solid-js'
 
 export const FileResultColumnTypes = {
@@ -93,7 +94,7 @@ export const FileResultTable: Component<FileResultTableProps> = (props) => {
 
     const rows = props.onChangeSelectedGroupRows()
     props.onChangeSelectedGroupRows(rows)
-    props.onChangeSetHasNotSelectedGroupRows(rows.size === 0)
+    props.onChangeSetHasNotSelectedGroupRows(isMapEmpty(rows))
 
     if (props.onChangeSelectedGroupRow()) {
       props.onChangeSetSelectedGroupRow(null)

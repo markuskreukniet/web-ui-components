@@ -2,6 +2,8 @@ import { createSignal, Show } from 'solid-js'
 import { FilePathSelectionForm } from './FilePathSelectionForm'
 import { FileResultInspector } from './FileResultInspector'
 import { Stepper } from './Stepper'
+import { isArrayEmpty } from '../utils/isEmpty'
+import { isStrictEqual0 } from '../utils/utils'
 import type { Component } from 'solid-js'
 import type { FilePathSelectionFormBaseProps, OnChangeSourceTargetContextEither } from './FilePathSelectionForm'
 import type { CanDeleteProps } from './FileResultInspector'
@@ -20,14 +22,14 @@ export const FilePanelSwitcher: Component<FilePanelSwitcherProps> = (props) => {
     <div>
       <Stepper
         labels={['File Selection', 'File Inspection']}
-        lastEnabledStepIndex={props.rowGroups.length === 0 ? 0 : 1}
+        lastEnabledStepIndex={isArrayEmpty(props.rowGroups) ? 0 : 1}
         showNavigationControls={false}
         onChangeStepIndex={stepIndex}
         onChangeSetStepIndex={setStepIndex}
       />
 
       <div>
-        <Show when={stepIndex() === 0}>
+        <Show when={isStrictEqual0(stepIndex())}>
           <FilePathSelectionForm
             filePathSelectorMode={props.filePathSelectorMode}
             isLoading={props.isLoading}
