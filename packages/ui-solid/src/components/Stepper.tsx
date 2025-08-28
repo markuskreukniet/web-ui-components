@@ -1,5 +1,6 @@
 import { For } from 'solid-js'
 import { TertiaryButton } from './buttons/TertiaryButton'
+import { isStrictEqual0 } from '../utils/utils'
 import type { Accessor, Component, Setter } from 'solid-js'
 
 type StepperProps = {
@@ -44,7 +45,7 @@ export const Stepper: Component<StepperProps> = (props) => {
       {props.showNavigationControls && (
         <div>
           <TertiaryButton
-            disabled={props.onChangeStepIndex() === 0}
+            disabled={isStrictEqual0(props.onChangeStepIndex())}
             onPress={() => props.onChangeSetStepIndex(decrement(props.onChangeStepIndex()))}
           >
             Back
