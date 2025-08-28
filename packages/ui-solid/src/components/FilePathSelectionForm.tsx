@@ -2,6 +2,7 @@ import { createSignal } from 'solid-js'
 import { SubmitButton } from './buttons/SubmitButton'
 import { FilePathSelectorGroup, FilePathSelectorModes } from './FilePathSelectorGroup'
 import { isRight, left, right } from '../modules/monads/either'
+import { isArrayEmpty } from '../utils/isEmpty'
 import type { Component } from 'solid-js'
 import type { FilePathSelectorGroupBaseProps, ResolvedFilePaths, ResolvedPathsEither } from './FilePathSelectorGroup'
 import type { Either } from '../modules/monads/either'
@@ -45,7 +46,7 @@ export const FilePathSelectionForm: Component<FilePathSelectionFormProps> = (pro
   const handlerChangeSourceOnly = (either: ResolvedPathsEither) => {
     applyResolvedPathsResult(either, paths => {
       sourcePaths = paths
-      setIsDisabled(sourcePaths.length === 0)
+      setIsDisabled(isArrayEmpty(sourcePaths))
     })
   }
 
@@ -53,7 +54,7 @@ export const FilePathSelectionForm: Component<FilePathSelectionFormProps> = (pro
     (either: ResolvedPathsEither) => {
       applyResolvedPathsResult(either, paths => {
         updateResolvedPathsState(paths)
-        setIsDisabled(sourcePaths.length === 0 || targetPaths.length === 0)
+        setIsDisabled(isArrayEmpty(sourcePaths) || isArrayEmpty(targetPaths))
       })
     }
 

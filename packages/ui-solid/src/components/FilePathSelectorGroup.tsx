@@ -122,7 +122,6 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = (pro
           {path => <li>{path.filePath}</li>}
         </For>
       </ul>
-      {/* TODO: .length === 0 is duplicate */}
       <TertiaryButton
         onPress={handlerPress}
         disabled={isArrayEmpty(resolvedFilePaths())}
