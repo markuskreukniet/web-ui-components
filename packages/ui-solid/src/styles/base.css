@@ -112,8 +112,12 @@ button:disabled {
 
 /* table */
 table {
-  margin: var(--size-1); /* Padding is not applied to <table>; use margin instead */
+  margin: var(--size-1) 0; /* Padding is not applied to <table>; use margin instead */
   border-collapse: collapse;
+}
+
+th {
+  padding: var(--size-r-3);
 }
 
 td {
@@ -169,6 +173,10 @@ tbody + tbody {
   display: flex;
   align-items: flex-start;
   flex-direction: column;
+}
+
+.file-result-inspector > div > div > div > span {
+  font-weight: bold;
 }
 
 .file-result-inspector > div > div > div + div {
