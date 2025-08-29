@@ -74,11 +74,9 @@ export const FileResultInspector: Component<FileResultInspectorProps> = (props) 
 
         <Show when={selectedGroupRow()}>
           {(groupRow) => {
-            const row = groupRow()
-
             return (
               <div>
-                <For each={props.rowGroups[row.group][row.row].cells}>
+                <For each={props.rowGroups[groupRow().group][groupRow().row].cells}>
                   {(cell, index) => {
                     const i = index()
 
