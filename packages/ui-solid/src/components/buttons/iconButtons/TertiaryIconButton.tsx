@@ -5,6 +5,6 @@ import type { ButtonParentProps } from '../Button'
 
 type TertiaryIconButtonProps = ButtonParentProps
 
-export const TertiaryIconButton: Component<TertiaryIconButtonProps> = (props) => (
+export const TertiaryIconButton: Component<TertiaryIconButtonProps> = props => (
   <IconButton {...props} variant={ButtonVariants.tertiary} />
 )

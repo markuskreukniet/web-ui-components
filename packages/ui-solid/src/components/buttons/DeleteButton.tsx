@@ -14,7 +14,7 @@ type DeleteButtonProps = ButtonBaseProps & {
   variant: DeleteButtonVariant
 }
 
-export const DeleteButton: Component<DeleteButtonProps> = (props) => {
+export const DeleteButton: Component<DeleteButtonProps> = props => {
   const [local, rest] = splitProps(props, ['variant'])
 
   return (

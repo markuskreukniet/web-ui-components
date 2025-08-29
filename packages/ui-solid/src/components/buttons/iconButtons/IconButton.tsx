@@ -5,7 +5,7 @@ import type { ButtonProps } from '../Button'
 
 type IconButtonProps = ButtonProps
 
-export const IconButton: Component<IconButtonProps> = (props) => {
+export const IconButton: Component<IconButtonProps> = props => {
   const [local, rest] = splitProps(props, ['children'])
 
   return (

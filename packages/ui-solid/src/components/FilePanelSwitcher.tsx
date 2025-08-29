@@ -15,7 +15,7 @@ type FilePanelSwitcherProps =
   onChangeSourceTargetContextEither: OnChangeSourceTargetContextEither
 }
 
-export const FilePanelSwitcher: Component<FilePanelSwitcherProps> = (props) => {
+export const FilePanelSwitcher: Component<FilePanelSwitcherProps> = props => {
   const [stepIndex, setStepIndex] = createSignal(0)
 
   return (

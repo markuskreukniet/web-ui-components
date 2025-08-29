@@ -21,7 +21,7 @@ export type ButtonProps = ButtonParentProps & {
   variant: ButtonVariant
 }
 
-export const Button: Component<ButtonProps> = (props) => (
+export const Button: Component<ButtonProps> = props => (
   <button
     onMouseDown={() => props.onPress()}
     disabled={props.disabled || props.isLoading}

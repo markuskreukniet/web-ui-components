@@ -15,7 +15,7 @@ type SegmentedControlProps = {
   onChange: (value: string) => void
 }
 
-export const SegmentedControl: Component<SegmentedControlProps> = (props) => {
+export const SegmentedControl: Component<SegmentedControlProps> = props => {
   if (props.options.length > 3) {
     return null
   }
