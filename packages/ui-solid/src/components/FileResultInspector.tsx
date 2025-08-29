@@ -37,7 +37,7 @@ export function extendCellRenderers(
 // TODO: should there be a p tag? Td itself is maybe enough, which is maybe also enough for text content previews
 const cellContentRenderers = extendCellRenderers(value => <p>{value}</p>)
 
-export const FileResultInspector: Component<FileResultInspectorProps> = (props) => {
+export const FileResultInspector: Component<FileResultInspectorProps> = props => {
   const [selectedGroupRow, setSelectedGroupRow] = createSignal<SelectedGroupRow>(null)
   const [selectedGroupRows, setSelectedGroupRows] = createSignal<SelectedGroupRows>(new Map())
   const [hasNotSelectedGroupRows, setHasNotSelectedGroupRows] = createSignal<boolean>(true)
@@ -73,7 +73,7 @@ export const FileResultInspector: Component<FileResultInspectorProps> = (props) 
         />
 
         <Show when={selectedGroupRow()}>
-          {(groupRow) => {
+          {groupRow => {
             return (
               <div>
                 <For each={props.rowGroups[groupRow().group][groupRow().row].cells}>

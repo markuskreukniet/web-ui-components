@@ -59,7 +59,7 @@ function renderDataCell(content: JSX.Element): JSX.Element {
   return (<td>{content}</td>)
 }
 
-export const FileResultTable: Component<FileResultTableProps> = (props) => {
+export const FileResultTable: Component<FileResultTableProps> = props => {
   // Do not invoke extendCellRenderers at module scope, as it runs immediately during module initialization.
   // This led to a runtime error when an internal dependency was accessed before it was declared.
   // Move the call inside FileResultTable to defer execution until render time,
@@ -146,8 +146,8 @@ export const FileResultTable: Component<FileResultTableProps> = (props) => {
         <input
           type="checkbox"
           checked={props.onChangeSelectedGroupRows().get(groupI)?.has(rowI)}
-          onMouseDown={(e) => e.stopPropagation()}
-          onChange={(e) => setRowCheckboxState(groupI, rowI, e.currentTarget.checked)}
+          onMouseDown={e => e.stopPropagation()}
+          onChange={e => setRowCheckboxState(groupI, rowI, e.currentTarget.checked)}
         />
       )
     }
@@ -159,7 +159,7 @@ export const FileResultTable: Component<FileResultTableProps> = (props) => {
         <tr>
           {headerCheckboxCell}
           <For each={props.columns}>
-            {(column) => renderHeaderCell(column.header)}
+            {column => renderHeaderCell(column.header)}
           </For>
         </tr>
       </thead>
