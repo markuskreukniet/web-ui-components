@@ -164,7 +164,7 @@ tbody + tbody {
 }
 
 .file-result-inspector > div > div {
-  padding: var(--size-1);
+  padding: var(--size-1) var(--size-1) var(--size-1) var(--size-2);
   width: var(--size-21);
   height: var(--size-21);
 }
