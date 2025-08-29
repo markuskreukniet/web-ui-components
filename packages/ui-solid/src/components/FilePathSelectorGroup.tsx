@@ -100,7 +100,7 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
   }
 
   return (
-    <div>
+    <div class="file-path-selector-group">
       <div>
         {shouldRenderSelectorFor(FilePathSelectorModes.regularFile) && (
           <FilePathSelector

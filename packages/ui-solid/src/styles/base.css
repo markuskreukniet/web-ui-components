@@ -183,6 +183,11 @@ tbody + tbody {
   padding-top: var(--size-1);
 }
 
+/* file-path-selector-group */
+.file-path-selector-group > ul {
+  padding: var(--size-1);
+}
+
 /* toast-item */
 .toast-item--success {
   background-color: light-dark(
