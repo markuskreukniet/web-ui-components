@@ -84,7 +84,7 @@ export const FilePathSelectionForm: Component<FilePathSelectionFormProps> = prop
         selectFilePath={props.selectFilePath}
         onChange={props.enableTargetSelection ? handlerChangeSource : handlerChangeSourceOnly}
         singleSelection={props.singleSelection}
-        submitButton={props.enableTargetSelection ? null : submitButton}
+        {...(!props.enableTargetSelection && { submitButton })}
       />
       {props.enableTargetSelection && (
         <FilePathSelectorGroup
@@ -92,7 +92,6 @@ export const FilePathSelectionForm: Component<FilePathSelectionFormProps> = prop
           selectFilePath={props.selectFilePath}
           onChange={handlerChangeTarget}
           singleSelection
-          submitButton={null}
         />
       ) && (
         submitButton

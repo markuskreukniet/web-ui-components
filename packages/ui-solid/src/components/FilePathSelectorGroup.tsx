@@ -31,7 +31,7 @@ export type FilePathSelectorGroupBaseProps = SelectFilePathProps & {
 
 type FilePathSelectorGroupProps = FilePathSelectorGroupBaseProps & {
   onChange: (either: ResolvedPathsEither) => void
-  submitButton: JSX.Element
+  submitButton?: JSX.Element
 }
 
 function createResolvedFilePath(filePath: string, isDirectory: boolean): ResolvedFilePath {
