@@ -23,7 +23,7 @@ type FilePathSelectorProps = SelectFilePathProps & {
   onChange: (either: SelectedFilePathEither) => void
 }
 
-export const FilePathSelector: Component<FilePathSelectorProps> = (props) => {
+export const FilePathSelector: Component<FilePathSelectorProps> = props => {
   const handler = async () => {
     props.onChange(mapRight(await props.selectFilePath(), path => ({
       filePath: path,

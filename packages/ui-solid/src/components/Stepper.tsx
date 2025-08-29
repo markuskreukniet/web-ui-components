@@ -15,7 +15,7 @@ function decrement(n: number): number {
   return n - 1
 }
 
-export const Stepper: Component<StepperProps> = (props) => {
+export const Stepper: Component<StepperProps> = props => {
   function isStepDisabled(index: number): boolean {
     return index > props.lastEnabledStepIndex
   }

@@ -27,7 +27,7 @@ type FilePathSelectionFormProps = FilePathSelectionFormBaseProps & {
 
 type UpdateResolvedPathsState = (paths: ResolvedFilePaths) => void
 
-export const FilePathSelectionForm: Component<FilePathSelectionFormProps> = (props) => {
+export const FilePathSelectionForm: Component<FilePathSelectionFormProps> = props => {
   const [isDisabled, setIsDisabled] = createSignal<boolean>(true)
 
   let sourcePaths: ResolvedFilePaths = []

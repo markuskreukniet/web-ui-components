@@ -49,7 +49,7 @@ function addTrailingSlash(filePath: string): string {
   return filePath.startsWith(forwardSlash) ? filePath + forwardSlash : filePath + '\\'
 }
 
-export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = (props) => {
+export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = props => {
   const [resolvedFilePaths, setResolvedFilePaths] = createSignal<ResolvedFilePaths>([])
 
   function shouldRenderSelectorFor(mode: FilePathSelectorMode): boolean {
