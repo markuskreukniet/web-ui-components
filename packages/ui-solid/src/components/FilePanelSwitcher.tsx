@@ -14,6 +14,7 @@ type FilePanelSwitcherProps =
 }
 
 // TODO: this component is useless? When removing also check props above here
+// TODO: also remove SegmentedControl component?
 export const FilePanelSwitcher: Component<FilePanelSwitcherProps> = props => {
   return (
     <Stepper
