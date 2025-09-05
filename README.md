@@ -228,3 +228,4 @@ This pattern makes it explicit that the function handles a specific UI event, en
 - some Function expression (arrow) 'const handler = () =>' should be Function declaration 'function handler()'?
 - should close button (in toast) be an svg?
 - check README with AI?
+- add translations
