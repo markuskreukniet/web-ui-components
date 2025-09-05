@@ -37,11 +37,7 @@ export type FileResultTableDataProps = {
   rowGroups: RowGroups
 }
 
-export type OnChangeSelectedGroupRowsProps = {
-  onChangeSelectedGroupRows: OnChangeSelectedGroupRows
-}
-
-type FileResultTableProps = FileResultTableDataProps & OnChangeSelectedGroupRowsProps & {
+type FileResultTableProps = FileResultTableDataProps & {
   showRowCheckboxes: boolean
   onChangeSelectedGroupRow: Accessor<SelectedGroupRow>
   onChangeSetSelectedGroupRow: Setter<SelectedGroupRow>
@@ -92,9 +88,7 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
       return next
     })
 
-    const rows = props.onChangeSelectedGroupRows()
-    props.onChangeSelectedGroupRows(rows)
-    props.onChangeSetHasNotSelectedGroupRows(isMapEmpty(rows))
+    props.onChangeSetHasNotSelectedGroupRows(isMapEmpty(props.onChangeSelectedGroupRows()))
 
     if (props.onChangeSelectedGroupRow()) {
       props.onChangeSetSelectedGroupRow(null)
@@ -102,11 +96,8 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
   }
 
   const handlerCheckboxes = () => {
-    const map = new Map()
-
-    props.onChangeSetSelectedGroupRows(map)
+    props.onChangeSetSelectedGroupRows(new Map())
     props.onChangeSetHasNotSelectedGroupRows(true)
-    props.onChangeSelectedGroupRows(map)
   }
 
   const handlerRow = (groupI: number, rowI: number) => {

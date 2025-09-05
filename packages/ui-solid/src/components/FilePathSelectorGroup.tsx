@@ -95,8 +95,12 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
     }
   }
 
-  const handlerPress = () => {
+  const handlerPressClear = () => {
     updateResolvedFilePaths([])
+  }
+
+  const handlerPressRemove = (index: number) => {
+    setResolvedFilePaths(prev => prev.filter((_, i) => i !== index))
   }
 
   return (
@@ -117,17 +121,42 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
           />
         )}
       </div>
-      <ul>
-        <For each={resolvedFilePaths()}>
-          {path => <li>{path.filePath}</li>}
-        </For>
-      </ul>
+      <table>
+        <tbody>
+          <For each={resolvedFilePaths()}>
+            {(path, index) =>
+              <tr>
+                <td>{path.filePath}</td>
+                <td>
+                  <TertiaryButton
+                    onPress={() => handlerPressRemove(index())}
+                  >
+                    remove
+                  </TertiaryButton>
+                </td>
+              </tr>
+            }
+          </For>
+          {(() => {
+            const rows = []
+            for (let i = 0; i < Math.max(0, 5 - resolvedFilePaths().length); i++) {
+              rows.push(
+                <tr>
+                  <td></td>
+                  <td></td>
+                </tr>
+              )
+            }
+            return rows
+          })()}
+        </tbody>
+      </table>
       <div class="file-path-selector-group__buttons">
         <TertiaryButton
-          onPress={handlerPress}
+          onPress={handlerPressClear}
           disabled={isArrayEmpty(resolvedFilePaths())}
         >
-          reset
+          Clear
         </TertiaryButton>
         {props.submitButton}
       </div>

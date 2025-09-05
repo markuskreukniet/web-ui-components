@@ -11,11 +11,8 @@ import type {
 } from './FileResultTable'
 import type { IsLoadingProps } from '../types/types'
 
-export type CanDeleteProps = {
+type FileResultInspectorProps = FileResultTableDataProps & IsLoadingProps & {
   canDelete: boolean
-}
-
-type FileResultInspectorProps = FileResultTableDataProps & CanDeleteProps & IsLoadingProps & {
   onChange: OnChangeSelectedGroupRows
 }
 

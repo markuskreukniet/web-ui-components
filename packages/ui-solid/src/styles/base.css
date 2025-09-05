@@ -127,6 +127,11 @@ button {
 
 button:disabled {
   cursor: not-allowed;
+  opacity: var(--golden-ratio-reciprocal);
+}
+
+.button--primary {
+  text-transform: uppercase;
 }
 
 .button--primary:has(> svg), .button--secondary:has(> svg), .button--tertiary:has(> svg) {
@@ -177,6 +182,7 @@ tbody + tbody {
   border-top: var(--theme-fg-border-level-0);
 }
 
+/* file-result-table */
 .file-result-table__selected-row {
   background-color: var(--theme-bg-level-1);
 }
@@ -241,11 +247,6 @@ tbody + tbody {
 }
 
 /* file-path-selector-group */
-.file-path-selector-group > ul {
-  padding: var(--size-1);
-  list-style: none;
-}
-
 .file-path-selector-group__buttons {
   display: flex;
   column-gap: var(--size-1);

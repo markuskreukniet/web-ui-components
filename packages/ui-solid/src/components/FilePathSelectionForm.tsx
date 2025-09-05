@@ -15,14 +15,9 @@ type SourceTargetContext = {
 
 export type SourceTargetContextEither = Either<Error, SourceTargetContext>
 
-export type OnChangeSourceTargetContextEither = (either: SourceTargetContextEither) => void
-
-export type FilePathSelectionFormBaseProps = FilePathSelectorGroupBaseProps & IsLoadingProps & {
+type FilePathSelectionFormProps = FilePathSelectorGroupBaseProps & IsLoadingProps & {
   enableTargetSelection: boolean
-}
-
-type FilePathSelectionFormProps = FilePathSelectionFormBaseProps & {
-  onChange: OnChangeSourceTargetContextEither
+  onChange: (either: SourceTargetContextEither) => void
 }
 
 type UpdateResolvedPathsState = (paths: ResolvedFilePaths) => void
