@@ -12,15 +12,16 @@ npm version:
 10. web-ui-components/packages/ui-solid/src/index.ts: `export { HelloWorld } from './components/HelloWorld';`
 11. add `"dependencies": {"ui-solid": "*"}` to web-ui-components/apps/solid-playground/package.json
 12. add `import { HelloWorld } from 'ui-solid';` and `<HelloWorld />` to web-ui-components/apps/solid-playground/src/App.tsx
-13. change the web-ui-components/packages/ui-solid/vite.config.ts with the config from below
+13. change the web-ui-components/packages/ui-solid/vite.config.ts with the content from below
 14. add web-ui-components/packages/ui-solid/tsconfig.build.json with the content from below
 15. change web-ui-components/packages/ui-solid/package.json with the content from below
 16. web-ui-components: npm install
 17. web-ui-components/packages/ui-solid: npm run build
 
-18. (untested) (bullet 8) add `dist-tsc`, `dist-vite` and `dist-styles` to web-ui-components/.gitignore
+18. (untested) (change bullet 8) add `dist-tsc`, `dist-vite` and `dist-styles` to web-ui-components/.gitignore
 19. (untested) (between bullet 15 and 16, new 16) add web-ui-components/packages/ui-solid/build/prepare-css.js with the content from below
 20. (untested) (change bullet 12) add `import { HelloWorld } from 'ui-solid';`, `<HelloWorld />`, and `import 'ui-solid/styles.css'` to web-ui-components/apps/solid-playground/src/App.tsx
+21. (untested) change web-ui-components/apps/solid-playground/package.json with the content from below
 
 pnpm version:
 
@@ -36,15 +37,16 @@ pnpm version:
 10. web-ui-components/packages/ui-solid/src/index.ts: `export { HelloWorld } from './components/HelloWorld';`
 11. add `"dependencies": {"ui-solid": "workspace:*"}` to web-ui-components/apps/solid-playground/package.json
 12. add `import { HelloWorld } from 'ui-solid';` and `<HelloWorld />` to web-ui-components/apps/solid-playground/src/App.tsx
-13. change the web-ui-components/packages/ui-solid/vite.config.ts with the config from below
+13. change the web-ui-components/packages/ui-solid/vite.config.ts with the content from below
 14. add web-ui-components/packages/ui-solid/tsconfig.build.json with the content from below
 15. change web-ui-components/packages/ui-solid/package.json with the content from below
 16. web-ui-components: pnpm install
 17. web-ui-components/packages/ui-solid: pnpm build
 
-18. (untested) (bullet 8) add `dist-tsc`, `dist-vite` and `dist-styles` to web-ui-components/.gitignore
+18. (untested) (change bullet 8) add `dist-tsc`, `dist-vite` and `dist-styles` to web-ui-components/.gitignore
 19. (untested) (between bullet 15 and 16, new 16) add web-ui-components/packages/ui-solid/build/prepare-css.js with the content from below
 20. (untested) (change bullet 12) add `import { HelloWorld } from 'ui-solid';`, `<HelloWorld />`, and `import 'ui-solid/styles.css'` to web-ui-components/apps/solid-playground/src/App.tsx
+21. (untested) change web-ui-components/apps/solid-playground/package.json with the content from below
 
 web-ui-components/pnpm-workspace.yaml:
 
@@ -188,5 +190,32 @@ for (const filename of readdirSync(sourceDirectory)) {
     join(sourceDirectory, filename),
     join(targetDirectory, filename)
   );
+}
+```
+
+web-ui-components/apps/solid-playground/package.json:
+
+```
+{
+  "name": "vite-template-solid",
+  "version": "0.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "start": "npm run --prefix ../../packages/ui-solid build && npm install && npm run dev",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "vite": "^6.0.0",
+    "vite-plugin-solid": "^2.11.6"
+  },
+  "dependencies": {
+    "solid-js": "^1.9.5",
+    "ui-solid": "*"
+  }
 }
 ```

@@ -37,11 +37,7 @@ export type FileResultTableDataProps = {
   rowGroups: RowGroups
 }
 
-export type OnChangeSelectedGroupRowsProps = {
-  onChangeSelectedGroupRows: OnChangeSelectedGroupRows
-}
-
-type FileResultTableProps = FileResultTableDataProps & OnChangeSelectedGroupRowsProps & {
+type FileResultTableProps = FileResultTableDataProps & {
   showRowCheckboxes: boolean
   onChangeSelectedGroupRow: Accessor<SelectedGroupRow>
   onChangeSetSelectedGroupRow: Setter<SelectedGroupRow>
@@ -49,14 +45,6 @@ type FileResultTableProps = FileResultTableDataProps & OnChangeSelectedGroupRows
   onChangeSetSelectedGroupRows: Setter<SelectedGroupRows>
   onChangeHasNotSelectedGroupRows: Accessor<boolean>
   onChangeSetHasNotSelectedGroupRows: Setter<boolean>
-}
-
-function renderHeaderCell(label: JSX.Element): JSX.Element {
-  return (<th>{label}</th>)
-}
-
-function renderDataCell(content: JSX.Element): JSX.Element {
-  return (<td>{content}</td>)
 }
 
 export const FileResultTable: Component<FileResultTableProps> = props => {
@@ -92,9 +80,7 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
       return next
     })
 
-    const rows = props.onChangeSelectedGroupRows()
-    props.onChangeSelectedGroupRows(rows)
-    props.onChangeSetHasNotSelectedGroupRows(isMapEmpty(rows))
+    props.onChangeSetHasNotSelectedGroupRows(isMapEmpty(props.onChangeSelectedGroupRows()))
 
     if (props.onChangeSelectedGroupRow()) {
       props.onChangeSetSelectedGroupRow(null)
@@ -102,11 +88,8 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
   }
 
   const handlerCheckboxes = () => {
-    const map = new Map()
-
-    props.onChangeSetSelectedGroupRows(map)
+    props.onChangeSetSelectedGroupRows(new Map())
     props.onChangeSetHasNotSelectedGroupRows(true)
-    props.onChangeSelectedGroupRows(map)
   }
 
   const handlerRow = (groupI: number, rowI: number) => {
@@ -129,26 +112,30 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
 
   // TODO: square outline is the name of the icon? Button title. type="button"?
   if (props.showRowCheckboxes) {
-    headerCheckboxCell = renderHeaderCell(
-      <TertiaryIconButton
-        disabled={props.onChangeHasNotSelectedGroupRows()}
-        onPress={() => handlerCheckboxes()}
-      >
-        <rect x="3" y="3" width="18" height="18" rx="3" ry="3" />
-        <line x1="2" y1="2" x2="22" y2="22" />
-      </TertiaryIconButton>
+    headerCheckboxCell = (
+      <th>
+        <TertiaryIconButton
+          disabled={props.onChangeHasNotSelectedGroupRows()}
+          onPress={() => handlerCheckboxes()}
+        >
+          <rect x="3" y="3" width="18" height="18" rx="3" ry="3" />
+          <line x1="2" y1="2" x2="22" y2="22" />
+        </TertiaryIconButton>
+      </th>
     )
 
     renderCheckbox = (groupI, rowI) => {
       // Prevent the checkbox click from bubbling to the row’s onMouseDown.
       // Otherwise, it would also select the row, leading to an unintended row toggle alongside the checkbox change.
-      return renderDataCell(
-        <input
-          type="checkbox"
-          checked={props.onChangeSelectedGroupRows().get(groupI)?.has(rowI)}
-          onMouseDown={e => e.stopPropagation()}
-          onChange={e => setRowCheckboxState(groupI, rowI, e.currentTarget.checked)}
-        />
+      return (
+        <td>
+          <input
+            type="checkbox"
+            checked={props.onChangeSelectedGroupRows().get(groupI)?.has(rowI)}
+            onMouseDown={e => e.stopPropagation()}
+            onChange={e => setRowCheckboxState(groupI, rowI, e.currentTarget.checked)}
+          />
+        </td>
       )
     }
   }
@@ -159,7 +146,7 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
         <tr>
           {headerCheckboxCell}
           <For each={props.columns}>
-            {column => renderHeaderCell(column.header)}
+            {column => <th>{column.header}</th>}
           </For>
         </tr>
       </thead>
@@ -185,7 +172,7 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
                     >
                       {renderCheckbox(groupI, rowI)}
                       <For each={row.cells}>
-                        {(cell, cellIndex) => renderDataCell(cellContentRenderers[cellIndex()](cell))}
+                        {(cell, cellIndex) => <td>{cellContentRenderers[cellIndex()](cell)}</td>}
                       </For>
                     </tr>
                   )

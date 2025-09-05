@@ -1,5 +1,5 @@
 import { For } from 'solid-js'
-import { TertiaryButton } from '../../components/buttons/TertiaryButton'
+import { CloseButton } from '../../components/buttons/iconButtons/CloseButton'
 import { useToastContext } from './toast-context'
 import type { Component } from 'solid-js'
 
@@ -12,11 +12,7 @@ export const ToastContainer: Component = () => {
         {item => (
           <div class={`toast-item toast-item--${item.variant}`}>
             <span>{item.text}</span>
-            <TertiaryButton
-              onPress={() => removeToast(item.toastId)}
-            >
-              × {/* × (U+00D7): correct typographic symbol for close/dismiss actions */}
-            </TertiaryButton>
+            <CloseButton onPress={() => removeToast(item.toastId)} />
           </div>
         )}
       </For>

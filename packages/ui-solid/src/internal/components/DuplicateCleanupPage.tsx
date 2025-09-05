@@ -1,9 +1,12 @@
 import { createSignal } from 'solid-js'
-import { FilePanelSwitcher } from '../../components/FilePanelSwitcher'
+import { FilePathSelectionForm } from '../../components/FilePathSelectionForm'
 import { FilePathSelectorModes } from '../../components/FilePathSelectorGroup'
+import { FileResultInspector } from '../../components/FileResultInspector'
 import { FileResultColumnTypes } from '../../components/FileResultTable'
+import { createStep, Stepper } from '../../components/Stepper'
 import { isLeft, isRight, right } from '../../modules/monads/either'
 import { addErrorToastFromEither, useToastContext } from '../../modules/toasts/toast-context'
+import { isArrayEmpty } from '../../utils/isEmpty'
 import type { Component } from 'solid-js'
 import type { SourceTargetContextEither } from '../../components/FilePathSelectionForm'
 import type { ResolvedFilePaths } from '../../components/FilePathSelectorGroup'
@@ -50,8 +53,8 @@ export const DuplicateCleanupPage: Component = () => {
   ]
 
   // const groups: RowGroups = [
-  //   [{cells: ['dir/dir2/file.jpg', 'dir/dir2/file.jpg']}, {cells: ['dir/dir2/file2.jpg', 'dir/dir2/file2.jpg']}],
-  //   [{cells: ['dir2/dir3/file3.jpg', 'dir2/dir3/file4.jpg']}, {cells: ['dir2/dir3/file3.jpg', 'dir2/dir3/file4.jpg']}]
+  //   [{cells: ['C:\\Users\\User\\Documents\\file1.jpg', 'C:\\Users\\User\\Documents\\file1.jpg']}, {cells: ['C:\\Users\\User\\Documents\\file2.jpg', 'C:\\Users\\User\\Documents\\file2.jpg']}],
+  //   [{cells: ['C:\\Users\\User\\Documents\\file3.jpg', 'C:\\Users\\User\\Documents\\file3.jpg']}, {cells: ['C:\\Users\\User\\Documents\\file4.jpg', 'C:\\Users\\User\\Documents\\file4.jpg']}],
   // ]
 
   async function executeWithLoading(action: () => Promise<void>): Promise<void> {
@@ -129,17 +132,38 @@ export const DuplicateCleanupPage: Component = () => {
 
   return (
     <div class="page">
-      <FilePanelSwitcher
-        columns={columns}
-        rowGroups={rowGroups()}
-        filePathSelectorMode={FilePathSelectorModes.regularFileAndDirectory}
-        singleSelection={false}
-        enableTargetSelection={false}
-        canDelete
-        isLoading={isLoading()}
-        onChangeSelectedGroupRows={handlerSelectedGroupRows}
-        onChangeSourceTargetContextEither={handlerSourceTargetContextEither}
-        selectFilePath={selectFilePath}
+      <Stepper
+        steps={[
+          createStep(
+            'File Selection',
+            'Select file(s) and/or folder(s)',
+            'Choose file(s) and/or folder(s) that you want to check for duplicates.',
+            <FilePathSelectionForm
+              filePathSelectorMode={FilePathSelectorModes.regularFileAndDirectory}
+              isLoading={isLoading()}
+              singleSelection={false}
+              enableTargetSelection={false}
+              selectFilePath={selectFilePath}
+              onChange={handlerSourceTargetContextEither}
+            />,
+            'Add file(s) and/or folder(s) to continue'
+          ),
+          createStep(
+            'File Inspection',
+            '',
+            '',
+            <FileResultInspector
+              columns={columns}
+              rowGroups={rowGroups()}
+              isLoading={isLoading()}
+              canDelete
+              onChange={handlerSelectedGroupRows}
+            />,
+            ''
+          )
+        ]}
+        lastEnabledStepIndex={isArrayEmpty(rowGroups()) ? 0 : 1}
+        showNavigationControls={false}
       />
     </div>
   )

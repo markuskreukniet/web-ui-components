@@ -44,7 +44,7 @@ export const Stepper: Component<StepperProps> = props => {
     return index > props.lastEnabledStepIndex
   }
 
-  // TODO: use step in classList={{'stepper__steps__active-step': stepIndex() === index}}?
+  // TODO: use step in classList={{'stepper__steps__active-step': stepIndex() === i}}?
   const step = () => props.steps[stepIndex()]
 
   return (

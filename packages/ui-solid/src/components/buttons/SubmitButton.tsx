@@ -9,6 +9,6 @@ export const SubmitButton: Component<SubmitButtonProps> = props => (
     {...props}
     variant={ButtonVariants.primary}
   >
-    submit
+    Submit
   </Button>
 )

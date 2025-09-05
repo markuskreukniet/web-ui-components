@@ -22,7 +22,7 @@ export const DeleteButton: Component<DeleteButtonProps> = props => {
       {...rest}
       variant={ButtonVariants.secondary}
     >
-      {local.variant === DeleteButtonVariants.single ? 'Delete' : 'Delete selected items'}
+      {local.variant === DeleteButtonVariants.single ? 'Delete' : 'Delete selected files'}
     </Button>
   )
 }

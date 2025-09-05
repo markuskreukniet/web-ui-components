@@ -1,7 +1,8 @@
 import { createSignal, For } from 'solid-js'
+import { CloseButton } from './buttons/iconButtons/CloseButton'
 import { TertiaryButton } from './buttons/TertiaryButton'
-import { isRight, left, right } from '../modules/monads/either'
 import { FilePathSelector, FilePathTypes } from './FilePathSelector'
+import { isRight, left, right } from '../modules/monads/either'
 import { isArrayEmpty } from '../utils/isEmpty'
 import type { Component, JSX } from 'solid-js'
 import type { SelectedFilePathEither } from './FilePathSelector'
@@ -95,8 +96,12 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
     }
   }
 
-  const handlerPress = () => {
+  const handlerPressClear = () => {
     updateResolvedFilePaths([])
+  }
+
+  const handlerPressRemove = (index: number) => {
+    updateResolvedFilePaths(resolvedFilePaths().filter((_, i) => i !== index))
   }
 
   return (
@@ -117,17 +122,24 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
           />
         )}
       </div>
-      <ul>
-        <For each={resolvedFilePaths()}>
-          {path => <li>{path.filePath}</li>}
-        </For>
-      </ul>
+      <div class="file-path-selector-group__file-paths-wrapper">
+        <ul>
+          <For each={resolvedFilePaths()}>
+            {(path, index) =>
+              <li>
+                <span>{path.filePath}</span>
+                <CloseButton onPress={() => handlerPressRemove(index())} />
+              </li>
+            }
+          </For>
+        </ul>
+      </div>
       <div class="file-path-selector-group__buttons">
         <TertiaryButton
-          onPress={handlerPress}
+          onPress={handlerPressClear}
           disabled={isArrayEmpty(resolvedFilePaths())}
         >
-          reset
+          Clear
         </TertiaryButton>
         {props.submitButton}
       </div>
