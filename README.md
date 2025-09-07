@@ -229,3 +229,4 @@ This pattern makes it explicit that the function handles a specific UI event, en
 - should close button (in toast) be an svg?
 - check README with AI?
 - add translations
+- add filter/order on filer extension
