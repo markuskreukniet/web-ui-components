@@ -1,9 +1,8 @@
 import type { Component } from 'solid-js'
-import type { FilePathSelectionFormBaseProps, OnChangeSourceTargetContextEither } from './FilePathSelectionForm'
+import type { OnChangeSourceTargetContextEither } from './FilePathSelectionForm'
 import type { FileResultTableDataProps, OnChangeSelectedGroupRowsProps } from './FileResultTable'
 
-type FilePanelSwitcherProps =
-  FilePathSelectionFormBaseProps & FileResultTableDataProps & OnChangeSelectedGroupRowsProps & {
+type FilePanelSwitcherProps = FileResultTableDataProps & OnChangeSelectedGroupRowsProps & {
   // Declares a separate prop of type OnChangeSourceTargetContextEither
   onChangeSourceTargetContextEither: OnChangeSourceTargetContextEither
 }
