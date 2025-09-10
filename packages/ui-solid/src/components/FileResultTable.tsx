@@ -37,11 +37,7 @@ export type FileResultTableDataProps = {
   rowGroups: RowGroups
 }
 
-export type OnChangeSelectedGroupRowsProps = {
-  onChangeSelectedGroupRows: OnChangeSelectedGroupRows
-}
-
-type FileResultTableProps = FileResultTableDataProps & OnChangeSelectedGroupRowsProps & {
+type FileResultTableProps = FileResultTableDataProps & {
   showRowCheckboxes: boolean
   onChangeSelectedGroupRow: Accessor<SelectedGroupRow>
   onChangeSetSelectedGroupRow: Setter<SelectedGroupRow>
@@ -68,7 +64,7 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
 
   const setRowCheckboxState = (groupI: number, rowI: number, checked: boolean) => {
     props.onChangeSetSelectedGroupRows((current: SelectedGroupRows) => {
-      const next = new Map(current)
+      const next = new Map(current) // TODO: is current needed?
       const rows = next.has(groupI) ? next.get(groupI)! : new Set<number>()
 
       function setGroupRows() {
@@ -92,8 +88,7 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
       return next
     })
 
-    const rows = props.onChangeSelectedGroupRows()
-    props.onChangeSelectedGroupRows(rows)
+    const rows = props.onChangeSelectedGroupRows() // TODO: not efficient
     props.onChangeSetHasNotSelectedGroupRows(isMapEmpty(rows))
 
     if (props.onChangeSelectedGroupRow()) {
@@ -102,11 +97,8 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
   }
 
   const handlerCheckboxes = () => {
-    const map = new Map()
-
-    props.onChangeSetSelectedGroupRows(map)
+    props.onChangeSetSelectedGroupRows(new Map())
     props.onChangeSetHasNotSelectedGroupRows(true)
-    props.onChangeSelectedGroupRows(map)
   }
 
   const handlerRow = (groupI: number, rowI: number) => {
