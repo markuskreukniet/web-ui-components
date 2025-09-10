@@ -64,7 +64,7 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
 
   const setRowCheckboxState = (groupI: number, rowI: number, checked: boolean) => {
     props.onChangeSetSelectedGroupRows((current: SelectedGroupRows) => {
-      const next = new Map(current) // TODO: is current needed?
+      const next = new Map(current)
       const rows = next.has(groupI) ? next.get(groupI)! : new Set<number>()
 
       function setGroupRows() {
@@ -88,8 +88,7 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
       return next
     })
 
-    const rows = props.onChangeSelectedGroupRows() // TODO: not efficient
-    props.onChangeSetHasNotSelectedGroupRows(isMapEmpty(rows))
+    props.onChangeSetHasNotSelectedGroupRows(isMapEmpty(props.onChangeSelectedGroupRows()))
 
     if (props.onChangeSelectedGroupRow()) {
       props.onChangeSetSelectedGroupRow(null)
