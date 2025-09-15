@@ -137,7 +137,6 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
               </tr>
             }
           </For>
-          {/* TODO: use function createTr and createTd? */}
           {(() => {
             const rows = []
             for (let i = 0; i < Math.max(0, 5 - resolvedFilePaths().length); i++) {
