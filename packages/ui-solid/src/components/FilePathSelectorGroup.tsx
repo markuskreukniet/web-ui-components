@@ -1,7 +1,8 @@
 import { createSignal, For } from 'solid-js'
+import { TertiaryIconButton } from './buttons/iconButtons/TertiaryIconButton'
 import { TertiaryButton } from './buttons/TertiaryButton'
-import { isRight, left, right } from '../modules/monads/either'
 import { FilePathSelector, FilePathTypes } from './FilePathSelector'
+import { isRight, left, right } from '../modules/monads/either'
 import { isArrayEmpty } from '../utils/isEmpty'
 import type { Component, JSX } from 'solid-js'
 import type { SelectedFilePathEither } from './FilePathSelector'
@@ -128,11 +129,14 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
               <tr>
                 <td>{path.filePath}</td>
                 <td>
-                  <TertiaryButton
+                  {/* TODO: use this button also in closing toast button? + make abstraction */}
+                  {/* TODO: don't use padding? use the spacing in the svg self? */}
+                  <TertiaryIconButton
                     onPress={() => handlerPressRemove(index())}
                   >
-                    remove
-                  </TertiaryButton>
+                    <line x1="3" y1="3" x2="21" y2="21" />
+                    <line x1="21" y1="3" x2="3" y2="21" />
+                  </TertiaryIconButton>
                 </td>
               </tr>
             }
