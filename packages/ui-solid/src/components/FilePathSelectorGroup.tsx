@@ -122,6 +122,7 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
           />
         )}
       </div>
+      {/* TODO: it should be an ul instead of table */}
       <table>
         <tbody>
           <For each={resolvedFilePaths()}>
