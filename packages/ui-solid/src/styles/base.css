@@ -73,6 +73,7 @@
   --primary-level-1: light-dark(var(--light-theme-primary-level-1), var(--dark-theme-primary-level-1));
   --primary-level-2: light-dark(var(--light-theme-primary-level-2), var(--dark-theme-primary-level-2));
 
+  /* TODO: use one calc */
   --td-icon-button-height: calc(
     calc(var(--size-1) + calc(calc(var(--size-r-3) * 2) + 2px)) + calc(var(--size-r-1) * 2)
   );
