@@ -199,6 +199,7 @@ td {
 }
 
 td > img {
+  display: block;
   max-height: var(--size-5);
 }
 
