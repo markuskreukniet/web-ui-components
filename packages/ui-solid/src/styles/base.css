@@ -164,6 +164,30 @@ button:disabled {
   height: var(--size-1);
 }
 
+/* ul */
+ul {
+  padding: var(--size-1);
+  margin: var(--size-1) 0; /* breaks a style rule */
+  list-style: none;
+  border: var(--theme-fg-border-level-1);
+  border-radius: var(--size-1); /* TODO: correct border? */
+}
+
+ul > li {
+  display: flex;
+  justify-content: space-between;
+}
+
+ul > li + li {
+  padding-top: var(--size-1);
+}
+
+ul > li > span {
+  padding-right: var(--size-1);
+  line-height: normal;
+}
+
+/* TODO: check all these table tag styles */
 /* table */
 table {
   margin: var(--size-1) 0; /* Padding is not applied to <table>; use margin instead */
