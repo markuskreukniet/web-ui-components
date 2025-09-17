@@ -131,7 +131,6 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
                 <td>{path.filePath}</td>
                 <td>
                   {/* TODO: use this button also in closing toast button? + make abstraction */}
-                  {/* TODO: don't use padding? use the spacing in the svg self? */}
                   <TertiaryIconButton
                     onPress={() => handlerPressRemove(index())}
                   >
