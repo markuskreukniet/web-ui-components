@@ -15,8 +15,6 @@
   --size-r-2: calc(var(--size-r-1) * var(--golden-ratio-reciprocal));
   --size-r-3: calc(var(--size-r-2) * var(--golden-ratio-reciprocal));
 
-  --size-0-5: calc(var(--size-1) / 2);
-
   /* TODO: comment why 0.1 or less, text readable */
   --lightness-level-0: 0.1;
   --lightness-level-1: calc(var(--lightness-level-0) * 2);
@@ -72,8 +70,6 @@
   --primary-level-0: light-dark(var(--light-theme-primary-level-0), var(--dark-theme-primary-level-0));
   --primary-level-1: light-dark(var(--light-theme-primary-level-1), var(--dark-theme-primary-level-1));
   --primary-level-2: light-dark(var(--light-theme-primary-level-2), var(--dark-theme-primary-level-2));
-
-  --td-icon-button-height: calc((var(--size-1) + ((var(--size-r-3) * 2) + 2px)) + (var(--size-r-1) * 2));
 }
 
 * {
@@ -187,32 +183,19 @@ ul > li > span {
   line-height: normal;
 }
 
-/* TODO: check all these table tag styles */
 /* table */
+/* TODO: some paddings are strange */
 table {
   margin: var(--size-1) 0; /* Padding is not applied to <table>; use margin instead */
   border-collapse: collapse;
 }
 
 th {
-  padding: var(--size-r-3);
-}
-
-/* TODO: left and right padding between cells is too much + no border around all file paths */
-tbody > tr:first-child > td {
-  padding: 0 var(--size-1) var(--size-0-5) var(--size-1);
-}
-
-tbody > tr:last-child > td {
-  padding: var(--size-0-5) var(--size-1) 0 var(--size-1);
-}
-
-tbody > tr:not(:first-child):not(:last-child) > td {
-  padding: var(--size-0-5) var(--size-1);
+  padding: 0 var(--size-r-3) var(--size-r-3) var(--size-r-3);
 }
 
 td {
-  height: var(--td-icon-button-height);
+  padding: var(--size-r-3);
 }
 
 td > img {
