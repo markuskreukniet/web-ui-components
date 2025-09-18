@@ -15,6 +15,8 @@
   --size-r-2: calc(var(--size-r-1) * var(--golden-ratio-reciprocal));
   --size-r-3: calc(var(--size-r-2) * var(--golden-ratio-reciprocal));
 
+  --row-padding: calc(((var(--golden-ratio-rem) * var(--golden-ratio)) - var(--golden-ratio-rem)) / 2);
+
   /* TODO: comment why 0.1 or less, text readable */
   --lightness-level-0: 0.1;
   --lightness-level-1: calc(var(--lightness-level-0) * 2);
@@ -171,7 +173,7 @@ ul > li {
 }
 
 ul > li + li {
-  padding-top: var(--size-1);
+  padding-top: var(--row-padding);
 }
 
 ul > li > span {
