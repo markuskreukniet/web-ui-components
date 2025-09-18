@@ -137,6 +137,8 @@ button:disabled {
 .button--primary:has(> svg), .button--secondary:has(> svg), .button--tertiary:has(> svg) {
   padding: var(--size-r-3);
   display: inline-flex;
+  width: var(--golden-ratio-rem);
+  height: var(--golden-ratio-rem);
 }
 
 .button--primary:not(:has(> svg)) {
@@ -154,16 +156,10 @@ button:disabled {
   padding: var(--size-r-1);
 }
 
-/* icon-buttons */
-.icon-button__svg {
-  width: var(--size-1);
-  height: var(--size-1);
-}
-
 /* ul */
 ul {
   padding: var(--size-1);
-  margin: var(--size-1) 0; /* breaks a style rule */
+  margin: var(--size-1) 0;
   list-style: none;
   border: var(--theme-fg-border-level-1);
   border-radius: var(--size-1); /* TODO: correct border? */
