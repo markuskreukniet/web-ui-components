@@ -166,7 +166,7 @@ ul {
   list-style: none;
   padding-right: var(--size-1);
   height: var(--ding);
-  overflow-y: auto;
+  overflow-y: auto; /* TODO: style scrollbar */
 }
 
 ul > li {
