@@ -138,13 +138,6 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
               </li>
             }
           </For>
-          {(() => {
-            const rows = [] // TODO: create it with a fixed width
-            for (let i = 0; i < Math.max(0, 5 - resolvedFilePaths().length); i++) {
-              rows.push(<li></li>)
-            }
-            return rows
-          })()}
         </ul>
       </div>
       <div class="file-path-selector-group__buttons">
