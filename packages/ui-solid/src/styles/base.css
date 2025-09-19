@@ -17,6 +17,9 @@
 
   --row-padding: calc(((var(--golden-ratio-rem) * var(--golden-ratio)) - var(--golden-ratio-rem)) / 2);
 
+  /* TODO: naming */
+  --ding: calc((var(--row-padding) * 4) + (var(--golden-ratio-rem) * 5));
+
   /* TODO: comment why 0.1 or less, text readable */
   --lightness-level-0: 0.1;
   --lightness-level-1: calc(var(--lightness-level-0) * 2);
@@ -160,11 +163,10 @@ button:disabled {
 
 /* ul */
 ul {
-  padding: var(--size-1);
-  margin: var(--size-1) 0;
   list-style: none;
-  border: var(--theme-fg-border-level-1);
-  border-radius: var(--size-1); /* TODO: correct border? */
+  padding-right: var(--size-1);
+  height: var(--ding);
+  overflow-y: auto;
 }
 
 ul > li {
@@ -273,6 +275,13 @@ tbody + tbody {
 .file-path-selector-group__buttons {
   display: flex;
   column-gap: var(--size-1);
+}
+
+.file-path-selector-group__file-paths-wrapper {
+  padding: var(--size-1) 0 var(--size-1) var(--size-1);
+  margin: var(--size-1) 0;
+  border: var(--theme-fg-border-level-1);
+  border-radius: var(--size-1); /* TODO: correct border? */
 }
 
 /* toast-item */

@@ -122,29 +122,31 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
           />
         )}
       </div>
-      <ul>
-        <For each={resolvedFilePaths()}>
-          {(path, index) =>
-            <li>
-              <span>{path.filePath}</span>
-              {/* TODO: use this button also in closing toast button? + make abstraction */}
-              <TertiaryIconButton
-                onPress={() => handlerPressRemove(index())}
-              >
-                <line x1="3" y1="3" x2="21" y2="21" />
-                <line x1="21" y1="3" x2="3" y2="21" />
-              </TertiaryIconButton>
-            </li>
-          }
-        </For>
-        {(() => {
-          const rows = [] // TODO: create it with a fixed width
-          for (let i = 0; i < Math.max(0, 5 - resolvedFilePaths().length); i++) {
-            rows.push(<li></li>)
-          }
-          return rows
-        })()}
-      </ul>
+      <div class="file-path-selector-group__file-paths-wrapper">
+        <ul>
+          <For each={resolvedFilePaths()}>
+            {(path, index) =>
+              <li>
+                <span>{path.filePath}</span>
+                {/* TODO: use this button also in closing toast button? + make abstraction */}
+                <TertiaryIconButton
+                  onPress={() => handlerPressRemove(index())}
+                >
+                  <line x1="3" y1="3" x2="21" y2="21" />
+                  <line x1="21" y1="3" x2="3" y2="21" />
+                </TertiaryIconButton>
+              </li>
+            }
+          </For>
+          {(() => {
+            const rows = [] // TODO: create it with a fixed width
+            for (let i = 0; i < Math.max(0, 5 - resolvedFilePaths().length); i++) {
+              rows.push(<li></li>)
+            }
+            return rows
+          })()}
+        </ul>
+      </div>
       <div class="file-path-selector-group__buttons">
         <TertiaryButton
           onPress={handlerPressClear}
