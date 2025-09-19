@@ -1,5 +1,5 @@
 import { createSignal, For } from 'solid-js'
-import { TertiaryIconButton } from './buttons/iconButtons/TertiaryIconButton'
+import { CloseButton } from './buttons/iconButtons/CloseButton'
 import { TertiaryButton } from './buttons/TertiaryButton'
 import { FilePathSelector, FilePathTypes } from './FilePathSelector'
 import { isRight, left, right } from '../modules/monads/either'
@@ -128,13 +128,7 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
             {(path, index) =>
               <li>
                 <span>{path.filePath}</span>
-                {/* TODO: use this button also in closing toast button? + make abstraction */}
-                <TertiaryIconButton
-                  onPress={() => handlerPressRemove(index())}
-                >
-                  <line x1="3" y1="3" x2="21" y2="21" />
-                  <line x1="21" y1="3" x2="3" y2="21" />
-                </TertiaryIconButton>
+                <CloseButton onPress={() => handlerPressRemove(index())} />
               </li>
             }
           </For>
