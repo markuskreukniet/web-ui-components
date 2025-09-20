@@ -101,8 +101,7 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
   }
 
   const handlerPressRemove = (index: number) => {
-    setResolvedFilePaths(prev => prev.filter((_, i) => i !== index)) // TODO: is this enough? It has now a bug, submit button stay active
-    props.onChange(right(resolvedFilePaths())) // TODO: this is the fix, but now duplicate code
+    updateResolvedFilePaths(resolvedFilePaths().filter((_, i) => i !== index))
   }
 
   return (
