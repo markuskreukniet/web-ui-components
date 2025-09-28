@@ -38,6 +38,7 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
   const [selectedGroupRow, setSelectedGroupRow] = createSignal<SelectedGroupRow>(null)
   const [selectedGroupRows, setSelectedGroupRows] = createSignal<SelectedGroupRows>(new Map())
   const [hasNotSelectedGroupRows, setHasNotSelectedGroupRows] = createSignal<boolean>(true)
+  const [allowSelectingAllRows, setAllowSelectingAllRows] = createSignal<boolean>(false)
 
   const handler = async () => {
     props.onChange(selectedGroupRows())
@@ -47,15 +48,6 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
 
   return (
     <div class="file-result-inspector">
-      {props.canDelete && (
-        <DeleteButton
-          isLoading={props.isLoading}
-          disabled={hasNotSelectedGroupRows()}
-          onPress={handler}
-          variant={DeleteButtonVariants.selection}
-        />
-      )}
-
       <div>
         <FileResultTable
           columns={props.columns}
@@ -67,12 +59,13 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
           onChangeSetSelectedGroupRows={setSelectedGroupRows}
           onChangeHasNotSelectedGroupRows={hasNotSelectedGroupRows}
           onChangeSetHasNotSelectedGroupRows={setHasNotSelectedGroupRows}
+          onChangeAllowSelectingAllRows={allowSelectingAllRows}
         />
 
         <Show when={selectedGroupRow()}>
           {groupRow => {
             return (
-              <div>
+              <div class="file-result-inspector__selection">
                 <For each={props.rowGroups[groupRow().group][groupRow().row].cells}>
                   {(cell, index) => {
                     const i = index()
@@ -89,6 +82,27 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
             )
           }}
         </Show>
+      </div>
+
+      {/* TODO: type="checkbox" duplicate */}
+      <div class="file-result-inspector__actions">
+        <label>
+          <input
+            type="checkbox"
+            checked={allowSelectingAllRows()}
+            onChange={e => setAllowSelectingAllRows(e.currentTarget.checked)}
+          />
+          <span>⚠ Allow deleting non-duplicate files (dangerous)</span>
+        </label>
+
+        {props.canDelete && (
+          <DeleteButton
+            isLoading={props.isLoading}
+            disabled={hasNotSelectedGroupRows()}
+            onPress={handler}
+            variant={DeleteButtonVariants.selection}
+          />
+        )}
       </div>
     </div>
   )
