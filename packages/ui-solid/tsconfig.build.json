@@ -4,7 +4,7 @@
     "module": "ESNext",
     "declaration": true,
     "emitDeclarationOnly": true,
-    "outDir": "dist-tsc",
+    "outDir": "dist/tsc",
     "rootDir": "src",
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
