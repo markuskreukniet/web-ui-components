@@ -7,7 +7,7 @@ npm version:
 5. remove .gitignore and pnpm-lock.yaml from web-ui-components/apps/solid-playground
 6. web-ui-components/packages/ui-solid: npm create vite@latest . -- --template solid-ts
 7. move .gitignore from web-ui-components/packages/ui-solid to web-ui-components
-8. add `dist-tsc` and `dist-vite` to web-ui-components/.gitignore
+8. (is needed?) add `dist` to web-ui-components/.gitignore
 9. web-ui-components/packages/ui-solid/src/components/HelloWorld.tsx: `import type { Component } from 'solid-js';export const HelloWorld: Component = () => {return <p>Hello from ui-solid!</p>;};`
 10. web-ui-components/packages/ui-solid/src/index.ts: `export { HelloWorld } from './components/HelloWorld';`
 11. add `"dependencies": {"ui-solid": "*"}` to web-ui-components/apps/solid-playground/package.json
@@ -18,10 +18,9 @@ npm version:
 16. web-ui-components: npm install
 17. web-ui-components/packages/ui-solid: npm run build
 
-18. (untested) (change bullet 8) add `dist-tsc`, `dist-vite` and `dist-styles` to web-ui-components/.gitignore
-19. (untested) (between bullet 15 and 16, new 16) add web-ui-components/packages/ui-solid/build/prepare-css.js with the content from below
-20. (untested) (change bullet 12) add `import { HelloWorld } from 'ui-solid';`, `<HelloWorld />`, and `import 'ui-solid/styles.css'` to web-ui-components/apps/solid-playground/src/App.tsx
-21. (untested) change web-ui-components/apps/solid-playground/package.json with the content from below
+18. (untested) (between bullet 15 and 16, new 16) add web-ui-components/packages/ui-solid/build/prepare-css.js with the content from below
+19. (untested) (change bullet 12) add `import { HelloWorld } from 'ui-solid';`, `<HelloWorld />`, and `import 'ui-solid/styles.css'` to web-ui-components/apps/solid-playground/src/App.tsx
+20. (untested) change web-ui-components/apps/solid-playground/package.json with the content from below
 
 pnpm version:
 
@@ -32,7 +31,7 @@ pnpm version:
 5. remove .gitignore and pnpm-lock.yaml from web-ui-components/apps/solid-playground
 6. web-ui-components/packages/ui-solid: pnpm create vite . --template solid-ts
 7. move .gitignore from web-ui-components/packages/ui-solid to web-ui-components
-8. add `dist-tsc` and `dist-vite` to web-ui-components/.gitignore
+8. (is needed?) add `dist` to web-ui-components/.gitignore
 9. web-ui-components/packages/ui-solid/src/components/HelloWorld.tsx: `import type { Component } from 'solid-js';export const HelloWorld: Component = () => {return <p>Hello from ui-solid!</p>;};`
 10. web-ui-components/packages/ui-solid/src/index.ts: `export { HelloWorld } from './components/HelloWorld';`
 11. add `"dependencies": {"ui-solid": "workspace:*"}` to web-ui-components/apps/solid-playground/package.json
@@ -43,10 +42,9 @@ pnpm version:
 16. web-ui-components: pnpm install
 17. web-ui-components/packages/ui-solid: pnpm build
 
-18. (untested) (change bullet 8) add `dist-tsc`, `dist-vite` and `dist-styles` to web-ui-components/.gitignore
-19. (untested) (between bullet 15 and 16, new 16) add web-ui-components/packages/ui-solid/build/prepare-css.js with the content from below
-20. (untested) (change bullet 12) add `import { HelloWorld } from 'ui-solid';`, `<HelloWorld />`, and `import 'ui-solid/styles.css'` to web-ui-components/apps/solid-playground/src/App.tsx
-21. (untested) change web-ui-components/apps/solid-playground/package.json with the content from below
+18. (untested) (between bullet 15 and 16, new 16) add web-ui-components/packages/ui-solid/build/prepare-css.js with the content from below
+19. (untested) (change bullet 12) add `import { HelloWorld } from 'ui-solid';`, `<HelloWorld />`, and `import 'ui-solid/styles.css'` to web-ui-components/apps/solid-playground/src/App.tsx
+20. (untested) change web-ui-components/apps/solid-playground/package.json with the content from below
 
 web-ui-components/pnpm-workspace.yaml:
 
@@ -77,7 +75,7 @@ export default defineConfig({
       fileName: 'ui-solid',
       formats: ['es', 'cjs']
     },
-    outDir: 'dist-vite',
+    outDir: 'dist/vite',
     rollupOptions: {
       external: ['solid-js'],
       output: {
@@ -99,7 +97,7 @@ web-ui-components/packages/ui-solid/tsconfig.build.json:
     "module": "ESNext",
     "declaration": true,
     "emitDeclarationOnly": true,
-    "outDir": "dist-tsc",
+    "outDir": "dist/tsc",
     "rootDir": "src",
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
@@ -117,13 +115,13 @@ web-ui-components/packages/ui-solid/package.json (new):
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "types": "dist-tsc/index.d.ts",
+  "types": "dist/tsc/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist-vite/ui-solid.js",
-      "require": "./dist-vite/ui-solid.cjs"
+      "import": "./dist/vite/ui-solid.js",
+      "require": "./dist/vite/ui-solid.cjs"
     },
-    "./styles.css": "./dist-styles/index.css"
+    "./styles.css": "./dist/styles/index.css"
   },
   "scripts": {
     "dev": "vite",
@@ -149,11 +147,11 @@ web-ui-components/packages/ui-solid/package.json (old):
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "types": "dist-tsc/index.d.ts",
+  "types": "dist/tsc/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist-vite/ui-solid.js",
-      "require": "./dist-vite/ui-solid.cjs"
+      "import": "./dist/vite/ui-solid.js",
+      "require": "./dist/vite/ui-solid.cjs"
     }
   },
   "scripts": {
@@ -179,7 +177,7 @@ import { copyFileSync, mkdirSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 
 const sourceDirectory = "./src/styles";
-const targetDirectory = "./dist-styles";
+const targetDirectory = "./dist/styles";
 
 // The `recursive` option ensures the directory is created if it doesn't exist,
 // does nothing if it already exists, and creates any necessary parent directories.
