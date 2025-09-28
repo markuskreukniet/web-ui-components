@@ -15,7 +15,7 @@ export default defineConfig({
       fileName: 'ui-solid',
       formats: ['es', 'cjs']
     },
-    outDir: 'dist-vite',
+    outDir: 'dist/vite',
     rollupOptions: {
       external: ['solid-js'],
       output: {

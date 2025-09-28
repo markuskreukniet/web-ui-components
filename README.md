@@ -218,10 +218,8 @@ This pattern makes it explicit that the function handles a specific UI event, en
 - if too many error in error toast, show scrollbar
 - fix/check tsconfig files and use extending of files
 - add dependency "@types/node"?
-- change dist-tsc, dist-vite, en dist-styles to dist with sub folders? Then also update gitignore
 - update bootstrapping.md with styles, possible when there is the UI core project
 - remove all useless files from ui-solid
-- check for ARIA and role=
 - add to solid-playground .gitignore?
 - make the whole td with a checkbox clickable without adding JS/TS?
 - give some SolidJs Show components a keyed attribute?
@@ -230,3 +228,4 @@ This pattern makes it explicit that the function handles a specific UI event, en
 - add translations
 - add filter/order on filer extension
 - fix texts
+- add aria-label (and other ARIA?), title, role=, and type="button" to button. Maybe also add these things to other elements

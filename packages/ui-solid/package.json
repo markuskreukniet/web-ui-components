@@ -3,13 +3,13 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "types": "dist-tsc/index.d.ts",
+  "types": "dist/tsc/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist-vite/ui-solid.js",
-      "require": "./dist-vite/ui-solid.cjs"
+      "import": "./dist/vite/ui-solid.js",
+      "require": "./dist/vite/ui-solid.cjs"
     },
-    "./styles.css": "./dist-styles/index.css"
+    "./styles.css": "./dist/styles/index.css"
   },
   "scripts": {
     "dev": "vite",

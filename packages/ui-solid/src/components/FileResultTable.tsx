@@ -1,4 +1,5 @@
 import { For } from 'solid-js'
+import { CheckboxInput } from './CheckboxInput'
 import { extendCellRenderers } from './FileResultInspector'
 import { TertiaryIconButton } from './buttons/iconButtons/TertiaryIconButton'
 import { isMapEmpty } from '../utils/isEmpty'
@@ -45,6 +46,7 @@ type FileResultTableProps = FileResultTableDataProps & {
   onChangeSetSelectedGroupRows: Setter<SelectedGroupRows>
   onChangeHasNotSelectedGroupRows: Accessor<boolean>
   onChangeSetHasNotSelectedGroupRows: Setter<boolean>
+  onChangeAllowSelectingAllRows: Accessor<boolean>
 }
 
 export const FileResultTable: Component<FileResultTableProps> = props => {
@@ -55,32 +57,45 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
   const fileResultCellContentRenderers = extendCellRenderers(cellData => cellData) // TODO: naming and working makes sense?
 
   const setRowCheckboxState = (groupI: number, rowI: number, checked: boolean) => {
-    props.onChangeSetSelectedGroupRows((current: SelectedGroupRows) => {
-      const next = new Map(current)
-      const rows = next.has(groupI) ? next.get(groupI)! : new Set<number>()
+    const next = new Map(props.onChangeSelectedGroupRows())
+    const rows = next.has(groupI) ? next.get(groupI)! : new Set<number>()
 
-      function setGroupRows() {
-        next.set(groupI, rows)
-      }
+    function setGroupRows() {
+      next.set(groupI, rows)
+    }
 
+    function addGroupRow() {
+      rows.add(rowI)
+      setGroupRows()
+    }
+
+    function updateSelectedGroupRows() {
+      props.onChangeSetSelectedGroupRows(next)
+    }
+
+    if (rows.size) {
       if (checked) {
-        rows.add(rowI)
-        setGroupRows()
-      }
-
-      if (!checked) {
-        rows.delete(rowI)
-        if (!rows.size) {
-          next.delete(groupI)
+        if (rows.size === props.rowGroups[groupI].length - 1 && !props.onChangeAllowSelectingAllRows()) {
+          // TODO: If not allowed, show highlight
+          updateSelectedGroupRows()
+          return
         } else {
+          addGroupRow()
+        }
+      } else {
+        rows.delete(rowI)
+        if (rows.size) {
           setGroupRows()
+        } else {
+          next.delete(groupI)
         }
       }
+    } else {
+      addGroupRow()
+    }
 
-      return next
-    })
-
-    props.onChangeSetHasNotSelectedGroupRows(isMapEmpty(props.onChangeSelectedGroupRows()))
+    updateSelectedGroupRows()
+    props.onChangeSetHasNotSelectedGroupRows(isMapEmpty(props.onChangeSelectedGroupRows())) // TODO: does onChangeSetHasNotSelectedGroupRows make sense? Why not check with .size?
 
     if (props.onChangeSelectedGroupRow()) {
       props.onChangeSetSelectedGroupRow(null)
@@ -110,7 +125,6 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
   // and imperative updates that violate the declarative rendering model.
   let renderCheckbox: (_i: number, _j: number) => JSX.Element = (_i: number, _j: number) => null
 
-  // TODO: square outline is the name of the icon? Button title. type="button"?
   if (props.showRowCheckboxes) {
     headerCheckboxCell = (
       <th>
@@ -129,11 +143,10 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
       // Otherwise, it would also select the row, leading to an unintended row toggle alongside the checkbox change.
       return (
         <td>
-          <input
-            type="checkbox"
-            checked={props.onChangeSelectedGroupRows().get(groupI)?.has(rowI)}
-            onMouseDown={e => e.stopPropagation()}
-            onChange={e => setRowCheckboxState(groupI, rowI, e.currentTarget.checked)}
+          <CheckboxInput
+            checked={props.onChangeSelectedGroupRows().get(groupI)?.has(rowI) ?? false}
+            onChange={checked => setRowCheckboxState(groupI, rowI, checked)}
+            onMouseDownStopPropagation
           />
         </td>
       )
@@ -141,47 +154,49 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
   }
 
   return (
-    <table>
-      <thead>
-        <tr>
-          {headerCheckboxCell}
-          <For each={props.columns}>
-            {column => <th>{column.header}</th>}
-          </For>
-        </tr>
-      </thead>
+    <div class="file-result-table">
+      <table>
+        <thead>
+          <tr>
+            {headerCheckboxCell}
+            <For each={props.columns}>
+              {column => <th>{column.header}</th>}
+            </For>
+          </tr>
+        </thead>
 
-      <For each={props.rowGroups}>
-        {(group, groupIndex) => {
-          const groupI = groupIndex()
+        <For each={props.rowGroups}>
+          {(group, groupIndex) => {
+            const groupI = groupIndex()
 
-          return (
-            <tbody>
-              <For each={group}>
-                {(row, rowIndex) => {
-                  const rowI = rowIndex()
+            return (
+              <tbody>
+                <For each={group}>
+                  {(row, rowIndex) => {
+                    const rowI = rowIndex()
 
-                  return (
-                    <tr
-                      onMouseDown={() => handlerRow(groupI, rowI)}
-                      classList={{
-                        'file-result-table__selected-row':
-                          props.onChangeSelectedGroupRow()?.group === groupI &&
-                          props.onChangeSelectedGroupRow()?.row === rowI
-                      }}
-                    >
-                      {renderCheckbox(groupI, rowI)}
-                      <For each={row.cells}>
-                        {(cell, cellIndex) => <td>{cellContentRenderers[cellIndex()](cell)}</td>}
-                      </For>
-                    </tr>
-                  )
-                }}
-              </For>
-            </tbody>
-          )
-        }}
-      </For>
-    </table>
+                    return (
+                      <tr
+                        onMouseDown={() => handlerRow(groupI, rowI)}
+                        classList={{
+                          'file-result-table__selected-row':
+                            props.onChangeSelectedGroupRow()?.group === groupI &&
+                            props.onChangeSelectedGroupRow()?.row === rowI
+                        }}
+                      >
+                        {renderCheckbox(groupI, rowI)}
+                        <For each={row.cells}>
+                          {(cell, cellIndex) => <td>{cellContentRenderers[cellIndex()](cell)}</td>}
+                        </For>
+                      </tr>
+                    )
+                  }}
+                </For>
+              </tbody>
+            )
+          }}
+        </For>
+      </table>
+    </div>
   )
 }
