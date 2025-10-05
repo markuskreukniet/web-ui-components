@@ -40,7 +40,23 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
   const [hasNotSelectedGroupRows, setHasNotSelectedGroupRows] = createSignal<boolean>(true)
   const [allowSelectingAllRows, setAllowSelectingAllRows] = createSignal<boolean>(false)
 
-  const handler = async () => {
+  const handlerChange = (checked: boolean) => {
+    if (!checked) {
+      setSelectedGroupRows(prev => {
+        const next = new Map(prev)
+        next.forEach((value, key) => {
+          if (props.rowGroups[key].length === value.size) {
+            value.delete(0)
+          }
+        })
+        return next
+      })
+    }
+
+    setAllowSelectingAllRows(checked)
+  }
+
+  const handlerPress = async () => {
     props.onChange(selectedGroupRows())
   }
 
@@ -90,7 +106,7 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
           <input
             type="checkbox"
             checked={allowSelectingAllRows()}
-            onChange={e => setAllowSelectingAllRows(e.currentTarget.checked)}
+            onChange={e => handlerChange(e.currentTarget.checked)}
           />
           <span>⚠ Allow deleting non-duplicate files (dangerous)</span>
         </label>
@@ -99,7 +115,7 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
           <DeleteButton
             isLoading={props.isLoading}
             disabled={hasNotSelectedGroupRows()}
-            onPress={handler}
+            onPress={handlerPress}
             variant={DeleteButtonVariants.selection}
           />
         )}
