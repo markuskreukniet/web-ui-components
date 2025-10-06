@@ -4,7 +4,7 @@ type CheckboxInputProps = {
   checked: boolean
   // TODO: it is instead of onChange: (e: Event) => void, also possible on other places?
   // TODO: currentTarget and target naming
-  onChange: (e: Event & { currentTarget: HTMLInputElement; target: Element }) => void;
+  onChange: (e: Event & { currentTarget: HTMLInputElement; target: Element }) => void
   onMouseDownStopPropagation?: boolean
 }
 
