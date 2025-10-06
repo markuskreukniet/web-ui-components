@@ -1,4 +1,5 @@
 import { For } from 'solid-js'
+import { CheckboxInput } from './CheckboxInput'
 import { extendCellRenderers } from './FileResultInspector'
 import { TertiaryIconButton } from './buttons/iconButtons/TertiaryIconButton'
 import { isMapEmpty } from '../utils/isEmpty'
@@ -143,11 +144,10 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
       // Otherwise, it would also select the row, leading to an unintended row toggle alongside the checkbox change.
       return (
         <td>
-          <input
-            type="checkbox"
-            checked={props.onChangeSelectedGroupRows().get(groupI)?.has(rowI)}
-            onMouseDown={e => e.stopPropagation()}
+          <CheckboxInput
+            checked={props.onChangeSelectedGroupRows().get(groupI)?.has(rowI) ?? false}
             onChange={e => setRowCheckboxState(groupI, rowI, e.currentTarget.checked)}
+            onMouseDownStopPropagation
           />
         </td>
       )

@@ -1,5 +1,6 @@
 import { createSignal, For, Show } from 'solid-js'
 import { DeleteButton, DeleteButtonVariants } from './buttons/DeleteButton'
+import { CheckboxInput } from './CheckboxInput'
 import { FileResultColumnTypes, FileResultTable } from './FileResultTable'
 import type { Component, JSX } from 'solid-js'
 import type {
@@ -100,11 +101,9 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
         </Show>
       </div>
 
-      {/* TODO: type="checkbox" duplicate */}
       <div class="file-result-inspector__actions">
         <label>
-          <input
-            type="checkbox"
+          <CheckboxInput
             checked={allowSelectingAllRows()}
             onChange={e => handlerChange(e.currentTarget.checked)}
           />
