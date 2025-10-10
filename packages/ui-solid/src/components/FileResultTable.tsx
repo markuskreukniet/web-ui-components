@@ -146,7 +146,7 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
         <td>
           <CheckboxInput
             checked={props.onChangeSelectedGroupRows().get(groupI)?.has(rowI) ?? false}
-            onChange={e => setRowCheckboxState(groupI, rowI, e.currentTarget.checked)}
+            onChange={checked => setRowCheckboxState(groupI, rowI, checked)}
             onMouseDownStopPropagation
           />
         </td>

@@ -105,7 +105,7 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
         <label>
           <CheckboxInput
             checked={allowSelectingAllRows()}
-            onChange={e => handlerChange(e.currentTarget.checked)}
+            onChange={handlerChange}
           />
           <span>⚠ Allow deleting non-duplicate files (dangerous)</span>
         </label>

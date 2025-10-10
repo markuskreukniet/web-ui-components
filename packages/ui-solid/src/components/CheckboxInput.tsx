@@ -1,9 +1,8 @@
-import type { Component, JSX } from 'solid-js'
+import type { Component } from 'solid-js'
 
 type CheckboxInputProps = {
   checked: boolean
-  // TODO: it is instead of onChange: (e: Event) => void, also possible on other places?
-  onChange: JSX.EventHandlerUnion<HTMLInputElement, Event>
+  onChange: (checked: boolean) => void
   onMouseDownStopPropagation?: boolean
 }
 
@@ -12,6 +11,6 @@ export const CheckboxInput: Component<CheckboxInputProps> = props => (
     type="checkbox"
     checked={props.checked}
     onMouseDown={props.onMouseDownStopPropagation ? (e) => e.stopPropagation() : undefined}
-    onChange={props.onChange}
+    onChange={e => props.onChange(e.currentTarget.checked)}
   />
 )
