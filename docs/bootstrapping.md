@@ -7,7 +7,7 @@ npm version:
 5. remove .gitignore and pnpm-lock.yaml from web-ui-components/apps/solid-playground
 6. web-ui-components/packages/ui-solid: npm create vite@latest . -- --template solid-ts
 7. move .gitignore from web-ui-components/packages/ui-solid to web-ui-components
-8. add `dist` to web-ui-components/.gitignore
+8. (is needed?) add `dist` to web-ui-components/.gitignore
 9. web-ui-components/packages/ui-solid/src/components/HelloWorld.tsx: `import type { Component } from 'solid-js';export const HelloWorld: Component = () => {return <p>Hello from ui-solid!</p>;};`
 10. web-ui-components/packages/ui-solid/src/index.ts: `export { HelloWorld } from './components/HelloWorld';`
 11. add `"dependencies": {"ui-solid": "*"}` to web-ui-components/apps/solid-playground/package.json
@@ -31,7 +31,7 @@ pnpm version:
 5. remove .gitignore and pnpm-lock.yaml from web-ui-components/apps/solid-playground
 6. web-ui-components/packages/ui-solid: pnpm create vite . --template solid-ts
 7. move .gitignore from web-ui-components/packages/ui-solid to web-ui-components
-8. add `dist` to web-ui-components/.gitignore
+8. (is needed?) add `dist` to web-ui-components/.gitignore
 9. web-ui-components/packages/ui-solid/src/components/HelloWorld.tsx: `import type { Component } from 'solid-js';export const HelloWorld: Component = () => {return <p>Hello from ui-solid!</p>;};`
 10. web-ui-components/packages/ui-solid/src/index.ts: `export { HelloWorld } from './components/HelloWorld';`
 11. add `"dependencies": {"ui-solid": "workspace:*"}` to web-ui-components/apps/solid-playground/package.json
