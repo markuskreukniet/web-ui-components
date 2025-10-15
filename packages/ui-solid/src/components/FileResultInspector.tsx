@@ -41,6 +41,15 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
   const [hasNotSelectedGroupRows, setHasNotSelectedGroupRows] = createSignal<boolean>(true)
   const [allowSelectingAllRows, setAllowSelectingAllRows] = createSignal<boolean>(false)
 
+  let ref: HTMLLabelElement | undefined
+
+  const drawAttentionToLabel = () => {
+    const defined = ref!
+    const attention = "attention"
+    defined.classList.add(attention)
+    defined.addEventListener("animationend", () => defined.classList.remove(attention), { once: true })
+  }
+
   const handlerChange = (checked: boolean) => {
     if (!checked) {
       setSelectedGroupRows(prev => {
@@ -70,6 +79,7 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
           columns={props.columns}
           rowGroups={props.rowGroups}
           showRowCheckboxes={props.canDelete}
+          drawAttentionToLabel={drawAttentionToLabel}
           onChangeSelectedGroupRow={selectedGroupRow}
           onChangeSetSelectedGroupRow={setSelectedGroupRow}
           onChangeSelectedGroupRows={selectedGroupRows}
@@ -102,7 +112,7 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
       </div>
 
       <div class="file-result-inspector__actions">
-        <label>
+        <label ref={ref}>
           <CheckboxInput
             checked={allowSelectingAllRows()}
             onChange={handlerChange}

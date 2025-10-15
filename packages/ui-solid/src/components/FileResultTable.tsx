@@ -40,6 +40,7 @@ export type FileResultTableDataProps = {
 
 type FileResultTableProps = FileResultTableDataProps & {
   showRowCheckboxes: boolean
+  drawAttentionToLabel: () => void
   onChangeSelectedGroupRow: Accessor<SelectedGroupRow>
   onChangeSetSelectedGroupRow: Setter<SelectedGroupRow>
   onChangeSelectedGroupRows: Accessor<SelectedGroupRows>
@@ -76,7 +77,7 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
     if (rows.size) {
       if (checked) {
         if (rows.size === props.rowGroups[groupI].length - 1 && !props.onChangeAllowSelectingAllRows()) {
-          // TODO: If not allowed, show highlight
+          props.drawAttentionToLabel()
           updateSelectedGroupRows()
           return
         } else {
