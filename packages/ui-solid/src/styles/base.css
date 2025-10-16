@@ -374,7 +374,7 @@ tbody + tbody > tr:first-of-type > td {
   opacity: var(--golden-ratio-reciprocal); TODO: makes sense?
   */
 
-  outline: 1px solid var(--attention-level-2);
+  outline: 1px solid var(--attention-level-2); /* TODO: this adds extra size, so we need to use calc? */
   background-color: var(--attention-level-1);
 }
 
