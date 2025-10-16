@@ -174,7 +174,7 @@ small {
 button {
   cursor: pointer;
   border: var(--fg-border-level-1);
-  border-radius: var(--size-r-1);
+  border-radius: var(--size-r-1); /* TODO: should be border-radius: var(--row-padding);? */
 }
 
 button:disabled {
@@ -369,10 +369,10 @@ tbody + tbody > tr:first-of-type > td {
   /* TODO:
   box-shadow: 0 0 10px 3px var(--attention-color / 0.7);
   outline-offset: 3px;
-  border-radius: 4px;
   opacity: var(--golden-ratio-reciprocal); TODO: makes sense?
   */
 
+  border-radius: var(--row-padding);
   outline: 1px solid var(--attention-level-2); /* TODO: this adds extra size, so we need to use calc? */
   background-color: var(--attention-level-1);
 }
