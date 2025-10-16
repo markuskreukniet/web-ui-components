@@ -140,7 +140,7 @@ body {
 }
 
 h2 {
-  line-height: var(--golden-ratio-rem);
+  line-height: var(--golden-ratio);
   color: var(--fg-level-2);
 }
 
@@ -227,7 +227,6 @@ ul > li + li {
 
 ul > li > span {
   padding-right: var(--size-1);
-  line-height: normal;
 }
 
 /* label */
