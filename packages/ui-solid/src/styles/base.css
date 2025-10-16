@@ -159,22 +159,22 @@ small {
 }
 
 .page > div {
-  --v-offset: 2px;
+  --blur: 2px; /* TODO: reuse this blur */
 
   border: var(--fg-border-level-1);
   border-radius: var(--size-2);
   padding: var(--size-2);
   background-color: var(--bg-level-1);
   box-shadow:
-    0 1px var(--v-offset) var(--fg-level-2),
-    0 3px calc(var(--size-r-1) + var(--v-offset)) var(--fg-level-3);
+    0 1px var(--blur) var(--fg-level-2),
+    0 3px calc(var(--size-r-1) + var(--blur)) var(--fg-level-3);
 }
 
 /* buttons */
 button {
   cursor: pointer;
   border: var(--fg-border-level-1);
-  border-radius: var(--size-r-1); /* TODO: should be border-radius: var(--row-padding);? */
+  border-radius: var(--size-r-1);
 }
 
 button:disabled {
@@ -306,7 +306,7 @@ tbody + tbody > tr:first-of-type > td {
   border: var(--fg-border-level-2); /* overriding */
   padding: calc(var(--size-r-1) - 1px); /* overriding */
   font-weight: bold;
-  box-shadow: inset 0 -3px 0 0 var(--primary-level-1);
+  box-shadow: inset 0 -3px 0 var(--primary-level-1);
 }
 
 .stepper__step-info {
@@ -367,13 +367,14 @@ tbody + tbody > tr:first-of-type > td {
 /* attention */
 .attention {
   /* TODO:
-  box-shadow: 0 0 10px 3px var(--attention-color / 0.7);
-  outline-offset: 3px;
   opacity: var(--golden-ratio-reciprocal); TODO: makes sense?
   */
+  box-shadow:
+    0 0 2px var(--attention-level-3),
+    0 0 5px var(--attention-level-4);
 
   border-radius: var(--row-padding);
-  outline: 1px solid var(--attention-level-2); /* TODO: this adds extra size, so we need to use calc? */
+  outline: 1px solid var(--attention-level-2);
   background-color: var(--attention-level-1);
 }
 
