@@ -159,15 +159,16 @@ small {
 }
 
 .page > div {
-  --blur: 2px; /* TODO: reuse this blur */
+  --v-offset: 1px;
+  --blur: 2px;
 
   border: var(--fg-border-level-1);
   border-radius: var(--size-2);
   padding: var(--size-2);
   background-color: var(--bg-level-1);
   box-shadow:
-    0 1px var(--blur) var(--fg-level-2),
-    0 3px calc(var(--size-r-1) + var(--blur)) var(--fg-level-3);
+    0 var(--v-offset) var(--blur) var(--fg-level-2),
+    0 calc(var(--v-offset) + var(--blur)) calc(var(--blur) + var(--size-r-1)) var(--fg-level-3);
 }
 
 /* buttons */
@@ -366,12 +367,13 @@ tbody + tbody > tr:first-of-type > td {
 
 /* attention */
 .attention {
+  --blur: 3px;
   /* TODO:
   opacity: var(--golden-ratio-reciprocal); TODO: makes sense?
   */
   box-shadow:
-    0 0 2px var(--attention-level-3),
-    0 0 5px var(--attention-level-4);
+    0 0 var(--blur) var(--attention-level-3),
+    0 0 calc(var(--blur) + 2px) var(--attention-level-4);
 
   border-radius: var(--row-padding);
   outline: 1px solid var(--attention-level-2);
