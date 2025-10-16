@@ -47,7 +47,7 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
     const defined = ref!
     const attention = "attention"
     defined.classList.add(attention)
-    defined.addEventListener("animationend", () => defined.classList.remove(attention), { once: true })
+    //defined.addEventListener("animationend", () => defined.classList.remove(attention), { once: true })
   }
 
   const handlerChange = (checked: boolean) => {

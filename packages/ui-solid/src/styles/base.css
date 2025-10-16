@@ -363,6 +363,15 @@ tbody + tbody > tr:first-of-type > td {
 
 /* attention */
 .attention {
+  /* TODO:
+  box-shadow: 0 0 10px 3px var(--attention-color / 0.7);
+  outline-offset: 3px;
+  border-radius: 4px;
+  opacity: var(--golden-ratio-reciprocal); TODO: makes sense?
+  */
+
+  outline: 1px solid var(--attention-level-2);
+  background-color: var(--attention-level-1);
 }
 
 /* toast-item */
