@@ -372,10 +372,10 @@ tbody + tbody > tr:first-of-type > td {
     box-shadow: none;
   }
   20%, 80% {
-    outline: 1px solid var(--attention-level-1);
+    outline: 1px solid var(--attention-level-3);
     box-shadow:
       0 0 var(--blur) var(--attention-level-2),
-      0 0 calc(var(--blur) + 2px) var(--attention-level-3);
+      0 0 calc(var(--blur) + 2px) var(--attention-level-1);
   }
 }
 
