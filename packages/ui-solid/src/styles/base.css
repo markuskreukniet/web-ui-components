@@ -366,18 +366,25 @@ tbody + tbody > tr:first-of-type > td {
 }
 
 /* attention */
+@keyframes attention-keyframes {
+  0%, 100% {
+    outline: transparent;
+    box-shadow: none;
+  }
+  20%, 80% {
+    outline: 1px solid var(--attention-level-1);
+    box-shadow:
+      0 0 var(--blur) var(--attention-level-2),
+      0 0 calc(var(--blur) + 2px) var(--attention-level-3);
+  }
+}
+
+/* TODO: is the contrast enough? */
 .attention {
   --blur: 3px;
-  /* TODO:
-  opacity: var(--golden-ratio-reciprocal); TODO: makes sense?
-  */
-  box-shadow:
-    0 0 var(--blur) var(--attention-level-3),
-    0 0 calc(var(--blur) + 2px) var(--attention-level-4);
 
+  animation: attention-keyframes 0.6s linear;
   border-radius: var(--row-padding);
-  outline: 1px solid var(--attention-level-2);
-  background-color: var(--attention-level-1);
 }
 
 /* toast-item */
