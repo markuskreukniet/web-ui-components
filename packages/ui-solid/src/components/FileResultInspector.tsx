@@ -1,7 +1,9 @@
 import { createSignal, For, Show } from 'solid-js'
-import { DeleteButton, DeleteButtonVariants } from './buttons/DeleteButton'
+import { DeleteFilesButton } from './buttons/DeleteFilesButton'
 import { CheckboxInput } from './CheckboxInput'
+import { DeleteFilesDialog } from './DeleteFilesDialog'
 import { FileResultColumnTypes, FileResultTable } from './FileResultTable'
+import { hasMapSingleEntry } from '../utils/collection-size'
 import type { Component, JSX } from 'solid-js'
 import type {
   FileResultColumnType,
@@ -40,6 +42,16 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
   const [selectedGroupRows, setSelectedGroupRows] = createSignal<SelectedGroupRows>(new Map())
   const [hasNotSelectedGroupRows, setHasNotSelectedGroupRows] = createSignal<boolean>(true)
   const [allowSelectingAllRows, setAllowSelectingAllRows] = createSignal<boolean>(false)
+  const [single, setSingle] = createSignal<boolean>(false) // TODO: false or true default? // TODO: use it
+  const [open, setOpen] = createSignal<boolean>(false)
+
+  const handlerOpen = (open: boolean) => () => setOpen(open)
+
+  // TODO: naming and using
+  const updateSelectedGroupRows = (rows: SelectedGroupRows) => {
+    setSelectedGroupRows(rows)
+    setSingle(hasMapSingleEntry(rows))
+  }
 
   let ref: HTMLLabelElement | undefined
 
@@ -54,11 +66,11 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
     if (!checked) {
       setSelectedGroupRows(prev => {
         const next = new Map(prev)
-        next.forEach((value, key) => {
+        for (const [key, value] of next) {
           if (props.rowGroups[key].length === value.size) {
             value.delete(0)
           }
-        })
+        }
         return next
       })
     }
@@ -66,15 +78,12 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
     setAllowSelectingAllRows(checked)
   }
 
-  const handlerPress = async () => {
-    props.onChange(selectedGroupRows())
-  }
-
   const columnRenderers = props.columns.map(column => cellContentRenderers[column.type])
 
   return (
     <div class="file-result-inspector">
       <div>
+        {/* TODO: do not send setSelectedGroupRows, but send something like updateSelectedGroupRows, so that it also changes setOpen, but FileResultTable does not know that it does */}
         <FileResultTable
           columns={props.columns}
           rowGroups={props.rowGroups}
@@ -121,12 +130,21 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
         </label>
 
         {props.canDelete && (
-          <DeleteButton
-            isLoading={props.isLoading}
-            disabled={hasNotSelectedGroupRows()}
-            onPress={handlerPress}
-            variant={DeleteButtonVariants.selection}
-          />
+          <>
+            <DeleteFilesDialog
+              open={open()}
+              count={selectedGroupRows().size}
+              onClose={handlerOpen(false)}
+              onConfirm={async () => props.onChange(selectedGroupRows())}
+            />
+
+            <DeleteFilesButton
+              single={selectedGroupRows().size === 1}
+              isLoading={props.isLoading}
+              disabled={hasNotSelectedGroupRows()}
+              onPress={handlerOpen(true)}
+            />
+          </>
         )}
       </div>
     </div>

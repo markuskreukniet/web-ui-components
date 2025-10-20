@@ -40,12 +40,14 @@ function decrement(n: number): number {
 export const Stepper: Component<StepperProps> = props => {
   const [stepIndex, setStepIndex] = createSignal(0)
 
-  function isStepDisabled(index: number): boolean {
-    return index > props.lastEnabledStepIndex
-  }
+  const handler = (n: number) => () => setStepIndex(n)
 
   // TODO: use step in classList={{'stepper__steps__active-step': stepIndex() === i}}?
   const step = () => props.steps[stepIndex()]
+
+  function isStepDisabled(index: number): boolean {
+    return index > props.lastEnabledStepIndex
+  }
 
   return (
     <div class="stepper">
@@ -60,7 +62,7 @@ export const Stepper: Component<StepperProps> = props => {
               >
                 <TertiaryButton
                   disabled={isStepDisabled(i)}
-                  onPress={() => setStepIndex(i)}
+                  onPress={handler(i)}
                 >
                   {`${increment(i)}. ${step.label}`}
                 </TertiaryButton>
@@ -73,13 +75,13 @@ export const Stepper: Component<StepperProps> = props => {
         <div>
           <TertiaryButton
             disabled={isStrictEqual0(stepIndex())}
-            onPress={() => setStepIndex(decrement(stepIndex()))}
+            onPress={handler(decrement(stepIndex()))}
           >
             Back
           </TertiaryButton>
           <TertiaryButton
             disabled={isStepDisabled(stepIndex()) || stepIndex() === decrement(props.steps.length)}
-            onPress={() => setStepIndex(increment(stepIndex()))}
+            onPress={handler(increment(stepIndex()))}
           >
             Next
           </TertiaryButton>

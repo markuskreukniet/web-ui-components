@@ -3,7 +3,7 @@ import { CloseButton } from './buttons/iconButtons/CloseButton'
 import { TertiaryButton } from './buttons/TertiaryButton'
 import { FilePathSelector, FilePathTypes } from './FilePathSelector'
 import { isRight, left, right } from '../modules/monads/either'
-import { isArrayEmpty } from '../utils/isEmpty'
+import { isArrayEmpty } from '../utils/collection-size'
 import type { Component, JSX } from 'solid-js'
 import type { SelectedFilePathEither } from './FilePathSelector'
 import type { Either } from '../modules/monads/either'
@@ -53,6 +53,8 @@ function addTrailingSlash(filePath: string): string {
 export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = props => {
   const [resolvedFilePaths, setResolvedFilePaths] = createSignal<ResolvedFilePaths>([])
 
+  const handlerUpdateResolvedFilePaths = (paths: ResolvedFilePaths) => () => updateResolvedFilePaths(paths)
+
   function shouldRenderSelectorFor(mode: FilePathSelectorMode): boolean {
     return (
       props.filePathSelectorMode === mode ||
@@ -65,7 +67,7 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
     props.onChange(right(paths))
   }
 
-  const handlerChange = (either: SelectedFilePathEither) => {
+  const handler = (either: SelectedFilePathEither) => {
     if (isRight(either)) {
       if (either.value.filePath === null) {
         return
@@ -96,14 +98,6 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
     }
   }
 
-  const handlerPressClear = () => {
-    updateResolvedFilePaths([])
-  }
-
-  const handlerPressRemove = (index: number) => {
-    updateResolvedFilePaths(resolvedFilePaths().filter((_, i) => i !== index))
-  }
-
   return (
     <div class="file-path-selector-group">
       <div class="file-path-selector-group__buttons">
@@ -111,14 +105,14 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
           <FilePathSelector
             filePathType={FilePathTypes.regularFile}
             selectFilePath={props.selectFilePath}
-            onChange={handlerChange}
+            onChange={handler}
           />
         )}
         {shouldRenderSelectorFor(FilePathSelectorModes.directory) && (
           <FilePathSelector
             filePathType={FilePathTypes.directory}
             selectFilePath={props.selectFilePath}
-            onChange={handlerChange}
+            onChange={handler}
           />
         )}
       </div>
@@ -128,7 +122,9 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
             {(path, index) =>
               <li>
                 <span>{path.filePath}</span>
-                <CloseButton onPress={() => handlerPressRemove(index())} />
+                <CloseButton
+                  onPress={handlerUpdateResolvedFilePaths(resolvedFilePaths().filter((_, i) => i !== index()))}
+                />
               </li>
             }
           </For>
@@ -136,7 +132,7 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
       </div>
       <div class="file-path-selector-group__buttons">
         <TertiaryButton
-          onPress={handlerPressClear}
+          onPress={handlerUpdateResolvedFilePaths([])}
           disabled={isArrayEmpty(resolvedFilePaths())}
         >
           Clear

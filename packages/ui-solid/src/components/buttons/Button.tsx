@@ -1,5 +1,6 @@
 import { ProgressCircle } from '../ProgressCircle'
 import type { Component, ParentProps } from 'solid-js'
+import type { VoidFunction } from "../../types/types"
 
 export const ButtonVariants = {
   primary: 'button--primary',
@@ -12,7 +13,7 @@ type ButtonVariant = typeof ButtonVariants[keyof typeof ButtonVariants]
 export type ButtonBaseProps = {
   disabled?: boolean
   isLoading?: boolean
-  onPress: () => void
+  onPress: VoidFunction
 }
 
 export type ButtonParentProps = ButtonBaseProps & ParentProps

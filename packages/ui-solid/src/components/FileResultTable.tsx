@@ -2,8 +2,9 @@ import { For } from 'solid-js'
 import { CheckboxInput } from './CheckboxInput'
 import { extendCellRenderers } from './FileResultInspector'
 import { TertiaryIconButton } from './buttons/iconButtons/TertiaryIconButton'
-import { isMapEmpty } from '../utils/isEmpty'
+import { isMapEmpty } from '../utils/collection-size'
 import type { Accessor, Component, JSX, Setter } from 'solid-js'
+import type { VoidFunction } from "../types/types"
 
 export const FileResultColumnTypes = {
   text: 'text',
@@ -40,7 +41,7 @@ export type FileResultTableDataProps = {
 
 type FileResultTableProps = FileResultTableDataProps & {
   showRowCheckboxes: boolean
-  drawAttentionToLabel: () => void
+  drawAttentionToLabel: VoidFunction
   onChangeSelectedGroupRow: Accessor<SelectedGroupRow>
   onChangeSetSelectedGroupRow: Setter<SelectedGroupRow>
   onChangeSelectedGroupRows: Accessor<SelectedGroupRows>
@@ -96,7 +97,7 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
     }
 
     updateSelectedGroupRows()
-    props.onChangeSetHasNotSelectedGroupRows(isMapEmpty(props.onChangeSelectedGroupRows())) // TODO: does onChangeSetHasNotSelectedGroupRows make sense? Why not check with .size?
+    props.onChangeSetHasNotSelectedGroupRows(isMapEmpty(props.onChangeSelectedGroupRows()))
 
     if (props.onChangeSelectedGroupRow()) {
       props.onChangeSetSelectedGroupRow(null)

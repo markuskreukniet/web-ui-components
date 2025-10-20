@@ -6,7 +6,8 @@ import { FileResultColumnTypes } from '../../components/FileResultTable'
 import { createStep, Stepper } from '../../components/Stepper'
 import { isLeft, isRight, right } from '../../modules/monads/either'
 import { addErrorToastFromEither, useToastContext } from '../../modules/toasts/toast-context'
-import { isArrayEmpty } from '../../utils/isEmpty'
+import { isArrayEmpty } from '../../utils/collection-size'
+import { isStrictEqual1 } from '../../utils/utils'
 import type { Component } from 'solid-js'
 import type { SourceTargetContextEither } from '../../components/FilePathSelectionForm'
 import type { ResolvedFilePaths } from '../../components/FilePathSelectorGroup'
@@ -79,7 +80,7 @@ export const DuplicateCleanupPage: Component = () => {
         const count = files.value.duplicateFileCount
         context.addSuccessToast(
           files.value.duplicateFileCount
-            ? `${count} duplicate file${count === 1 ? '' : 's'} detected` : 'No duplicate files detected'
+            ? `${count} duplicate file${isStrictEqual1(count) ? '' : 's'} detected` : 'No duplicate files detected'
         )
       } else {
         addErrorToastFromEither(files)
@@ -95,12 +96,12 @@ export const DuplicateCleanupPage: Component = () => {
         const groups: RowGroups = []
         const errorMessages: string[] = []
 
-        rowGroups().forEach((group, groupIndex) => {
+        for (const [groupIndex, group] of rowGroups().entries()) {
           const rowMap = result.get(groupIndex)
           let nextRows: RowGroup = []
 
           if (rowMap) {
-            group.forEach((row, rowIndex) => {
+            for (const [rowIndex, row] of group.entries()) {
               if (!rowMap.has(rowIndex)) {
                 nextRows.push(row)
               } else {
@@ -111,7 +112,7 @@ export const DuplicateCleanupPage: Component = () => {
                   nextRows.push(row)
                 }
               }
-            })
+            }
           } else {
             nextRows = group
           }
@@ -119,7 +120,7 @@ export const DuplicateCleanupPage: Component = () => {
           if (nextRows.length > 1) {
             groups.push(nextRows)
           }
-        })
+        }
 
         setRowGroups(groups)
 

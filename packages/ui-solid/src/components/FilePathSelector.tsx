@@ -1,4 +1,4 @@
-import { Button, ButtonVariants } from './buttons/Button'
+import { SecondaryButton } from './buttons/SecondaryButton'
 import { mapRight } from '../modules/monads/either'
 import type { Component } from 'solid-js'
 import type { Either } from '../modules/monads/either'
@@ -32,11 +32,10 @@ export const FilePathSelector: Component<FilePathSelectorProps> = props => {
   }
 
   return (
-    <Button
+    <SecondaryButton
       onPress={handler}
-      variant={ButtonVariants.secondary}
     >
       {`Add a ${props.filePathType === FilePathTypes.regularFile ? 'file' : 'directory'}`}
-    </Button>
+    </SecondaryButton>
   )
 }
