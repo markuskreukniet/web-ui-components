@@ -122,6 +122,14 @@
   --attention-level-3: light-dark(var(--lt-attention-level-3), var(--dt-attention-level-3));
   --attention-level-4: light-dark(var(--lt-attention-level-4), var(--dt-attention-level-4));
   --attention-level-5: light-dark(var(--lt-attention-level-5), var(--dt-attention-level-5));
+
+  --lt-dialog-overlay-alpha: 0.4;
+  --dt-dialog-overlay-alpha: 0.2;
+
+  --lt-dialog-overlay: oklch(var(--dt-lightness-level-1) 0 0 / var(--lt-dialog-overlay-alpha));
+  --dt-dialog-overlay: oklch(var(--lt-lightness-level-1) 0 0 / var(--dt-dialog-overlay-alpha));
+
+  --dialog-overlay: light-dark(var(--lt-dialog-overlay), var(--dt-dialog-overlay));
 }
 
 * {
@@ -148,6 +156,14 @@ small {
   color: var(--fg-level-3);
 }
 
+/* surface */
+.surface {
+  border: var(--fg-border-level-1);
+  border-radius: var(--size-2);
+  padding: var(--size-2);
+  background-color: var(--bg-level-1);
+}
+
 /* page */
 .page {
   height: 100vh;
@@ -158,14 +174,11 @@ small {
   background: linear-gradient(to bottom, var(--bg-level-1) 0%, var(--bg-level-2) 100%);
 }
 
+/* TODO: add to stepper? */
 .page > div {
   --v-offset: 1px;
   --blur: 2px;
 
-  border: var(--fg-border-level-1);
-  border-radius: var(--size-2);
-  padding: var(--size-2);
-  background-color: var(--bg-level-1);
   box-shadow:
     0 var(--v-offset) var(--blur) var(--fg-level-2),
     0 calc(var(--v-offset) + var(--blur)) calc(var(--blur) + var(--size-r-1)) var(--fg-level-3);
@@ -303,7 +316,7 @@ tbody + tbody > tr:first-of-type > td {
   padding-left: var(--size-1);
 }
 
-.stepper__steps__active-step > button {
+.stepper__active-step > button {
   border: var(--fg-border-level-2); /* overriding */
   padding: calc(var(--size-r-1) - 1px); /* overriding */
   font-weight: bold;
@@ -363,6 +376,25 @@ tbody + tbody > tr:first-of-type > td {
   border: var(--fg-border-level-2);
   border-radius: var(--size-1); /* TODO: correct border? */
   background-color: var(--bg-level-2);
+}
+
+/* delete-files-dialog */
+.delete-files-dialog__overlay {
+  position: fixed;
+  inset: 0;
+  background-color: var(--dialog-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-files-dialog__content {
+  --v-offset: 3px;
+  --blur: 5px;
+
+  box-shadow:
+    0 var(--v-offset) var(--blur) var(--fg-level-2),
+    0 calc(var(--v-offset) + var(--blur)) calc(var(--blur) + var(--size-1)) var(--fg-level-3);
 }
 
 /* attention */

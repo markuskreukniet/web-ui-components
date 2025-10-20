@@ -69,8 +69,7 @@ A **component** is any function that **returns JSX**. Components represent UI el
 
 #### Naming Convention:
 
-- Functions that return JSX should be prefixed with `render`.  
-  _Examples_: `renderPanel`, `renderHeader`, `renderListItem`.
+- Functions that return JSX should be prefixed with `render`. _Examples_: `renderPanel`, `renderHeader`, `renderListItem`.
 
 ---
 
@@ -196,7 +195,7 @@ This pattern makes it explicit that the function handles a specific UI event, en
 
 - **Use CSS classes exclusively for all styling purposes.** Reserve IDs strictly for JavaScript-related behavior, such as DOM manipulation and event handling. This separation of concerns reduces CSS specificity issues and supports a maintainable, scalable codebase.
 
-- **Do not use CSS margins.** Margins can introduce unpredictable layout behavior due to issues such as margin collapse, overflow clipping, and inconsistent spacing. Instead, use layout mechanisms like padding, the `gap` property (in Flexbox or Grid), or standardized spacing utilities.
+- **Prefer not to use CSS margins.** Margins can introduce unpredictable layout behavior due to issues such as margin collapse, overflow clipping, and inconsistent spacing. Instead, try to use layout mechanisms like padding, the `gap` property (in Flexbox or Grid), or standardized spacing utilities.
   References: [Max Stoiber](https://mxstbr.com/thoughts/margin), [Josh Comeau](https://www.joshwcomeau.com/css/rules-of-margin-collapse/)
 
 - **Prefer `mousedown` over `click` for event handling.** Using `mousedown` provides more immediate feedback and improves responsiveness, particularly in performance-sensitive contexts such as games or interactive interfaces.
@@ -228,3 +227,5 @@ This pattern makes it explicit that the function handles a specific UI event, en
 - add filter/order on filer extension
 - fix texts
 - add aria-label (and other ARIA?), title, role=, and type="button" to button. Maybe also add these things to other elements
+- add to README: do not use `forEach()`, use `for…of` instead. It is from sonarqube. Ask AI why it is better
+- add hand hover on table row
