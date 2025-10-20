@@ -96,7 +96,7 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
     }
 
     updateSelectedGroupRows()
-    props.onChangeSetHasNotSelectedGroupRows(isMapEmpty(props.onChangeSelectedGroupRows())) // TODO: does onChangeSetHasNotSelectedGroupRows make sense? Why not check with .size?
+    props.onChangeSetHasNotSelectedGroupRows(isMapEmpty(props.onChangeSelectedGroupRows()))
 
     if (props.onChangeSelectedGroupRow()) {
       props.onChangeSetSelectedGroupRow(null)

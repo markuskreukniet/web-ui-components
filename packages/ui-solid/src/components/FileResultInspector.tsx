@@ -1,5 +1,5 @@
 import { createSignal, For, Show } from 'solid-js'
-import { DeleteButton, DeleteButtonVariants } from './buttons/DeleteButton'
+import { DeleteFilesButton } from './buttons/DeleteFilesButton'
 import { CheckboxInput } from './CheckboxInput'
 import { FileResultColumnTypes, FileResultTable } from './FileResultTable'
 import type { Component, JSX } from 'solid-js'
@@ -121,11 +121,11 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
         </label>
 
         {props.canDelete && (
-          <DeleteButton
+          <DeleteFilesButton
+            single={selectedGroupRows().size === 1}
             isLoading={props.isLoading}
             disabled={hasNotSelectedGroupRows()}
             onPress={handlerPress}
-            variant={DeleteButtonVariants.selection}
           />
         )}
       </div>
