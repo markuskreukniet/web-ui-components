@@ -2,11 +2,11 @@ import { Button, ButtonVariants } from './Button'
 import type { Component } from 'solid-js'
 import type { ButtonParentProps } from './Button'
 
-type TertiaryButtonProps = ButtonParentProps
+type PrimaryButtonProps = ButtonParentProps
 
-export const TertiaryButton: Component<TertiaryButtonProps> = props => (
+export const PrimaryButton: Component<PrimaryButtonProps> = props => (
   <Button
     {...props}
-    variant={ButtonVariants.tertiary}
+    variant={ButtonVariants.primary}
   />
 )

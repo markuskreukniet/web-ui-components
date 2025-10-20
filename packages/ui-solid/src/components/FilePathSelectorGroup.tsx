@@ -1,11 +1,13 @@
 import { createSignal, For } from 'solid-js'
+import { AlignEndButtonGroup } from "./buttonGroups/AlignEndButtonGroup"
+import { ButtonGroup } from "./buttonGroups/ButtonGroup"
 import { CloseButton } from './buttons/iconButtons/CloseButton'
 import { TertiaryButton } from './buttons/TertiaryButton'
 import { FilePathSelector, FilePathTypes } from './FilePathSelector'
 import { isRight, left, right } from '../modules/monads/either'
-import { isArrayEmpty } from '../utils/isEmpty'
+import { isArrayEmpty } from '../utils/collection-size'
 import type { Component, JSX } from 'solid-js'
-import type { SelectedFilePathEither } from './FilePathSelector'
+import type { IsDirectory, SelectedFilePathEither } from './FilePathSelector'
 import type { Either } from '../modules/monads/either'
 import type { SelectFilePathProps } from '../types/types'
 
@@ -16,9 +18,9 @@ export const FilePathSelectorModes = {
 
 export type FilePathSelectorMode = typeof FilePathSelectorModes[keyof typeof FilePathSelectorModes]
 
-type ResolvedFilePath = {
+type ResolvedFilePath = IsDirectory & {
   filePath: string
-  isDirectory: boolean
+  elidedPath: string
 }
 
 export type ResolvedFilePaths = ResolvedFilePath[]
@@ -36,10 +38,23 @@ type FilePathSelectorGroupProps = FilePathSelectorGroupBaseProps & {
 }
 
 function createResolvedFilePath(filePath: string, isDirectory: boolean): ResolvedFilePath {
-  return {
+  const path = {
     filePath,
-    isDirectory
+    isDirectory,
+    elidedPath: filePath
   }
+
+  let maximumCharacters = 89
+  if (filePath.length > maximumCharacters) {
+    maximumCharacters--
+    path.elidedPath = `${
+      filePath.slice(0, Math.ceil(maximumCharacters / 2))
+    }…${
+      filePath.slice(filePath.length - Math.floor(maximumCharacters / 2))
+    }`
+  }
+
+  return path
 }
 
 // Add a trailing slash to a file path.
@@ -53,6 +68,8 @@ function addTrailingSlash(filePath: string): string {
 export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = props => {
   const [resolvedFilePaths, setResolvedFilePaths] = createSignal<ResolvedFilePaths>([])
 
+  const handlerUpdateResolvedFilePaths = (paths: ResolvedFilePaths) => () => updateResolvedFilePaths(paths)
+
   function shouldRenderSelectorFor(mode: FilePathSelectorMode): boolean {
     return (
       props.filePathSelectorMode === mode ||
@@ -65,7 +82,7 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
     props.onChange(right(paths))
   }
 
-  const handlerChange = (either: SelectedFilePathEither) => {
+  const handler = (either: SelectedFilePathEither) => {
     if (isRight(either)) {
       if (either.value.filePath === null) {
         return
@@ -96,53 +113,47 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
     }
   }
 
-  const handlerPressClear = () => {
-    updateResolvedFilePaths([])
-  }
-
-  const handlerPressRemove = (index: number) => {
-    updateResolvedFilePaths(resolvedFilePaths().filter((_, i) => i !== index))
-  }
-
   return (
     <div class="file-path-selector-group">
-      <div class="file-path-selector-group__buttons">
+      <ButtonGroup>
         {shouldRenderSelectorFor(FilePathSelectorModes.regularFile) && (
           <FilePathSelector
             filePathType={FilePathTypes.regularFile}
             selectFilePath={props.selectFilePath}
-            onChange={handlerChange}
+            onChange={handler}
           />
         )}
         {shouldRenderSelectorFor(FilePathSelectorModes.directory) && (
           <FilePathSelector
             filePathType={FilePathTypes.directory}
             selectFilePath={props.selectFilePath}
-            onChange={handlerChange}
+            onChange={handler}
           />
         )}
-      </div>
+      </ButtonGroup>
       <div class="file-path-selector-group__file-paths-wrapper">
         <ul>
           <For each={resolvedFilePaths()}>
             {(path, index) =>
               <li>
-                <span>{path.filePath}</span>
-                <CloseButton onPress={() => handlerPressRemove(index())} />
+                <span class="file-path">{path.elidedPath}</span>
+                <CloseButton
+                  onPress={handlerUpdateResolvedFilePaths(resolvedFilePaths().filter((_, i) => i !== index()))}
+                />
               </li>
             }
           </For>
         </ul>
       </div>
-      <div class="file-path-selector-group__buttons">
+      <AlignEndButtonGroup>
         <TertiaryButton
-          onPress={handlerPressClear}
+          onPress={handlerUpdateResolvedFilePaths([])}
           disabled={isArrayEmpty(resolvedFilePaths())}
         >
           Clear
         </TertiaryButton>
         {props.submitButton}
-      </div>
+      </AlignEndButtonGroup>
     </div>
   )
 }

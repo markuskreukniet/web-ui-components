@@ -9,9 +9,7 @@ export const IconButton: Component<IconButtonProps> = props => {
   const [local, rest] = splitProps(props, ['children'])
 
   return (
-    <Button
-      {...rest}
-    >
+    <Button {...rest}>
       <svg
         viewBox="0 0 24 24"
         fill="none"

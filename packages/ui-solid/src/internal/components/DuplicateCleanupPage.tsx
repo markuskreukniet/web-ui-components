@@ -6,7 +6,8 @@ import { FileResultColumnTypes } from '../../components/FileResultTable'
 import { createStep, Stepper } from '../../components/Stepper'
 import { isLeft, isRight, right } from '../../modules/monads/either'
 import { addErrorToastFromEither, useToastContext } from '../../modules/toasts/toast-context'
-import { isArrayEmpty } from '../../utils/isEmpty'
+import { isArrayEmpty } from '../../utils/collection-size'
+import { isStrictEqual1 } from '../../utils/utils'
 import type { Component } from 'solid-js'
 import type { SourceTargetContextEither } from '../../components/FilePathSelectionForm'
 import type { ResolvedFilePaths } from '../../components/FilePathSelectorGroup'
@@ -28,6 +29,7 @@ type DetectDuplicateFilesResultEither = Either<Error, DetectDuplicateFilesResult
 // ensuring each group index is represented only once.
 type DeleteSelectedFilesResult = Map<number, Map<number, Error | null>>
 
+// TODO: some functions and similar things inside this component should be outside this component? Other places/components are already ok
 export const DuplicateCleanupPage: Component = () => {
   const [rowGroups, setRowGroups] = createSignal<RowGroups>([])
   const [isLoading, setIsLoading] = createSignal(false)
@@ -38,7 +40,7 @@ export const DuplicateCleanupPage: Component = () => {
     return right('')
   }
 
-  const deleteSelectedFiles = async (selectedGroupRows: SelectedGroupRows): Promise<DeleteSelectedFilesResult> => {
+  const deleteSelectedFiles = async (rows: SelectedGroupRows): Promise<DeleteSelectedFilesResult> => {
     return new Map()
   }
 
@@ -79,7 +81,7 @@ export const DuplicateCleanupPage: Component = () => {
         const count = files.value.duplicateFileCount
         context.addSuccessToast(
           files.value.duplicateFileCount
-            ? `${count} duplicate file${count === 1 ? '' : 's'} detected` : 'No duplicate files detected'
+            ? `${count} duplicate file${isStrictEqual1(count) ? '' : 's'} detected` : 'No duplicate files detected'
         )
       } else {
         addErrorToastFromEither(files)
@@ -95,12 +97,12 @@ export const DuplicateCleanupPage: Component = () => {
         const groups: RowGroups = []
         const errorMessages: string[] = []
 
-        rowGroups().forEach((group, groupIndex) => {
+        for (const [groupIndex, group] of rowGroups().entries()) {
           const rowMap = result.get(groupIndex)
           let nextRows: RowGroup = []
 
           if (rowMap) {
-            group.forEach((row, rowIndex) => {
+            for (const [rowIndex, row] of group.entries()) {
               if (!rowMap.has(rowIndex)) {
                 nextRows.push(row)
               } else {
@@ -111,7 +113,7 @@ export const DuplicateCleanupPage: Component = () => {
                   nextRows.push(row)
                 }
               }
-            })
+            }
           } else {
             nextRows = group
           }
@@ -119,7 +121,7 @@ export const DuplicateCleanupPage: Component = () => {
           if (nextRows.length > 1) {
             groups.push(nextRows)
           }
-        })
+        }
 
         setRowGroups(groups)
 
@@ -136,8 +138,8 @@ export const DuplicateCleanupPage: Component = () => {
         steps={[
           createStep(
             'File Selection',
-            'Select file(s) and/or folder(s)',
-            'Choose file(s) and/or folder(s) that you want to check for duplicates.',
+            'Select Files and Directories',
+            'Choose the files and directories you want to include for duplicate checking. Any duplicate file paths or duplicate subpaths will be automatically filtered out.',
             <FilePathSelectionForm
               filePathSelectorMode={FilePathSelectorModes.regularFileAndDirectory}
               isLoading={isLoading()}
@@ -150,8 +152,8 @@ export const DuplicateCleanupPage: Component = () => {
           ),
           createStep(
             'File Inspection',
-            '',
-            '',
+            'File Review and Deletion',
+            'Select a file to inspect it in more detail, or choose the files you want to delete. By default, only duplicate files can be deleted; enabling advanced mode allows deletion of any file.',
             <FileResultInspector
               columns={columns}
               rowGroups={rowGroups()}
@@ -159,7 +161,7 @@ export const DuplicateCleanupPage: Component = () => {
               canDelete
               onChange={handlerSelectedGroupRows}
             />,
-            ''
+            'Select one or more files to enable deletion.'
           )
         ]}
         lastEnabledStepIndex={isArrayEmpty(rowGroups()) ? 0 : 1}

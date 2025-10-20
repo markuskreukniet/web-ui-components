@@ -22,8 +22,9 @@ web-ui-components/
 │   │   ├── package.json
 │   │   └── vite.config.ts
 │   ├── ui-solid/                     # SolidJS-based UI components, mirroring the structure of the ui-react/ directory.
-│   ├── ui-core/                      # Shared styles and logic utilities
+│   ├── shared/
 │   │   ├── src/
+│   │   │   ├── i18n/
 │   │   │   ├── monads/
 │   │   │   │   └── either.ts
 │   │   │   ├── utils/                # Framework-agnostic utility modules organized under ui-core, rather than modules/, to reflect their shared use across UI implementations.
@@ -36,7 +37,8 @@ web-ui-components/
 │   │   └── vite.config.ts
 ├── apps/
 │   ├── react-playground/
-│   └── solid-playground/
+│   ├── solid-playground/
+│   └── electron/
 ├── package-lock.json
 ├── package.json                      # Root workspace configuration
 ├── pnpm-lock.yaml                    # Generated lockfile (only present in a pnpm-managed project)
@@ -69,8 +71,7 @@ A **component** is any function that **returns JSX**. Components represent UI el
 
 #### Naming Convention:
 
-- Functions that return JSX should be prefixed with `render`.  
-  _Examples_: `renderPanel`, `renderHeader`, `renderListItem`.
+- Functions that return JSX should be prefixed with `render`. _Examples_: `renderPanel`, `renderHeader`, `renderListItem`.
 
 ---
 
@@ -196,7 +197,7 @@ This pattern makes it explicit that the function handles a specific UI event, en
 
 - **Use CSS classes exclusively for all styling purposes.** Reserve IDs strictly for JavaScript-related behavior, such as DOM manipulation and event handling. This separation of concerns reduces CSS specificity issues and supports a maintainable, scalable codebase.
 
-- **Do not use CSS margins.** Margins can introduce unpredictable layout behavior due to issues such as margin collapse, overflow clipping, and inconsistent spacing. Instead, use layout mechanisms like padding, the `gap` property (in Flexbox or Grid), or standardized spacing utilities.
+- **Prefer not to use CSS margins.** Margins can introduce unpredictable layout behavior due to issues such as margin collapse, overflow clipping, and inconsistent spacing. Instead, try to use layout mechanisms like padding, the `gap` property (in Flexbox or Grid), or standardized spacing utilities.
   References: [Max Stoiber](https://mxstbr.com/thoughts/margin), [Josh Comeau](https://www.joshwcomeau.com/css/rules-of-margin-collapse/)
 
 - **Prefer `mousedown` over `click` for event handling.** Using `mousedown` provides more immediate feedback and improves responsiveness, particularly in performance-sensitive contexts such as games or interactive interfaces.
@@ -228,3 +229,45 @@ This pattern makes it explicit that the function handles a specific UI event, en
 - add filter/order on filer extension
 - fix texts
 - add aria-label (and other ARIA?), title, role=, and type="button" to button. Maybe also add these things to other elements
+- add to README: do not use `forEach()`, use `for…of` instead. It is from sonarqube. Ask AI why it is better
+- use space component, for example in DeleteFilesDialog?
+- type CProps = AProps & BProps; together can be duplicate, but it is correct. Also, check for places where it went wrong.
+- when comparing files for duplicates. Take 50% of the biggest file size. Files bigger than that size get compared for the first 20% if that is the same then the other 80%.
+- Should the primary button in step 2 only be red when there are more then duplicates selected? maybe not
+- prettier max 1 html attribute on 1 line
+- file path selection + table max length cut off
+
+## Code to use:
+
+```
+.container {
+  display: inline-flex; // TODO: use display: flex;?
+  width: max-content;
+}
+
+.b {
+  width: max-content;
+}
+
+.a {
+  max-width: 100%;
+}
+```
+
+```
+import type { JSX, ParentComponent } from 'solid-js'
+
+export type RefDivBaseProps = {
+  ref?: JSX.HTMLAttributes<HTMLDivElement>['ref'] // TODO: is Element | undefined correct? not here but other places
+}
+
+type RefDivProps = RefDivBaseProps & {
+  class?: string
+}
+
+export const RefDiv: ParentComponent<RefDivProps> = props => (
+  <div {...props}>
+    {props.children}
+  </div>
+)
+```

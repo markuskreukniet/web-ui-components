@@ -1,4 +1,5 @@
 import { createSignal, For } from 'solid-js'
+import { ButtonGroup } from "./buttonGroups/ButtonGroup"
 import { TertiaryButton } from './buttons/TertiaryButton'
 import { isStrictEqual0 } from '../utils/utils'
 import type { Component, JSX } from 'solid-js'
@@ -40,27 +41,27 @@ function decrement(n: number): number {
 export const Stepper: Component<StepperProps> = props => {
   const [stepIndex, setStepIndex] = createSignal(0)
 
+  const handler = (n: number) => () => setStepIndex(n)
+
+  // TODO: use step in classList={{'stepper__active-step': stepIndex() === i}}?
+  const step = () => props.steps[stepIndex()]
+
   function isStepDisabled(index: number): boolean {
     return index > props.lastEnabledStepIndex
   }
 
-  // TODO: use step in classList={{'stepper__steps__active-step': stepIndex() === i}}?
-  const step = () => props.steps[stepIndex()]
-
   return (
-    <div class="stepper">
+    <div class="stepper surface-page">
       <ol>
         <For each={props.steps}>
           {(step, index) => {
             const i = index()
 
             return (
-              <li
-                classList={{'stepper__steps__active-step': stepIndex() === i}}
-              >
+              <li classList={{'stepper__active-step': stepIndex() === i}}>
                 <TertiaryButton
                   disabled={isStepDisabled(i)}
-                  onPress={() => setStepIndex(i)}
+                  onPress={handler(i)}
                 >
                   {`${increment(i)}. ${step.label}`}
                 </TertiaryButton>
@@ -70,31 +71,29 @@ export const Stepper: Component<StepperProps> = props => {
         </For>
       </ol>
       {props.showNavigationControls && (
-        <div>
+        <ButtonGroup>
           <TertiaryButton
             disabled={isStrictEqual0(stepIndex())}
-            onPress={() => setStepIndex(decrement(stepIndex()))}
+            onPress={handler(decrement(stepIndex()))}
           >
             Back
           </TertiaryButton>
           <TertiaryButton
             disabled={isStepDisabled(stepIndex()) || stepIndex() === decrement(props.steps.length)}
-            onPress={() => setStepIndex(increment(stepIndex()))}
+            onPress={handler(increment(stepIndex()))}
           >
             Next
           </TertiaryButton>
-        </div>
+        </ButtonGroup>
       )}
-      {step() && (
-        <div>
-          <div class="stepper__step-info">
-            <h2>{`Step ${increment(stepIndex())} of ${props.steps.length}: ${step().heading}`}</h2>
-            <p>{step().instructions}</p>
-          </div>
-          {step().content}
-          <small>{step().hint}</small>
+      <div class="stepper__body">
+        <div class="stepper__step-info">
+          <h2>{`Step ${increment(stepIndex())} of ${props.steps.length}: ${step().heading}`}</h2>
+          <p>{step().instructions}</p>
         </div>
-      )}
+        {step().content}
+        <small>{step().hint}</small>
+      </div>
     </div>
   )
 }
