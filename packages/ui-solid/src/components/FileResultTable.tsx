@@ -2,7 +2,7 @@ import { For } from 'solid-js'
 import { CheckboxInput } from './CheckboxInput'
 import { extendCellRenderers } from './FileResultInspector'
 import { TertiaryIconButton } from './buttons/iconButtons/TertiaryIconButton'
-import { isMapEmpty } from '../utils/isEmpty'
+import { isMapEmpty } from '../utils/collection-size'
 import type { Accessor, Component, JSX, Setter } from 'solid-js'
 
 export const FileResultColumnTypes = {
