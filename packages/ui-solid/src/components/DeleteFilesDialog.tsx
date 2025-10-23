@@ -30,6 +30,7 @@ export const DeleteFilesDialog: Component<DeleteFilesDialogProps> = props => (
             >
               Cancel
             </TertiaryButton>
+            {/* TODO: duplicate === 1 */}
             <DeleteFilesButton
               single={props.count === 1}
               onPress={props.onConfirm}
