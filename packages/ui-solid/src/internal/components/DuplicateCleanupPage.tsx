@@ -7,6 +7,7 @@ import { createStep, Stepper } from '../../components/Stepper'
 import { isLeft, isRight, right } from '../../modules/monads/either'
 import { addErrorToastFromEither, useToastContext } from '../../modules/toasts/toast-context'
 import { isArrayEmpty } from '../../utils/collection-size'
+import { isStrictEqual1 } from '../../utils/utils'
 import type { Component } from 'solid-js'
 import type { SourceTargetContextEither } from '../../components/FilePathSelectionForm'
 import type { ResolvedFilePaths } from '../../components/FilePathSelectorGroup'
@@ -79,7 +80,7 @@ export const DuplicateCleanupPage: Component = () => {
         const count = files.value.duplicateFileCount
         context.addSuccessToast(
           files.value.duplicateFileCount
-            ? `${count} duplicate file${count === 1 ? '' : 's'} detected` : 'No duplicate files detected'
+            ? `${count} duplicate file${isStrictEqual1(count) ? '' : 's'} detected` : 'No duplicate files detected'
         )
       } else {
         addErrorToastFromEither(files)

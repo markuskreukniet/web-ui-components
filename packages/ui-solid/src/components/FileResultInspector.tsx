@@ -54,6 +54,7 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
     if (!checked) {
       setSelectedGroupRows(prev => {
         const next = new Map(prev)
+        // TODO: do not use forEach sonarqube. Also on other places
         next.forEach((value, key) => {
           if (props.rowGroups[key].length === value.size) {
             value.delete(0)
