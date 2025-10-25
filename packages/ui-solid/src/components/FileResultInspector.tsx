@@ -1,6 +1,7 @@
 import { createSignal, For, Show } from 'solid-js'
 import { DeleteFilesButton } from './buttons/DeleteFilesButton'
 import { CheckboxInput } from './CheckboxInput'
+import { DeleteFilesDialog } from './DeleteFilesDialog'
 import { FileResultColumnTypes, FileResultTable } from './FileResultTable'
 import type { Component, JSX } from 'solid-js'
 import type {
@@ -40,6 +41,10 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
   const [selectedGroupRows, setSelectedGroupRows] = createSignal<SelectedGroupRows>(new Map())
   const [hasNotSelectedGroupRows, setHasNotSelectedGroupRows] = createSignal<boolean>(true)
   const [allowSelectingAllRows, setAllowSelectingAllRows] = createSignal<boolean>(false)
+  const [open, setOpen] = createSignal<boolean>(false)
+
+  // TODO: is toggle good naming? it does not toggle? TODO: same fix for other places with () =>?
+  const toggleOpen = (open: boolean) => () => setOpen(open)
 
   let ref: HTMLLabelElement | undefined
 
@@ -67,7 +72,7 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
     setAllowSelectingAllRows(checked)
   }
 
-  const handlerPress = async () => {
+  const handlerConfirm = async () => {
     props.onChange(selectedGroupRows())
   }
 
@@ -122,12 +127,21 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
         </label>
 
         {props.canDelete && (
-          <DeleteFilesButton
-            single={selectedGroupRows().size === 1}
-            isLoading={props.isLoading}
-            disabled={hasNotSelectedGroupRows()}
-            onPress={handlerPress}
-          />
+          <>
+            <DeleteFilesDialog
+              open={open()}
+              count={selectedGroupRows().size}
+              onClose={toggleOpen(false)}
+              onConfirm={handlerConfirm}
+            />
+
+            <DeleteFilesButton
+              single={selectedGroupRows().size === 1}
+              isLoading={props.isLoading}
+              disabled={hasNotSelectedGroupRows()}
+              onPress={toggleOpen(true)}
+            />
+          </>
         )}
       </div>
     </div>

@@ -65,7 +65,7 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
     props.onChange(right(paths))
   }
 
-  const handlerChange = (either: SelectedFilePathEither) => {
+  const handler = (either: SelectedFilePathEither) => {
     if (isRight(either)) {
       if (either.value.filePath === null) {
         return
@@ -96,14 +96,6 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
     }
   }
 
-  const handlerPressClear = () => {
-    updateResolvedFilePaths([])
-  }
-
-  const handlerPressRemove = (index: number) => {
-    updateResolvedFilePaths(resolvedFilePaths().filter((_, i) => i !== index))
-  }
-
   return (
     <div class="file-path-selector-group">
       <div class="file-path-selector-group__buttons">
@@ -111,14 +103,14 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
           <FilePathSelector
             filePathType={FilePathTypes.regularFile}
             selectFilePath={props.selectFilePath}
-            onChange={handlerChange}
+            onChange={handler}
           />
         )}
         {shouldRenderSelectorFor(FilePathSelectorModes.directory) && (
           <FilePathSelector
             filePathType={FilePathTypes.directory}
             selectFilePath={props.selectFilePath}
-            onChange={handlerChange}
+            onChange={handler}
           />
         )}
       </div>
@@ -128,7 +120,9 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
             {(path, index) =>
               <li>
                 <span>{path.filePath}</span>
-                <CloseButton onPress={() => handlerPressRemove(index())} />
+                <CloseButton
+                  onPress={() => updateResolvedFilePaths(resolvedFilePaths().filter((_, i) => i !== index()))}
+                />
               </li>
             }
           </For>
@@ -136,7 +130,7 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
       </div>
       <div class="file-path-selector-group__buttons">
         <TertiaryButton
-          onPress={handlerPressClear}
+          onPress={() => updateResolvedFilePaths([])}
           disabled={isArrayEmpty(resolvedFilePaths())}
         >
           Clear
