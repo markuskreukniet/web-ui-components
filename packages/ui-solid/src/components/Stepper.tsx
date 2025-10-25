@@ -42,12 +42,12 @@ export const Stepper: Component<StepperProps> = props => {
 
   const handler = (n: number) => () => setStepIndex(n)
 
+  // TODO: use step in classList={{'stepper__steps__active-step': stepIndex() === i}}?
+  const step = () => props.steps[stepIndex()]
+
   function isStepDisabled(index: number): boolean {
     return index > props.lastEnabledStepIndex
   }
-
-  // TODO: use step in classList={{'stepper__steps__active-step': stepIndex() === i}}?
-  const step = () => props.steps[stepIndex()]
 
   return (
     <div class="stepper">
