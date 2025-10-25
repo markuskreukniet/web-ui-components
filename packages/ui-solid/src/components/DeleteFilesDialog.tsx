@@ -3,12 +3,13 @@ import { Portal } from "solid-js/web"
 import { DeleteFilesButton } from "./buttons/DeleteFilesButton"
 import { TertiaryButton } from "./buttons/TertiaryButton"
 import type { Component } from "solid-js"
+import type { VoidFunction } from "../types/types"
 
 type DeleteFilesDialogProps = {
   open: boolean
   count: number
-  onClose: () => void
-  onConfirm: () => void // TODO: duplicate type
+  onClose: VoidFunction
+  onConfirm: VoidFunction
 }
 
 // TODO: WIP + on inside div e.stopPropagation (is needed?) + ARIA or role + div with onMouseDown duplicate
