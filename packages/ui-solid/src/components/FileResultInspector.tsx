@@ -76,6 +76,7 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
   return (
     <div class="file-result-inspector">
       <div>
+        {/* TODO: do not send setSelectedGroupRows, but send something like updateSelectedGroupRows, so that it also changes setOpen, but FileResultTable does not know that it does */}
         <FileResultTable
           columns={props.columns}
           rowGroups={props.rowGroups}
