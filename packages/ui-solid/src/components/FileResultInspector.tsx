@@ -43,7 +43,6 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
   const [allowSelectingAllRows, setAllowSelectingAllRows] = createSignal<boolean>(false)
   const [open, setOpen] = createSignal<boolean>(false)
 
-  // TODO: same fix for other places with () =>?
   const handlerOpen = (open: boolean) => () => setOpen(open)
 
   let ref: HTMLLabelElement | undefined
