@@ -43,8 +43,8 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
   const [allowSelectingAllRows, setAllowSelectingAllRows] = createSignal<boolean>(false)
   const [open, setOpen] = createSignal<boolean>(false)
 
-  // TODO: is toggle good naming? it does not toggle? TODO: same fix for other places with () =>?
-  const toggleOpen = (open: boolean) => () => setOpen(open)
+  // TODO: same fix for other places with () =>?
+  const handlerOpen = (open: boolean) => () => setOpen(open)
 
   let ref: HTMLLabelElement | undefined
 
@@ -70,10 +70,6 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
     }
 
     setAllowSelectingAllRows(checked)
-  }
-
-  const handlerConfirm = async () => {
-    props.onChange(selectedGroupRows())
   }
 
   const columnRenderers = props.columns.map(column => cellContentRenderers[column.type])
@@ -131,15 +127,15 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
             <DeleteFilesDialog
               open={open()}
               count={selectedGroupRows().size}
-              onClose={toggleOpen(false)}
-              onConfirm={handlerConfirm}
+              onClose={handlerOpen(false)}
+              onConfirm={async () => props.onChange(selectedGroupRows())}
             />
 
             <DeleteFilesButton
               single={selectedGroupRows().size === 1}
               isLoading={props.isLoading}
               disabled={hasNotSelectedGroupRows()}
-              onPress={toggleOpen(true)}
+              onPress={handlerOpen(true)}
             />
           </>
         )}

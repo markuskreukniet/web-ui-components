@@ -8,7 +8,7 @@ type DeleteFilesDialogProps = {
   open: boolean
   count: number
   onClose: () => void
-  onConfirm: () => void
+  onConfirm: () => void // TODO: duplicate type
 }
 
 // TODO: WIP + on inside div e.stopPropagation (is needed?) + ARIA or role + div with onMouseDown duplicate

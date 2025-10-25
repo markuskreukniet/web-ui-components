@@ -53,6 +53,8 @@ function addTrailingSlash(filePath: string): string {
 export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = props => {
   const [resolvedFilePaths, setResolvedFilePaths] = createSignal<ResolvedFilePaths>([])
 
+  const handlerUpdateResolvedFilePaths = (paths: ResolvedFilePaths) => () => updateResolvedFilePaths(paths)
+
   function shouldRenderSelectorFor(mode: FilePathSelectorMode): boolean {
     return (
       props.filePathSelectorMode === mode ||
@@ -121,7 +123,7 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
               <li>
                 <span>{path.filePath}</span>
                 <CloseButton
-                  onPress={() => updateResolvedFilePaths(resolvedFilePaths().filter((_, i) => i !== index()))}
+                  onPress={handlerUpdateResolvedFilePaths(resolvedFilePaths().filter((_, i) => i !== index()))}
                 />
               </li>
             }
@@ -130,7 +132,7 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
       </div>
       <div class="file-path-selector-group__buttons">
         <TertiaryButton
-          onPress={() => updateResolvedFilePaths([])}
+          onPress={handlerUpdateResolvedFilePaths([])}
           disabled={isArrayEmpty(resolvedFilePaths())}
         >
           Clear
