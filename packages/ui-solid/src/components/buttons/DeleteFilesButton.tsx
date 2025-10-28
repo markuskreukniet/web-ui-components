@@ -15,7 +15,7 @@ export const DeleteFilesButton: Component<DeleteFilesButtonProps> = props => {
   onMount(() => {
     if (button) {
       button.style.width = `${button.getBoundingClientRect().width}px`
-    } 
+    }
   })
 
   return (
