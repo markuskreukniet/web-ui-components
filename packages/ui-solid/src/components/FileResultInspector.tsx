@@ -47,7 +47,7 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
 
   const handlerOpen = (open: boolean) => () => setOpen(open)
 
-  // TODO: naming and using // TODO: bug, when selecting 2 of the 2 rows in group, single is still active?
+  // TODO: naming and using // TODO: bug, when selecting 2 of the 2 rows in a group, single is still active?
   const updateSelectedGroupRows = (rows: SelectedGroupRows) => {
     setSelectedGroupRows(rows)
     setSingle(hasMapSingleEntry(rows))
