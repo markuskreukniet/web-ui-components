@@ -12,9 +12,10 @@ export const DeleteFilesButton: Component<DeleteFilesButtonProps> = props => {
 
   let button: HTMLButtonElement | undefined
 
-  // TODO: use same if style on other places
   onMount(() => {
-    if (button) button.style.width = `${button.getBoundingClientRect().width}px`
+    if (button) {
+      button.style.width = `${button.getBoundingClientRect().width}px`
+    } 
   })
 
   return (
