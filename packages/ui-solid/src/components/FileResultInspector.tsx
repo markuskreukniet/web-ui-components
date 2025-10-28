@@ -42,12 +42,12 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
   const [selectedGroupRows, setSelectedGroupRows] = createSignal<SelectedGroupRows>(new Map())
   const [hasNotSelectedGroupRows, setHasNotSelectedGroupRows] = createSignal<boolean>(true)
   const [allowSelectingAllRows, setAllowSelectingAllRows] = createSignal<boolean>(false)
-  const [single, setSingle] = createSignal<boolean>(false) // TODO: false or true default? // TODO: use it
+  const [single, setSingle] = createSignal<boolean>(false) // TODO: use it in dialog
   const [open, setOpen] = createSignal<boolean>(false)
 
   const handlerOpen = (open: boolean) => () => setOpen(open)
 
-  // TODO: naming and using
+  // TODO: naming and using // TODO: bug, when selecting 2 of the 2 rows in group, single is still active?
   const updateSelectedGroupRows = (rows: SelectedGroupRows) => {
     setSelectedGroupRows(rows)
     setSingle(hasMapSingleEntry(rows))
@@ -92,7 +92,7 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
           onChangeSelectedGroupRow={selectedGroupRow}
           onChangeSetSelectedGroupRow={setSelectedGroupRow}
           onChangeSelectedGroupRows={selectedGroupRows}
-          onChangeSetSelectedGroupRows={setSelectedGroupRows}
+          onChangeUpdateSelectedGroupRows={updateSelectedGroupRows}
           onChangeHasNotSelectedGroupRows={hasNotSelectedGroupRows}
           onChangeSetHasNotSelectedGroupRows={setHasNotSelectedGroupRows}
           onChangeAllowSelectingAllRows={allowSelectingAllRows}
@@ -139,7 +139,7 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
             />
 
             <DeleteFilesButton
-              single={selectedGroupRows().size === 1}
+              single={single()}
               isLoading={props.isLoading}
               disabled={hasNotSelectedGroupRows()}
               onPress={handlerOpen(true)}
