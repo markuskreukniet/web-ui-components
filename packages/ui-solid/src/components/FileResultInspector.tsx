@@ -3,7 +3,7 @@ import { DeleteFilesButton } from './buttons/DeleteFilesButton'
 import { CheckboxInput } from './CheckboxInput'
 import { DeleteFilesDialog } from './DeleteFilesDialog'
 import { FileResultColumnTypes, FileResultTable } from './FileResultTable'
-import { hasMapSingleEntry } from '../utils/collection-size'
+import { hasMapSingleEntry, hasSetSingleElement } from '../utils/collection-size'
 import type { Component, JSX } from 'solid-js'
 import type {
   FileResultColumnType,
@@ -47,10 +47,10 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
 
   const handlerOpen = (open: boolean) => () => setOpen(open)
 
-  // TODO: naming and using // TODO: bug, when selecting 2 of the 2 rows in a group, single is still active?
+  // TODO: naming
   const updateSelectedGroupRows = (rows: SelectedGroupRows) => {
     setSelectedGroupRows(rows)
-    setSingle(hasMapSingleEntry(rows))
+    setSingle(hasMapSingleEntry(rows) && hasSetSingleElement(rows.values().next().value!))
   }
 
   let ref: HTMLLabelElement | undefined
