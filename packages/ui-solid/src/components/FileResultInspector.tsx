@@ -42,7 +42,7 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
   const [selectedGroupRows, setSelectedGroupRows] = createSignal<SelectedGroupRows>(new Map())
   const [hasNotSelectedGroupRows, setHasNotSelectedGroupRows] = createSignal<boolean>(true)
   const [allowSelectingAllRows, setAllowSelectingAllRows] = createSignal<boolean>(false)
-  const [single, setSingle] = createSignal<boolean>(false) // TODO: use it in dialog
+  const [single, setSingle] = createSignal<boolean>(false)
   const [open, setOpen] = createSignal<boolean>(false)
 
   const handlerOpen = (open: boolean) => () => setOpen(open)
@@ -133,6 +133,7 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
             <DeleteFilesDialog
               open={open()}
               count={selectedGroupRows().size}
+              single={single()}
               onClose={handlerOpen(false)}
               onConfirm={async () => props.onChange(selectedGroupRows())}
             />
