@@ -365,6 +365,13 @@ tbody + tbody > tr:first-of-type > td {
   background-color: var(--bg-level-2);
 }
 
+/* delete-files-dialog */
+.delete-files-dialog {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.3); /* TODO: color + opacity */
+}
+
 /* attention */
 @keyframes attention-keyframes {
   0%, 100% {
