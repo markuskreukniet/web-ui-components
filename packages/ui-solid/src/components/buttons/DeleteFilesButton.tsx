@@ -4,11 +4,11 @@ import type { Component } from 'solid-js'
 import type { ButtonParentProps } from './Button'
 
 type DeleteFilesButtonProps = ButtonParentProps & {
-  single: boolean
+  hasSingleSelectedGroupRow: boolean
 }
 
 export const DeleteFilesButton: Component<DeleteFilesButtonProps> = props => {
-  const [local, rest] = splitProps(props, ['single'])
+  const [local, rest] = splitProps(props, ['hasSingleSelectedGroupRow'])
 
   let button: HTMLButtonElement | undefined
 
@@ -23,7 +23,7 @@ export const DeleteFilesButton: Component<DeleteFilesButtonProps> = props => {
       ref={button}
       {...rest}
     >
-      {local.single ? 'Delete file' : 'Delete selected files'}
+      {local.hasSingleSelectedGroupRow ? 'Delete file' : 'Delete selected files'}
     </SecondaryButton>
   )
 }

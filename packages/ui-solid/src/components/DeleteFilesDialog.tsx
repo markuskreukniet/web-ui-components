@@ -8,7 +8,7 @@ import type { VoidFunction } from "../types/types"
 type DeleteFilesDialogProps = {
   open: boolean
   count: number
-  single: boolean
+  hasSingleSelectedGroupRow: boolean
   onClose: VoidFunction
   onConfirm: VoidFunction
 }
@@ -33,7 +33,7 @@ export const DeleteFilesDialog: Component<DeleteFilesDialogProps> = props => (
               Cancel
             </TertiaryButton>
             <DeleteFilesButton
-              single={props.single}
+              hasSingleSelectedGroupRow={props.hasSingleSelectedGroupRow}
               onPress={props.onConfirm}
             />
           </div>

@@ -42,15 +42,14 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
   const [selectedGroupRows, setSelectedGroupRows] = createSignal<SelectedGroupRows>(new Map())
   const [hasNotSelectedGroupRows, setHasNotSelectedGroupRows] = createSignal<boolean>(true)
   const [allowSelectingAllRows, setAllowSelectingAllRows] = createSignal<boolean>(false)
-  const [single, setSingle] = createSignal<boolean>(false)
+  const [hasSingleSelectedGroupRow, setHasSingleSelectedGroupRow] = createSignal<boolean>(false)
   const [open, setOpen] = createSignal<boolean>(false)
 
   const handlerOpen = (open: boolean) => () => setOpen(open)
 
-  // TODO: naming
   const updateSelectedGroupRows = (rows: SelectedGroupRows) => {
     setSelectedGroupRows(rows)
-    setSingle(hasMapSingleEntry(rows) && hasSetSingleElement(rows.values().next().value!))
+    setHasSingleSelectedGroupRow(hasMapSingleEntry(rows) && hasSetSingleElement(rows.values().next().value!))
   }
 
   let ref: HTMLLabelElement | undefined
@@ -133,13 +132,13 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
             <DeleteFilesDialog
               open={open()}
               count={selectedGroupRows().size}
-              single={single()}
+              hasSingleSelectedGroupRow={hasSingleSelectedGroupRow()}
               onClose={handlerOpen(false)}
               onConfirm={async () => props.onChange(selectedGroupRows())}
             />
 
             <DeleteFilesButton
-              single={single()}
+              hasSingleSelectedGroupRow={hasSingleSelectedGroupRow()}
               isLoading={props.isLoading}
               disabled={hasNotSelectedGroupRows()}
               onPress={handlerOpen(true)}
