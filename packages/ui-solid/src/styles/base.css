@@ -122,6 +122,8 @@
   --attention-level-3: light-dark(var(--lt-attention-level-3), var(--dt-attention-level-3));
   --attention-level-4: light-dark(var(--lt-attention-level-4), var(--dt-attention-level-4));
   --attention-level-5: light-dark(var(--lt-attention-level-5), var(--dt-attention-level-5));
+
+  --iets: oklch(var(--dt-lightness-level-5) 0 0 / 0.6);  /* TODO: color + opacity + naming */
 }
 
 * {
@@ -369,7 +371,7 @@ tbody + tbody > tr:first-of-type > td {
 .delete-files-dialog {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.3); /* TODO: color + opacity */
+  background-color: var(--iets);
 }
 
 /* attention */
