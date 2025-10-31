@@ -311,7 +311,7 @@ tbody + tbody > tr:first-of-type > td {
   padding-left: var(--size-1);
 }
 
-.stepper__steps__active-step > button {
+.stepper__active-step > button {
   border: var(--fg-border-level-2); /* overriding */
   padding: calc(var(--size-r-1) - 1px); /* overriding */
   font-weight: bold;
@@ -379,6 +379,8 @@ tbody + tbody > tr:first-of-type > td {
   inset: 0;
   background-color: var(--dialog-overlay);
 }
+
+.delete-files-dialog__content {}
 
 /* attention */
 @keyframes attention-keyframes {

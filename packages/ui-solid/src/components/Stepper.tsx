@@ -42,7 +42,7 @@ export const Stepper: Component<StepperProps> = props => {
 
   const handler = (n: number) => () => setStepIndex(n)
 
-  // TODO: use step in classList={{'stepper__steps__active-step': stepIndex() === i}}?
+  // TODO: use step in classList={{'stepper__active-step': stepIndex() === i}}?
   const step = () => props.steps[stepIndex()]
 
   function isStepDisabled(index: number): boolean {
@@ -58,7 +58,7 @@ export const Stepper: Component<StepperProps> = props => {
 
             return (
               <li
-                classList={{'stepper__steps__active-step': stepIndex() === i}}
+                classList={{'stepper__active-step': stepIndex() === i}}
               >
                 <TertiaryButton
                   disabled={isStepDisabled(i)}
