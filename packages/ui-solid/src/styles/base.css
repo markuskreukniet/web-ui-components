@@ -383,7 +383,9 @@ tbody + tbody > tr:first-of-type > td {
   justify-content: center;
 }
 
-.delete-files-dialog__content {}
+.delete-files-dialog__content {
+  background-color: var(--bg-level-1); /* TODO: is correct bg color? */
+}
 
 /* attention */
 @keyframes attention-keyframes {
