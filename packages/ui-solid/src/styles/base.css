@@ -123,7 +123,12 @@
   --attention-level-4: light-dark(var(--lt-attention-level-4), var(--dt-attention-level-4));
   --attention-level-5: light-dark(var(--lt-attention-level-5), var(--dt-attention-level-5));
 
-  --iets: oklch(var(--dt-lightness-level-5) 0 0 / 0.6); /* TODO: color + opacity + naming */
+  --dialog-overlay-alpha: 0.4;
+
+  --lt-dialog-overlay: oklch(var(--dt-lightness-level-1) 0 0 / var(--dialog-overlay-alpha));
+  --dt-dialog-overlay: oklch(var(--lt-lightness-level-1) 0 0 / var(--dialog-overlay-alpha));
+
+  --dialog-overlay: light-dark(var(--lt-dialog-overlay), var(--dt-dialog-overlay)); /* TODO: color + alpha */
 }
 
 * {
@@ -371,7 +376,7 @@ tbody + tbody > tr:first-of-type > td {
 .delete-files-dialog {
   position: fixed;
   inset: 0;
-  background-color: var(--iets);
+  background-color: var(--dialog-overlay);
 }
 
 /* attention */
