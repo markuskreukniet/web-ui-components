@@ -20,7 +20,7 @@ export const DeleteFilesDialog: Component<DeleteFilesDialogProps> = props => (
       <div
         onMouseDown={props.onClose}
         role="none"
-        class="delete-files-dialog"
+        class="delete-files-dialog__overlay"
       >
         <div
           onMouseDown={(e) => e.stopPropagation()}

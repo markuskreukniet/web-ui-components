@@ -374,7 +374,7 @@ tbody + tbody > tr:first-of-type > td {
 }
 
 /* delete-files-dialog */
-.delete-files-dialog {
+.delete-files-dialog__overlay {
   position: fixed;
   inset: 0;
   background-color: var(--dialog-overlay);
