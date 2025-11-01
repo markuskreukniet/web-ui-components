@@ -156,8 +156,8 @@ small {
   color: var(--fg-level-3);
 }
 
-/* iets-ding TODO: naming */
-.iets-ding {
+/* surface */
+.surface {
   border: var(--fg-border-level-1);
   border-radius: var(--size-2);
   padding: var(--size-2);

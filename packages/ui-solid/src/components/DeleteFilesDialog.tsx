@@ -34,7 +34,7 @@ export const DeleteFilesDialog: Component<DeleteFilesDialogProps> = props => (
         role="none"
         class="delete-files-dialog__overlay"
       >
-        <div class="delete-files-dialog__content iets-ding">
+        <div class="delete-files-dialog__content surface">
           <h2>Delete {props.count} files?</h2>
           <p>These {props.count} selected files will be permanently deleted.</p>
           <div>
