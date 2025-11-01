@@ -24,7 +24,7 @@ export const DeleteFilesDialog: Component<DeleteFilesDialogProps> = props => (
       >
         <div
           onMouseDown={(e) => e.stopPropagation()}
-          class="delete-files-dialog__content"
+          class="delete-files-dialog__content iets-ding"
         >
           <h2>Delete {props.count} files?</h2>
           <p>These {props.count} selected files will be permanently deleted.</p>

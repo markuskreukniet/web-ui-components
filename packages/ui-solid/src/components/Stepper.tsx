@@ -50,7 +50,7 @@ export const Stepper: Component<StepperProps> = props => {
   }
 
   return (
-    <div class="stepper">
+    <div class="stepper iets-ding">
       <ol>
         <For each={props.steps}>
           {(step, index) => {
