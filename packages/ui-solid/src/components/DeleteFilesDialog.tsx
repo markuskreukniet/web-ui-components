@@ -13,7 +13,19 @@ type DeleteFilesDialogProps = {
   onConfirm: VoidFunction
 }
 
-// TODO: WIP + on inside div e.stopPropagation (is needed?) + ARIA or role + div with onMouseDown duplicate
+// TODO: WIP + ARIA or role
+/*
+TODO: fix style:
+  <ele
+    attri
+  >
+  </ele>
+
+  vs
+
+  <ele attri>
+  </ele>
+*/
 export const DeleteFilesDialog: Component<DeleteFilesDialogProps> = props => (
   <Show when={props.open}>
     <Portal>
@@ -22,10 +34,7 @@ export const DeleteFilesDialog: Component<DeleteFilesDialogProps> = props => (
         role="none"
         class="delete-files-dialog__overlay"
       >
-        <div
-          onMouseDown={(e) => e.stopPropagation()}
-          class="delete-files-dialog__content iets-ding"
-        >
+        <div class="delete-files-dialog__content iets-ding">
           <h2>Delete {props.count} files?</h2>
           <p>These {props.count} selected files will be permanently deleted.</p>
           <div>
