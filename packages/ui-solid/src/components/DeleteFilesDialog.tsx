@@ -1,11 +1,13 @@
 import { Show } from "solid-js"
 import { Portal } from "solid-js/web"
+import { AlignEndButtonGroup } from "./buttonGroups/AlignEndButtonGroup"
 import { DeleteFilesButton } from "./buttons/DeleteFilesButton"
 import { TertiaryButton } from "./buttons/TertiaryButton"
 import type { Component } from "solid-js"
+import type { IsDestructiveProps } from './buttons/PrimaryDestructiveButton'
 import type { VoidFunction } from "../types/types"
 
-type DeleteFilesDialogProps = {
+type DeleteFilesDialogProps = IsDestructiveProps & {
   open: boolean
   count: number
   hasSingleSelectedGroupRow: boolean
@@ -13,43 +15,42 @@ type DeleteFilesDialogProps = {
   onConfirm: VoidFunction
 }
 
-// TODO: WIP + ARIA or role + click in dialog closes dialog, is wrong
-/*
-TODO: fix style:
-  <ele
-    attri
-  >
-  </ele>
+export const DeleteFilesDialog: Component<DeleteFilesDialogProps> = props => {
+  const handler = (e: MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      props.onClose()
+    }
+  }
 
-  vs
-
-  <ele attri>
-  </ele>
-
-  deze stijl ook <span>{props.columns[i].header}</span>
-*/
-export const DeleteFilesDialog: Component<DeleteFilesDialogProps> = props => (
-  <Show when={props.open}>
-    <Portal>
-      <div
-        onMouseDown={props.onClose}
-        role="none"
-        class="delete-files-dialog__overlay"
-      >
-        <div class="delete-files-dialog__content surface">
-          <h2>Delete {props.count} files?</h2>
-          <p>These {props.count} selected files will be permanently deleted.</p>
-          <div>
-            <TertiaryButton onPress={props.onClose}>
-              Cancel
-            </TertiaryButton>
-            <DeleteFilesButton
-              hasSingleSelectedGroupRow={props.hasSingleSelectedGroupRow}
-              onPress={props.onConfirm}
-            />
-          </div>
+  return (
+    <Show when={props.open}>
+      <Portal>
+        <div
+          onMouseDown={handler}
+          role="none"
+          class="delete-files-dialog__overlay"
+        >
+          <dialog
+            open
+            class="surface-dialog"
+          >
+            <h2>{props.hasSingleSelectedGroupRow ? 'Delete file?' : `Delete ${props.count} selected files?`}</h2>
+            <p>
+              {props.hasSingleSelectedGroupRow
+                ? 'The selected file will be permanently deleted.'
+                : `The ${props.count} selected files will be permanently deleted.`}
+            </p>
+            <AlignEndButtonGroup>
+              <TertiaryButton onPress={props.onClose}>Cancel</TertiaryButton>
+              <DeleteFilesButton
+                hasSingleSelectedGroupRow={props.hasSingleSelectedGroupRow}
+                isDestructive={props.isDestructive}
+                onPress={props.onConfirm}
+              />
+            </AlignEndButtonGroup>
+          </dialog>
         </div>
-      </div>
-    </Portal>
-  </Show>
-)
+      </Portal>
+    </Show>
+  )
+}

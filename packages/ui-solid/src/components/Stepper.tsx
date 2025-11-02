@@ -1,4 +1,5 @@
 import { createSignal, For } from 'solid-js'
+import { ButtonGroup } from "./buttonGroups/ButtonGroup"
 import { TertiaryButton } from './buttons/TertiaryButton'
 import { isStrictEqual0 } from '../utils/utils'
 import type { Component, JSX } from 'solid-js'
@@ -50,7 +51,7 @@ export const Stepper: Component<StepperProps> = props => {
   }
 
   return (
-    <div class="stepper surface">
+    <div class="stepper surface-page">
       <ol>
         <For each={props.steps}>
           {(step, index) => {
@@ -70,7 +71,7 @@ export const Stepper: Component<StepperProps> = props => {
         </For>
       </ol>
       {props.showNavigationControls && (
-        <div>
+        <ButtonGroup>
           <TertiaryButton
             disabled={isStrictEqual0(stepIndex())}
             onPress={handler(decrement(stepIndex()))}
@@ -83,18 +84,16 @@ export const Stepper: Component<StepperProps> = props => {
           >
             Next
           </TertiaryButton>
-        </div>
+        </ButtonGroup>
       )}
-      {step() && (
-        <div>
-          <div class="stepper__step-info">
-            <h2>{`Step ${increment(stepIndex())} of ${props.steps.length}: ${step().heading}`}</h2>
-            <p>{step().instructions}</p>
-          </div>
-          {step().content}
-          <small>{step().hint}</small>
+      <div class="stepper__body">
+        <div class="stepper__step-info">
+          <h2>{`Step ${increment(stepIndex())} of ${props.steps.length}: ${step().heading}`}</h2>
+          <p>{step().instructions}</p>
         </div>
-      )}
+        {step().content}
+        <small>{step().hint}</small>
+      </div>
     </div>
   )
 }

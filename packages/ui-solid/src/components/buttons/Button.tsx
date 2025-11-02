@@ -4,6 +4,7 @@ import type { VoidFunction } from "../../types/types"
 
 export const ButtonVariants = {
   primary: 'button--primary',
+  primaryDestructive: 'button--primary-destructive',
   secondary: 'button--secondary',
   tertiary: 'button--tertiary'
 } as const
