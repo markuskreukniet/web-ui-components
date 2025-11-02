@@ -1,9 +1,9 @@
 import { For } from 'solid-js'
 import { CheckboxInput } from './CheckboxInput'
-import { extendCellRenderers } from './FileResultInspector'
 import { TertiaryIconButton } from './buttons/iconButtons/TertiaryIconButton'
 import { isMapEmpty } from '../utils/collection-size'
 import type { Accessor, Component, JSX, Setter } from 'solid-js'
+import type { Renderer, Renderers } from "./FileResultInspector"
 import type { VoidFunction } from "../types/types"
 
 export const FileResultColumnTypes = {
@@ -11,7 +11,7 @@ export const FileResultColumnTypes = {
   thumbnail: 'thumbnail'
 } as const
 
-export type FileResultColumnType = typeof FileResultColumnTypes[keyof typeof FileResultColumnTypes]
+type FileResultColumnType = typeof FileResultColumnTypes[keyof typeof FileResultColumnTypes]
 
 export type FileResultColumns = {
   header: string,
@@ -36,30 +36,26 @@ export type OnChangeSelectedGroupRows = (rows: SelectedGroupRows) => void
 
 export type FileResultTableDataProps = {
   columns: FileResultColumns
-  rowGroups: RowGroups
+  rowGroups: RowGroups // TODO: duplicate type, also check other places
 }
 
 type FileResultTableProps = FileResultTableDataProps & {
   showRowCheckboxes: boolean
   drawAttentionToLabel: VoidFunction
-  onChangeSelectedGroupRow: Accessor<SelectedGroupRow>
-  onChangeSetSelectedGroupRow: Setter<SelectedGroupRow>
-  onChangeSelectedGroupRows: Accessor<SelectedGroupRows>
-  onChangeUpdateSelectedGroupRows: (rows: SelectedGroupRows) => void
-  onChangeHasNotSelectedGroupRows: Accessor<boolean>
-  onChangeSetHasNotSelectedGroupRows: Setter<boolean>
-  onChangeAllowSelectingAllRows: Accessor<boolean>
+  createColumnRenderers: (renderer: Renderer) => Renderers
+  cloneSelectedGroupRows: () => SelectedGroupRows
+  selectedGroupRow: Accessor<SelectedGroupRow>
+  setSelectedGroupRow: Setter<SelectedGroupRow>
+  selectedGroupRows: Accessor<SelectedGroupRows>
+  updateSelectedGroupRows: (rows: SelectedGroupRows) => void
+  hasNotSelectedGroupRows: Accessor<boolean>
+  setHasNotSelectedGroupRows: Setter<boolean>
+  allowSelectingAllRows: Accessor<boolean>
 }
 
 export const FileResultTable: Component<FileResultTableProps> = props => {
-  // Do not invoke extendCellRenderers at module scope, as it runs immediately during module initialization.
-  // This led to a runtime error when an internal dependency was accessed before it was declared.
-  // Move the call inside FileResultTable to defer execution until render time,
-  // ensuring all dependencies are safely initialized.
-  const fileResultCellContentRenderers = extendCellRenderers(cellData => cellData) // TODO: naming and working makes sense?
-
   const setRowCheckboxState = (groupI: number, rowI: number, checked: boolean) => {
-    const next = new Map(props.onChangeSelectedGroupRows())
+    const next = props.cloneSelectedGroupRows()
     const rows = next.has(groupI) ? next.get(groupI)! : new Set<number>()
 
     function setGroupRows() {
@@ -72,12 +68,12 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
     }
 
     function updateSelectedGroupRows() {
-      props.onChangeUpdateSelectedGroupRows(next)
+      props.updateSelectedGroupRows(next)
     }
 
     if (rows.size) {
       if (checked) {
-        if (rows.size === props.rowGroups[groupI].length - 1 && !props.onChangeAllowSelectingAllRows()) {
+        if (rows.size === props.rowGroups[groupI].length - 1 && !props.allowSelectingAllRows()) {
           props.drawAttentionToLabel()
           updateSelectedGroupRows()
           return
@@ -97,28 +93,28 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
     }
 
     updateSelectedGroupRows()
-    props.onChangeSetHasNotSelectedGroupRows(isMapEmpty(props.onChangeSelectedGroupRows()))
+    props.setHasNotSelectedGroupRows(isMapEmpty(props.selectedGroupRows()))
 
-    if (props.onChangeSelectedGroupRow()) {
-      props.onChangeSetSelectedGroupRow(null)
+    if (props.selectedGroupRow()) {
+      props.setSelectedGroupRow(null)
     }
   }
 
   const handlerCheckboxes = () => {
-    props.onChangeUpdateSelectedGroupRows(new Map())
-    props.onChangeSetHasNotSelectedGroupRows(true)
+    props.updateSelectedGroupRows(new Map())
+    props.setHasNotSelectedGroupRows(true)
   }
 
   const handlerRow = (groupI: number, rowI: number) => {
-    if (props.onChangeHasNotSelectedGroupRows()) {
-      const row = props.onChangeSelectedGroupRow()
-      props.onChangeSetSelectedGroupRow(
+    if (props.hasNotSelectedGroupRows()) {
+      const row = props.selectedGroupRow()
+      props.setSelectedGroupRow(
         (!row || (row.group !== groupI || row.row !== rowI)) ? { group: groupI, row: rowI } : null
       )
     }
   }
 
-  const cellContentRenderers = props.columns.map(column => fileResultCellContentRenderers[column.type]) // TODO: naming
+  const renderers = props.createColumnRenderers(value => value)
 
   let headerCheckboxCell: JSX.Element = null
 
@@ -131,7 +127,7 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
     headerCheckboxCell = (
       <th>
         <TertiaryIconButton
-          disabled={props.onChangeHasNotSelectedGroupRows()}
+          disabled={props.hasNotSelectedGroupRows()}
           onPress={() => handlerCheckboxes()}
         >
           <rect x="3" y="3" width="18" height="18" rx="3" ry="3" />
@@ -146,7 +142,7 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
       return (
         <td>
           <CheckboxInput
-            checked={props.onChangeSelectedGroupRows().get(groupI)?.has(rowI) ?? false}
+            checked={props.selectedGroupRows().get(groupI)?.has(rowI) ?? false}
             onChange={checked => setRowCheckboxState(groupI, rowI, checked)}
             onMouseDownStopPropagation
           />
@@ -182,13 +178,13 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
                         onMouseDown={() => handlerRow(groupI, rowI)}
                         classList={{
                           'file-result-table__selected-row':
-                            props.onChangeSelectedGroupRow()?.group === groupI &&
-                            props.onChangeSelectedGroupRow()?.row === rowI
+                            props.selectedGroupRow()?.group === groupI &&
+                            props.selectedGroupRow()?.row === rowI
                         }}
                       >
                         {renderCheckbox(groupI, rowI)}
                         <For each={row.cells}>
-                          {(cell, cellIndex) => <td>{cellContentRenderers[cellIndex()](cell)}</td>}
+                          {(cell, cellIndex) => <td>{renderers[cellIndex()](cell)}</td>}
                         </For>
                       </tr>
                     )

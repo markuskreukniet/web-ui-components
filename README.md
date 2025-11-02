@@ -229,3 +229,4 @@ This pattern makes it explicit that the function handles a specific UI event, en
 - add aria-label (and other ARIA?), title, role=, and type="button" to button. Maybe also add these things to other elements
 - add to README: do not use `forEach()`, use `for…of` instead. It is from sonarqube. Ask AI why it is better
 - add hand hover on table row
+- use space component, for example in DeleteFilesDialog?

@@ -1,4 +1,5 @@
 import { createSignal, For } from 'solid-js'
+import { ButtonGroup } from "./buttonGroups/ButtonGroup"
 import { TertiaryButton } from './buttons/TertiaryButton'
 import { isStrictEqual0 } from '../utils/utils'
 import type { Component, JSX } from 'solid-js'
@@ -70,7 +71,7 @@ export const Stepper: Component<StepperProps> = props => {
         </For>
       </ol>
       {props.showNavigationControls && (
-        <div>
+        <ButtonGroup>
           <TertiaryButton
             disabled={isStrictEqual0(stepIndex())}
             onPress={handler(decrement(stepIndex()))}
@@ -83,7 +84,7 @@ export const Stepper: Component<StepperProps> = props => {
           >
             Next
           </TertiaryButton>
-        </div>
+        </ButtonGroup>
       )}
       {step() && (
         <div>

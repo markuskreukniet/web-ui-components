@@ -11,9 +11,12 @@ export const FilePathTypes = {
 
 type FilePathType = typeof FilePathTypes[keyof typeof FilePathTypes]
 
-type SelectedFilePath = {
-  filePath: string | null
+export type IsDirectory = {
   isDirectory: boolean
+}
+
+type SelectedFilePath = IsDirectory & {
+  filePath: string | null
 }
 
 export type SelectedFilePathEither = Either<Error, SelectedFilePath>
