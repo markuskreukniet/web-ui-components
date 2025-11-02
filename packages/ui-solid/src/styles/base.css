@@ -23,10 +23,6 @@
   --row-padding: calc(((var(--golden-ratio-rem) * var(--golden-ratio)) - var(--golden-ratio-rem)) / 2);
   --ul-height: calc((var(--row-padding) * 4) + (var(--golden-ratio-rem) * 5));
 
-  /* TODO: rename --test-test */
-  --test-test: calc(var(--size-1) - var(--row-padding));
-  --test-test-2: calc(var(--row-padding) - var(--size-1));
-
   /* Base lightness ≤ 0.06 guarantees readable text by preserving contrast, even at 5× scaling. */
   --lightness-level-1: 0.06;
   --lightness-level-2: calc(var(--lightness-level-1) * 2);
@@ -156,6 +152,21 @@ small {
   color: var(--fg-level-3);
 }
 
+dialog {
+  --v-offset: 3px;
+  --blur: 5px;
+
+  box-shadow:
+    0 var(--v-offset) var(--blur) var(--fg-level-2),
+    0 calc(var(--v-offset) + var(--blur)) calc(var(--blur) + var(--size-1)) var(--fg-level-3);
+
+  position: static;
+}
+
+dialog > div {
+  padding-top: var(--size-1);
+}
+
 /* surface */
 .surface {
   border: var(--fg-border-level-1);
@@ -174,17 +185,17 @@ small {
   background: linear-gradient(to bottom, var(--bg-level-1) 0%, var(--bg-level-2) 100%);
 }
 
-/* TODO: add to stepper? */
-.page > div {
-  --v-offset: 1px;
-  --blur: 2px;
-
-  box-shadow:
-    0 var(--v-offset) var(--blur) var(--fg-level-2),
-    0 calc(var(--v-offset) + var(--blur)) calc(var(--blur) + var(--size-r-1)) var(--fg-level-3);
+/* button-group */
+.button-group--align-start, .button-group--align-end {
+  display: flex;
+  column-gap: var(--size-1);
 }
 
-/* buttons */
+.button-group--align-end {
+  justify-content: flex-end;
+}
+
+/* button */
 button {
   cursor: pointer;
   border: var(--fg-border-level-1);
@@ -245,9 +256,11 @@ ul > li > span {
 
 /* label */
 label {
+  --margin-y: calc(var(--size-1) - var(--row-padding));
+
   display: inline-flex;
   padding: var(--row-padding);
-  margin: var(--test-test) var(--test-test-2) var(--test-test) 0;
+  margin: var(--margin-y) calc(var(--row-padding) - var(--size-1)) var(--margin-y) 0;
 }
 
 label > span {
@@ -307,6 +320,15 @@ tbody + tbody > tr:first-of-type > td {
 }
 
 /* stepper */
+.stepper {
+  --v-offset: 1px;
+  --blur: 2px;
+
+  box-shadow:
+    0 var(--v-offset) var(--blur) var(--fg-level-2),
+    0 calc(var(--v-offset) + var(--blur)) calc(var(--blur) + var(--size-r-1)) var(--fg-level-3);
+}
+
 .stepper > ol {
   display: flex;
   list-style: none;
@@ -351,7 +373,7 @@ tbody + tbody > tr:first-of-type > td {
   flex-direction: column;
 }
 
-.file-result-inspector__selection > div > span {
+.file-result-inspector__selection > div > span:nth-of-type(odd) {
   font-weight: bold;
 }
 
@@ -365,16 +387,11 @@ tbody + tbody > tr:first-of-type > td {
 }
 
 /* file-path-selector-group */
-.file-path-selector-group__buttons {
-  display: flex;
-  column-gap: var(--size-1);
-}
-
 .file-path-selector-group__file-paths-wrapper {
   padding: var(--size-1) 0 var(--size-1) var(--size-1);
   margin: var(--size-1) 0;
   border: var(--fg-border-level-2);
-  border-radius: var(--size-1); /* TODO: correct border? */
+  border-radius: var(--size-1);
   background-color: var(--bg-level-2);
 }
 
@@ -386,15 +403,6 @@ tbody + tbody > tr:first-of-type > td {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.delete-files-dialog__content {
-  --v-offset: 3px;
-  --blur: 5px;
-
-  box-shadow:
-    0 var(--v-offset) var(--blur) var(--fg-level-2),
-    0 calc(var(--v-offset) + var(--blur)) calc(var(--blur) + var(--size-1)) var(--fg-level-3);
 }
 
 /* attention */

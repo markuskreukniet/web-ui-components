@@ -1,4 +1,6 @@
 import { createSignal, For } from 'solid-js'
+import { AlignEndButtonGroup } from "./buttonGroups/AlignEndButtonGroup"
+import { ButtonGroup } from "./buttonGroups/ButtonGroup"
 import { CloseButton } from './buttons/iconButtons/CloseButton'
 import { TertiaryButton } from './buttons/TertiaryButton'
 import { FilePathSelector, FilePathTypes } from './FilePathSelector'
@@ -100,7 +102,7 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
 
   return (
     <div class="file-path-selector-group">
-      <div class="file-path-selector-group__buttons">
+      <ButtonGroup>
         {shouldRenderSelectorFor(FilePathSelectorModes.regularFile) && (
           <FilePathSelector
             filePathType={FilePathTypes.regularFile}
@@ -115,7 +117,7 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
             onChange={handler}
           />
         )}
-      </div>
+      </ButtonGroup>
       <div class="file-path-selector-group__file-paths-wrapper">
         <ul>
           <For each={resolvedFilePaths()}>
@@ -130,7 +132,7 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
           </For>
         </ul>
       </div>
-      <div class="file-path-selector-group__buttons">
+      <AlignEndButtonGroup>
         <TertiaryButton
           onPress={handlerUpdateResolvedFilePaths([])}
           disabled={isArrayEmpty(resolvedFilePaths())}
@@ -138,7 +140,7 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
           Clear
         </TertiaryButton>
         {props.submitButton}
-      </div>
+      </AlignEndButtonGroup>
     </div>
   )
 }

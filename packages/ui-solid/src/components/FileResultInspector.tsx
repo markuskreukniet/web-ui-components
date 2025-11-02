@@ -6,7 +6,7 @@ import { FileResultColumnTypes, FileResultTable } from './FileResultTable'
 import { hasMapSingleEntry, hasSetSingleElement } from '../utils/collection-size'
 import type { Component, JSX } from 'solid-js'
 import type {
-  FileResultColumnType,
+  FileResultColumns,
   FileResultTableDataProps,
   OnChangeSelectedGroupRows,
   SelectedGroupRow,
@@ -19,23 +19,16 @@ type FileResultInspectorProps = FileResultTableDataProps & IsLoadingProps & {
   onChange: OnChangeSelectedGroupRows
 }
 
-type CellContentRenderer = (cellData: string) => JSX.Element
-
-const baseCellContentRenderers = {
-  [FileResultColumnTypes.thumbnail]: (cellData: string) => <img src={cellData} alt="" />
-} satisfies Partial<Record<FileResultColumnType, CellContentRenderer>>
-
-export function extendCellRenderers(
-  textCellRenderer: CellContentRenderer
-): Record<FileResultColumnType, CellContentRenderer> {
-  return {
-    ...baseCellContentRenderers,
-    [FileResultColumnTypes.text]: textCellRenderer
-  }
+// TODO: Bug: select 2 files with the checkbox Allow deleting non-duplicate files (dangerous), then deselect that checkbox, then delete files button, then it shows text for more than 1 file
+// TODO: place inside FileResultInspector so that columns: FileResultColumns is not needed?
+export function createColumnRenderers(columns: FileResultColumns, renderer: (value: string) => JSX.Element) {
+  return columns.map(column =>
+    ({
+      [FileResultColumnTypes.thumbnail]: (value: string) => <img src={value} alt="" />,
+      [FileResultColumnTypes.text]: renderer
+    }[column.type])
+  )
 }
-
-// TODO: should there be a p tag? Td itself is maybe enough, which is maybe also enough for text content previews
-const cellContentRenderers = extendCellRenderers(value => <p>{value}</p>)
 
 export const FileResultInspector: Component<FileResultInspectorProps> = props => {
   const [selectedGroupRow, setSelectedGroupRow] = createSignal<SelectedGroupRow>(null)
@@ -77,7 +70,7 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
     setAllowSelectingAllRows(checked)
   }
 
-  const columnRenderers = props.columns.map(column => cellContentRenderers[column.type])
+  const renderers = createColumnRenderers(props.columns, value => <span>{value}</span>)
 
   return (
     <div class="file-result-inspector">
@@ -97,7 +90,7 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
         />
 
         <Show when={selectedGroupRow()}>
-          {groupRow => {
+          {groupRow => { /* TODO: what is this groupRow? */
             return (
               <div class="file-result-inspector__selection">
                 <For each={props.rowGroups[groupRow().group][groupRow().row].cells}>
@@ -107,7 +100,7 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
                     return (
                       <div>
                         <span>{props.columns[i].header}</span>
-                        {columnRenderers[i](cell)}
+                        {renderers[i](cell)}
                       </div>
                     )
                   }}

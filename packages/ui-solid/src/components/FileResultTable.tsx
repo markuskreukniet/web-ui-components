@@ -1,6 +1,6 @@
 import { For } from 'solid-js'
 import { CheckboxInput } from './CheckboxInput'
-import { extendCellRenderers } from './FileResultInspector'
+import { createColumnRenderers } from './FileResultInspector'
 import { TertiaryIconButton } from './buttons/iconButtons/TertiaryIconButton'
 import { isMapEmpty } from '../utils/collection-size'
 import type { Accessor, Component, JSX, Setter } from 'solid-js'
@@ -11,7 +11,7 @@ export const FileResultColumnTypes = {
   thumbnail: 'thumbnail'
 } as const
 
-export type FileResultColumnType = typeof FileResultColumnTypes[keyof typeof FileResultColumnTypes]
+type FileResultColumnType = typeof FileResultColumnTypes[keyof typeof FileResultColumnTypes]
 
 export type FileResultColumns = {
   header: string,
@@ -52,12 +52,6 @@ type FileResultTableProps = FileResultTableDataProps & {
 }
 
 export const FileResultTable: Component<FileResultTableProps> = props => {
-  // Do not invoke extendCellRenderers at module scope, as it runs immediately during module initialization.
-  // This led to a runtime error when an internal dependency was accessed before it was declared.
-  // Move the call inside FileResultTable to defer execution until render time,
-  // ensuring all dependencies are safely initialized.
-  const fileResultCellContentRenderers = extendCellRenderers(cellData => cellData) // TODO: naming and working makes sense?
-
   const setRowCheckboxState = (groupI: number, rowI: number, checked: boolean) => {
     const next = new Map(props.onChangeSelectedGroupRows())
     const rows = next.has(groupI) ? next.get(groupI)! : new Set<number>()
@@ -118,7 +112,7 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
     }
   }
 
-  const cellContentRenderers = props.columns.map(column => fileResultCellContentRenderers[column.type]) // TODO: naming
+  const renderers = createColumnRenderers(props.columns, value => value)
 
   let headerCheckboxCell: JSX.Element = null
 
@@ -140,6 +134,7 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
       </th>
     )
 
+    // TODO: rename it to checkboxRenderer? Also on other places
     renderCheckbox = (groupI, rowI) => {
       // Prevent the checkbox click from bubbling to the row’s onMouseDown.
       // Otherwise, it would also select the row, leading to an unintended row toggle alongside the checkbox change.
@@ -188,7 +183,7 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
                       >
                         {renderCheckbox(groupI, rowI)}
                         <For each={row.cells}>
-                          {(cell, cellIndex) => <td>{cellContentRenderers[cellIndex()](cell)}</td>}
+                          {(cell, cellIndex) => <td>{renderers[cellIndex()](cell)}</td>}
                         </For>
                       </tr>
                     )
