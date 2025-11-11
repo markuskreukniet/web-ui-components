@@ -90,7 +90,7 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
         />
 
         <Show when={selectedGroupRow()}>
-          {groupRow => { /* TODO: what is this groupRow? */
+          {groupRow => {
             return (
               <div class="file-result-inspector__selection">
                 <For each={props.rowGroups[groupRow().group][groupRow().row].cells}>
