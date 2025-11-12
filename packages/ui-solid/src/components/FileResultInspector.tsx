@@ -36,13 +36,23 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
   const [hasNotSelectedGroupRows, setHasNotSelectedGroupRows] = createSignal<boolean>(true)
   const [allowSelectingAllRows, setAllowSelectingAllRows] = createSignal<boolean>(false)
   const [hasSingleSelectedGroupRow, setHasSingleSelectedGroupRow] = createSignal<boolean>(false)
+  const [count, setCount] = createSignal<number>(0)
   const [open, setOpen] = createSignal<boolean>(false)
 
   const handlerOpen = (open: boolean) => () => setOpen(open)
 
   const updateSelectedGroupRows = (rows: SelectedGroupRows) => {
     setSelectedGroupRows(rows)
-    setHasSingleSelectedGroupRow(hasMapSingleEntry(rows) && hasSetSingleElement(rows.values().next().value!))
+
+    // TODO: check removed code to remove more code
+    // TODO: duplicate code is efficient?
+    let count = 0
+    for (const [_, value] of rows) {
+      count += value.size
+    }
+
+    setHasSingleSelectedGroupRow(count === 1) // TODO: count === 1 duplicate code
+    setCount(count)
   }
 
   let ref: HTMLLabelElement | undefined
@@ -122,7 +132,7 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
           <>
             <DeleteFilesDialog
               open={open()}
-              count={selectedGroupRows().size}
+              count={count()}
               hasSingleSelectedGroupRow={hasSingleSelectedGroupRow()}
               onClose={handlerOpen(false)}
               onConfirm={async () => props.onChange(selectedGroupRows())}
