@@ -56,15 +56,13 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
 
   const handlerChange = (checked: boolean) => {
     if (!checked) {
-      setSelectedGroupRows(prev => {
-        const next = new Map(prev)
-        for (const [key, value] of next) {
-          if (props.rowGroups[key].length === value.size) {
-            value.delete(0)
-          }
+      const next = new Map(selectedGroupRows()) // TODO: duplicate code?
+      for (const [key, value] of next) {
+        if (props.rowGroups[key].length === value.size) {
+          value.delete(0)
         }
-        return next
-      })
+      }
+      updateSelectedGroupRows(next)
     }
 
     setAllowSelectingAllRows(checked)
