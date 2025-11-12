@@ -3,7 +3,7 @@ import { DeleteFilesButton } from './buttons/DeleteFilesButton'
 import { CheckboxInput } from './CheckboxInput'
 import { DeleteFilesDialog } from './DeleteFilesDialog'
 import { FileResultColumnTypes, FileResultTable } from './FileResultTable'
-import { hasMapSingleEntry, hasSetSingleElement } from '../utils/collection-size'
+import { isStrictEqual1 } from '../utils/utils'
 import type { Component, JSX } from 'solid-js'
 import type {
   FileResultColumns,
@@ -19,7 +19,6 @@ type FileResultInspectorProps = FileResultTableDataProps & IsLoadingProps & {
   onChange: OnChangeSelectedGroupRows
 }
 
-// TODO: Bug: select 2 files with the checkbox Allow deleting non-duplicate files (dangerous), then deselect that checkbox, then delete files button, then it shows text for more than 1 file
 // TODO: place inside FileResultInspector so that columns: FileResultColumns is not needed?
 export function createColumnRenderers(columns: FileResultColumns, renderer: (value: string) => JSX.Element) {
   return columns.map(column =>
@@ -42,16 +41,13 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
   const handlerOpen = (open: boolean) => () => setOpen(open)
 
   const updateSelectedGroupRows = (rows: SelectedGroupRows) => {
-    setSelectedGroupRows(rows)
-
-    // TODO: check removed code to remove more code
-    // TODO: duplicate code is efficient?
     let count = 0
-    for (const [_, value] of rows) {
+    for (const value of rows.values()) {
       count += value.size
     }
 
-    setHasSingleSelectedGroupRow(count === 1) // TODO: count === 1 duplicate code
+    setSelectedGroupRows(rows)
+    setHasSingleSelectedGroupRow(isStrictEqual1(count))
     setCount(count)
   }
 
