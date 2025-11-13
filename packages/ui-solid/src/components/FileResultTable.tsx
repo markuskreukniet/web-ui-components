@@ -136,7 +136,6 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
       </th>
     )
 
-    // TODO: rename it to checkboxRenderer? Also on other places
     renderCheckbox = (groupI, rowI) => {
       // Prevent the checkbox click from bubbling to the row’s onMouseDown.
       // Otherwise, it would also select the row, leading to an unintended row toggle alongside the checkbox change.
