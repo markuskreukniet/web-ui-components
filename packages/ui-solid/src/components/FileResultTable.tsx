@@ -1,9 +1,9 @@
 import { For } from 'solid-js'
 import { CheckboxInput } from './CheckboxInput'
-import { createColumnRenderers } from './FileResultInspector'
 import { TertiaryIconButton } from './buttons/iconButtons/TertiaryIconButton'
 import { isMapEmpty } from '../utils/collection-size'
 import type { Accessor, Component, JSX, Setter } from 'solid-js'
+import type { Renderer, Renderers } from "./FileResultInspector"
 import type { VoidFunction } from "../types/types"
 
 export const FileResultColumnTypes = {
@@ -42,6 +42,7 @@ export type FileResultTableDataProps = {
 type FileResultTableProps = FileResultTableDataProps & {
   showRowCheckboxes: boolean
   drawAttentionToLabel: VoidFunction
+  createColumnRenderers: (renderer: Renderer) => Renderers
   onChangeSelectedGroupRow: Accessor<SelectedGroupRow>
   onChangeSetSelectedGroupRow: Setter<SelectedGroupRow>
   onChangeSelectedGroupRows: Accessor<SelectedGroupRows>
@@ -112,7 +113,7 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
     }
   }
 
-  const renderers = createColumnRenderers(props.columns, value => value)
+  const renderers = props.createColumnRenderers(value => value)
 
   let headerCheckboxCell: JSX.Element = null
 

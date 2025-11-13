@@ -6,7 +6,6 @@ import { FileResultColumnTypes, FileResultTable } from './FileResultTable'
 import { isStrictEqual1 } from '../utils/utils'
 import type { Component, JSX } from 'solid-js'
 import type {
-  FileResultColumns,
   FileResultTableDataProps,
   OnChangeSelectedGroupRows,
   SelectedGroupRow,
@@ -19,15 +18,9 @@ type FileResultInspectorProps = FileResultTableDataProps & IsLoadingProps & {
   onChange: OnChangeSelectedGroupRows
 }
 
-// TODO: place inside FileResultInspector so that columns: FileResultColumns is not needed?
-export function createColumnRenderers(columns: FileResultColumns, renderer: (value: string) => JSX.Element) {
-  return columns.map(column =>
-    ({
-      [FileResultColumnTypes.thumbnail]: (value: string) => <img src={value} alt="" />,
-      [FileResultColumnTypes.text]: renderer
-    }[column.type])
-  )
-}
+export type Renderer = (value: string) => JSX.Element
+
+export type Renderers = Renderer[]
 
 export const FileResultInspector: Component<FileResultInspectorProps> = props => {
   const [selectedGroupRow, setSelectedGroupRow] = createSignal<SelectedGroupRow>(null)
@@ -37,6 +30,17 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
   const [hasSingleSelectedGroupRow, setHasSingleSelectedGroupRow] = createSignal<boolean>(false)
   const [count, setCount] = createSignal<number>(0)
   const [open, setOpen] = createSignal<boolean>(false)
+
+  const createColumnRenderers = (renderer: Renderer): Renderers => {
+    return props.columns.map(column => {
+      switch (column.type) {
+        case FileResultColumnTypes.thumbnail:
+          return (value: string) => <img src={value} alt="" />
+        case FileResultColumnTypes.text:
+          return renderer
+      }
+    })
+  }
 
   const handlerOpen = (open: boolean) => () => setOpen(open)
 
@@ -74,16 +78,18 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
     setAllowSelectingAllRows(checked)
   }
 
-  const renderers = createColumnRenderers(props.columns, value => <span>{value}</span>)
+  const renderers = createColumnRenderers(value => <span>{value}</span>)
 
   return (
     <div class="file-result-inspector">
       <div>
+        {/* TODO: remove the onChange prefix. Also on other places */}
         <FileResultTable
           columns={props.columns}
           rowGroups={props.rowGroups}
           showRowCheckboxes={props.canDelete}
           drawAttentionToLabel={drawAttentionToLabel}
+          createColumnRenderers={createColumnRenderers}
           onChangeSelectedGroupRow={selectedGroupRow}
           onChangeSetSelectedGroupRow={setSelectedGroupRow}
           onChangeSelectedGroupRows={selectedGroupRows}
