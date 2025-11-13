@@ -98,7 +98,7 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
           onChangeSelectedGroupRow={selectedGroupRow}
           onChangeSetSelectedGroupRow={setSelectedGroupRow}
           onChangeSelectedGroupRows={selectedGroupRows}
-          onChangeUpdateSelectedGroupRows={updateSelectedGroupRows}
+          updateSelectedGroupRows={updateSelectedGroupRows}
           onChangeHasNotSelectedGroupRows={hasNotSelectedGroupRows}
           onChangeSetHasNotSelectedGroupRows={setHasNotSelectedGroupRows}
           onChangeAllowSelectingAllRows={allowSelectingAllRows}
