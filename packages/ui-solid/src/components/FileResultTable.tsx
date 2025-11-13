@@ -50,7 +50,7 @@ type FileResultTableProps = FileResultTableDataProps & {
   updateSelectedGroupRows: (rows: SelectedGroupRows) => void
   onChangeHasNotSelectedGroupRows: Accessor<boolean>
   onChangeSetHasNotSelectedGroupRows: Setter<boolean>
-  onChangeAllowSelectingAllRows: Accessor<boolean>
+  allowSelectingAllRows: Accessor<boolean>
 }
 
 export const FileResultTable: Component<FileResultTableProps> = props => {
@@ -73,7 +73,7 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
 
     if (rows.size) {
       if (checked) {
-        if (rows.size === props.rowGroups[groupI].length - 1 && !props.onChangeAllowSelectingAllRows()) {
+        if (rows.size === props.rowGroups[groupI].length - 1 && !props.allowSelectingAllRows()) {
           props.drawAttentionToLabel()
           updateSelectedGroupRows()
           return
