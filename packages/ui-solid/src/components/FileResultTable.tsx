@@ -49,7 +49,7 @@ type FileResultTableProps = FileResultTableDataProps & {
   selectedGroupRows: Accessor<SelectedGroupRows>
   updateSelectedGroupRows: (rows: SelectedGroupRows) => void
   hasNotSelectedGroupRows: Accessor<boolean>
-  onChangeSetHasNotSelectedGroupRows: Setter<boolean>
+  setHasNotSelectedGroupRows: Setter<boolean>
   allowSelectingAllRows: Accessor<boolean>
 }
 
@@ -93,7 +93,7 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
     }
 
     updateSelectedGroupRows()
-    props.onChangeSetHasNotSelectedGroupRows(isMapEmpty(props.selectedGroupRows()))
+    props.setHasNotSelectedGroupRows(isMapEmpty(props.selectedGroupRows()))
 
     if (props.selectedGroupRow()) {
       props.setSelectedGroupRow(null)
@@ -102,7 +102,7 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
 
   const handlerCheckboxes = () => {
     props.updateSelectedGroupRows(new Map())
-    props.onChangeSetHasNotSelectedGroupRows(true)
+    props.setHasNotSelectedGroupRows(true)
   }
 
   const handlerRow = (groupI: number, rowI: number) => {

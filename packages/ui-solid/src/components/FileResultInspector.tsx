@@ -87,7 +87,6 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
   return (
     <div class="file-result-inspector">
       <div>
-        {/* TODO: remove the onChange prefix. Also on other places */}
         <FileResultTable
           columns={props.columns}
           rowGroups={props.rowGroups}
@@ -100,7 +99,7 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
           selectedGroupRows={selectedGroupRows}
           updateSelectedGroupRows={updateSelectedGroupRows}
           hasNotSelectedGroupRows={hasNotSelectedGroupRows}
-          onChangeSetHasNotSelectedGroupRows={setHasNotSelectedGroupRows}
+          setHasNotSelectedGroupRows={setHasNotSelectedGroupRows}
           allowSelectingAllRows={allowSelectingAllRows}
         />
 
