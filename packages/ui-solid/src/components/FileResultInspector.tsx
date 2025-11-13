@@ -95,11 +95,11 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
           drawAttentionToLabel={drawAttentionToLabel}
           createColumnRenderers={createColumnRenderers}
           cloneSelectedGroupRows={cloneSelectedGroupRows}
-          onChangeSelectedGroupRow={selectedGroupRow}
+          selectedGroupRow={selectedGroupRow}
           onChangeSetSelectedGroupRow={setSelectedGroupRow}
           onChangeSelectedGroupRows={selectedGroupRows}
           updateSelectedGroupRows={updateSelectedGroupRows}
-          onChangeHasNotSelectedGroupRows={hasNotSelectedGroupRows}
+          hasNotSelectedGroupRows={hasNotSelectedGroupRows}
           onChangeSetHasNotSelectedGroupRows={setHasNotSelectedGroupRows}
           allowSelectingAllRows={allowSelectingAllRows}
         />

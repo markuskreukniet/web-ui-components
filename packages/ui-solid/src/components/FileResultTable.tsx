@@ -44,11 +44,11 @@ type FileResultTableProps = FileResultTableDataProps & {
   drawAttentionToLabel: VoidFunction
   createColumnRenderers: (renderer: Renderer) => Renderers
   cloneSelectedGroupRows: () => SelectedGroupRows
-  onChangeSelectedGroupRow: Accessor<SelectedGroupRow>
+  selectedGroupRow: Accessor<SelectedGroupRow>
   onChangeSetSelectedGroupRow: Setter<SelectedGroupRow>
   onChangeSelectedGroupRows: Accessor<SelectedGroupRows>
   updateSelectedGroupRows: (rows: SelectedGroupRows) => void
-  onChangeHasNotSelectedGroupRows: Accessor<boolean>
+  hasNotSelectedGroupRows: Accessor<boolean>
   onChangeSetHasNotSelectedGroupRows: Setter<boolean>
   allowSelectingAllRows: Accessor<boolean>
 }
@@ -95,7 +95,7 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
     updateSelectedGroupRows()
     props.onChangeSetHasNotSelectedGroupRows(isMapEmpty(props.onChangeSelectedGroupRows()))
 
-    if (props.onChangeSelectedGroupRow()) {
+    if (props.selectedGroupRow()) {
       props.onChangeSetSelectedGroupRow(null)
     }
   }
@@ -106,8 +106,8 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
   }
 
   const handlerRow = (groupI: number, rowI: number) => {
-    if (props.onChangeHasNotSelectedGroupRows()) {
-      const row = props.onChangeSelectedGroupRow()
+    if (props.hasNotSelectedGroupRows()) {
+      const row = props.selectedGroupRow()
       props.onChangeSetSelectedGroupRow(
         (!row || (row.group !== groupI || row.row !== rowI)) ? { group: groupI, row: rowI } : null
       )
@@ -127,7 +127,7 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
     headerCheckboxCell = (
       <th>
         <TertiaryIconButton
-          disabled={props.onChangeHasNotSelectedGroupRows()}
+          disabled={props.hasNotSelectedGroupRows()}
           onPress={() => handlerCheckboxes()}
         >
           <rect x="3" y="3" width="18" height="18" rx="3" ry="3" />
@@ -179,8 +179,8 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
                         onMouseDown={() => handlerRow(groupI, rowI)}
                         classList={{
                           'file-result-table__selected-row':
-                            props.onChangeSelectedGroupRow()?.group === groupI &&
-                            props.onChangeSelectedGroupRow()?.row === rowI
+                            props.selectedGroupRow()?.group === groupI &&
+                            props.selectedGroupRow()?.row === rowI
                         }}
                       >
                         {renderCheckbox(groupI, rowI)}
