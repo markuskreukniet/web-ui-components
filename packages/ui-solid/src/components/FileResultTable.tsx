@@ -43,6 +43,7 @@ type FileResultTableProps = FileResultTableDataProps & {
   showRowCheckboxes: boolean
   drawAttentionToLabel: VoidFunction
   createColumnRenderers: (renderer: Renderer) => Renderers
+  cloneSelectedGroupRows: () => SelectedGroupRows
   onChangeSelectedGroupRow: Accessor<SelectedGroupRow>
   onChangeSetSelectedGroupRow: Setter<SelectedGroupRow>
   onChangeSelectedGroupRows: Accessor<SelectedGroupRows>
@@ -54,7 +55,7 @@ type FileResultTableProps = FileResultTableDataProps & {
 
 export const FileResultTable: Component<FileResultTableProps> = props => {
   const setRowCheckboxState = (groupI: number, rowI: number, checked: boolean) => {
-    const next = new Map(props.onChangeSelectedGroupRows())
+    const next = props.cloneSelectedGroupRows()
     const rows = next.has(groupI) ? next.get(groupI)! : new Set<number>()
 
     function setGroupRows() {

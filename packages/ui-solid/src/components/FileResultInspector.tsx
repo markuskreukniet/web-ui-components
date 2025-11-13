@@ -31,6 +31,10 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
   const [count, setCount] = createSignal<number>(0)
   const [open, setOpen] = createSignal<boolean>(false)
 
+  const cloneSelectedGroupRows = () => {
+    return new Map(selectedGroupRows())
+  }
+
   const createColumnRenderers = (renderer: Renderer): Renderers => {
     return props.columns.map(column => {
       switch (column.type) {
@@ -66,7 +70,7 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
 
   const handlerChange = (checked: boolean) => {
     if (!checked) {
-      const next = new Map(selectedGroupRows()) // TODO: duplicate code?
+      const next = cloneSelectedGroupRows()
       for (const [key, value] of next) {
         if (props.rowGroups[key].length === value.size) {
           value.delete(0)
@@ -90,6 +94,7 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
           showRowCheckboxes={props.canDelete}
           drawAttentionToLabel={drawAttentionToLabel}
           createColumnRenderers={createColumnRenderers}
+          cloneSelectedGroupRows={cloneSelectedGroupRows}
           onChangeSelectedGroupRow={selectedGroupRow}
           onChangeSetSelectedGroupRow={setSelectedGroupRow}
           onChangeSelectedGroupRows={selectedGroupRows}
