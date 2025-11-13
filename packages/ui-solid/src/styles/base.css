@@ -126,6 +126,9 @@
   --dt-dialog-overlay: oklch(var(--lt-lightness-level-1) 0 0 / var(--dt-dialog-overlay-alpha));
 
   --dialog-overlay: light-dark(var(--lt-dialog-overlay), var(--dt-dialog-overlay));
+
+  /* System monospace stack */
+  --font-family-monospace: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
 * {
