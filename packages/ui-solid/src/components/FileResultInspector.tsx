@@ -96,8 +96,8 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
           createColumnRenderers={createColumnRenderers}
           cloneSelectedGroupRows={cloneSelectedGroupRows}
           selectedGroupRow={selectedGroupRow}
-          onChangeSetSelectedGroupRow={setSelectedGroupRow}
-          onChangeSelectedGroupRows={selectedGroupRows}
+          setSelectedGroupRow={setSelectedGroupRow}
+          selectedGroupRows={selectedGroupRows}
           updateSelectedGroupRows={updateSelectedGroupRows}
           hasNotSelectedGroupRows={hasNotSelectedGroupRows}
           onChangeSetHasNotSelectedGroupRows={setHasNotSelectedGroupRows}

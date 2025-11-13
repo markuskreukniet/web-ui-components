@@ -45,8 +45,8 @@ type FileResultTableProps = FileResultTableDataProps & {
   createColumnRenderers: (renderer: Renderer) => Renderers
   cloneSelectedGroupRows: () => SelectedGroupRows
   selectedGroupRow: Accessor<SelectedGroupRow>
-  onChangeSetSelectedGroupRow: Setter<SelectedGroupRow>
-  onChangeSelectedGroupRows: Accessor<SelectedGroupRows>
+  setSelectedGroupRow: Setter<SelectedGroupRow>
+  selectedGroupRows: Accessor<SelectedGroupRows>
   updateSelectedGroupRows: (rows: SelectedGroupRows) => void
   hasNotSelectedGroupRows: Accessor<boolean>
   onChangeSetHasNotSelectedGroupRows: Setter<boolean>
@@ -93,10 +93,10 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
     }
 
     updateSelectedGroupRows()
-    props.onChangeSetHasNotSelectedGroupRows(isMapEmpty(props.onChangeSelectedGroupRows()))
+    props.onChangeSetHasNotSelectedGroupRows(isMapEmpty(props.selectedGroupRows()))
 
     if (props.selectedGroupRow()) {
-      props.onChangeSetSelectedGroupRow(null)
+      props.setSelectedGroupRow(null)
     }
   }
 
@@ -108,7 +108,7 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
   const handlerRow = (groupI: number, rowI: number) => {
     if (props.hasNotSelectedGroupRows()) {
       const row = props.selectedGroupRow()
-      props.onChangeSetSelectedGroupRow(
+      props.setSelectedGroupRow(
         (!row || (row.group !== groupI || row.row !== rowI)) ? { group: groupI, row: rowI } : null
       )
     }
@@ -143,7 +143,7 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
       return (
         <td>
           <CheckboxInput
-            checked={props.onChangeSelectedGroupRows().get(groupI)?.has(rowI) ?? false}
+            checked={props.selectedGroupRows().get(groupI)?.has(rowI) ?? false}
             onChange={checked => setRowCheckboxState(groupI, rowI, checked)}
             onMouseDownStopPropagation
           />
