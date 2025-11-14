@@ -182,7 +182,7 @@ dialog > div {
   background-color: var(--bg-level-1);
 }
 
-/* file-path */ /* TODO: naming + does it work? */
+/* file-path */
 .file-path {
   font-family: var(--font-family-monospace);
 }

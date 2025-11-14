@@ -123,7 +123,7 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
           <For each={resolvedFilePaths()}>
             {(path, index) =>
               <li>
-                <span>{path.filePath}</span>
+                <span class="file-path">{path.filePath}</span>
                 <CloseButton
                   onPress={handlerUpdateResolvedFilePaths(resolvedFilePaths().filter((_, i) => i !== index()))}
                 />
