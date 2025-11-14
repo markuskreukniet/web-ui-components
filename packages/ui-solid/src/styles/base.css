@@ -146,6 +146,7 @@ html {
 }
 
 body {
+  font-family: var(--font-family-sans-serif);
   color: var(--fg-level-1);
   line-height: var(--golden-ratio);
 }
