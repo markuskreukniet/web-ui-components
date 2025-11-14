@@ -3,6 +3,13 @@
     lt: light-theme
     dt: dark-theme
   */
+
+  /* System UI sans-serif Stack */ /* TODO: naming*/
+  --font-family-sans-serif: ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+  /* System monospace stack */ /* TODO: naming*/
+  --font-family-monospace: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
   --golden-ratio: 1.618;
   --golden-ratio-rem: 1.618rem;
   --golden-ratio-reciprocal: 0.618;
@@ -126,9 +133,6 @@
   --dt-dialog-overlay: oklch(var(--lt-lightness-level-1) 0 0 / var(--dt-dialog-overlay-alpha));
 
   --dialog-overlay: light-dark(var(--lt-dialog-overlay), var(--dt-dialog-overlay));
-
-  /* System monospace stack */
-  --font-family-monospace: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
 * {
