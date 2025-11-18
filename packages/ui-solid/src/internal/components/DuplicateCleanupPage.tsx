@@ -29,6 +29,7 @@ type DetectDuplicateFilesResultEither = Either<Error, DetectDuplicateFilesResult
 // ensuring each group index is represented only once.
 type DeleteSelectedFilesResult = Map<number, Map<number, Error | null>>
 
+// TODO: some functions and similar things inside this component should be outside this component? Other places/components are already ok
 export const DuplicateCleanupPage: Component = () => {
   const [rowGroups, setRowGroups] = createSignal<RowGroups>([])
   const [isLoading, setIsLoading] = createSignal(false)
@@ -39,7 +40,7 @@ export const DuplicateCleanupPage: Component = () => {
     return right('')
   }
 
-  const deleteSelectedFiles = async (selectedGroupRows: SelectedGroupRows): Promise<DeleteSelectedFilesResult> => {
+  const deleteSelectedFiles = async (rows: SelectedGroupRows): Promise<DeleteSelectedFilesResult> => {
     return new Map()
   }
 
