@@ -1,4 +1,4 @@
-import { isStrictEqual0, isStrictEqual1 } from './utils'
+import { isStrictEqual0 } from './utils'
 
 export function isArrayEmpty<T>(array: T[]): boolean {
   return isStrictEqual0(array.length)

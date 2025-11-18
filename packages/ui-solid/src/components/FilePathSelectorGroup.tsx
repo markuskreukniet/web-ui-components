@@ -37,7 +37,6 @@ type FilePathSelectorGroupProps = FilePathSelectorGroupBaseProps & {
   submitButton?: JSX.Element
 }
 
-// TODO: move inside FilePathSelectorGroup + check also other places
 function createResolvedFilePath(filePath: string, isDirectory: boolean): ResolvedFilePath {
   const path = {
     filePath,
@@ -137,7 +136,7 @@ export const FilePathSelectorGroup: Component<FilePathSelectorGroupProps> = prop
           <For each={resolvedFilePaths()}>
             {(path, index) =>
               <li>
-                <span class="file-path">{path.filePath}</span>
+                <span class="file-path">{path.elidedPath}</span>
                 <CloseButton
                   onPress={handlerUpdateResolvedFilePaths(resolvedFilePaths().filter((_, i) => i !== index()))}
                 />
