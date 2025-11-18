@@ -103,10 +103,10 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
           allowSelectingAllRows={allowSelectingAllRows}
         />
 
-        <Show when={selectedGroupRow()}>
-          {groupRow => {
-            return (
-              <div class="file-result-inspector__selection">
+        <div class="file-result-inspector__selection">
+          <Show when={selectedGroupRow()}>
+            {groupRow => {
+              return (
                 <For each={props.rowGroups[groupRow().group][groupRow().row].cells}>
                   {(cell, index) => {
                     const i = index()
@@ -119,10 +119,10 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
                     )
                   }}
                 </For>
-              </div>
-            )
-          }}
-        </Show>
+              )
+            }}
+          </Show>
+        </div>
       </div>
 
       <div class="file-result-inspector__actions">

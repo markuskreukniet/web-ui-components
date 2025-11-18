@@ -228,5 +228,40 @@ This pattern makes it explicit that the function handles a specific UI event, en
 - fix texts
 - add aria-label (and other ARIA?), title, role=, and type="button" to button. Maybe also add these things to other elements
 - add to README: do not use `forEach()`, use `for…of` instead. It is from sonarqube. Ask AI why it is better
-- add hand hover on table row
 - use space component, for example in DeleteFilesDialog?
+- type CProps = AProps & BProps; together can be duplicate, but it is correct. Also, check for places where it went wrong.
+
+## Code to use:
+
+```
+.container {
+  display: inline-flex; // TODO: use display: flex;?
+  width: max-content;
+}
+
+.b {
+  width: max-content;
+}
+
+.a {
+  max-width: 100%;
+}
+```
+
+```
+import type { JSX, ParentComponent } from 'solid-js'
+
+export type RefDivBaseProps = {
+  ref?: JSX.HTMLAttributes<HTMLDivElement>['ref'] // TODO: is Element | undefined correct? not here but other places
+}
+
+type RefDivProps = RefDivBaseProps & {
+  class?: string
+}
+
+export const RefDiv: ParentComponent<RefDivProps> = props => (
+  <div {...props}>
+    {props.children}
+  </div>
+)
+```
