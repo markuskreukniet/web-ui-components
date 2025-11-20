@@ -376,6 +376,7 @@ tbody + tbody > tr:first-of-type > td {
 }
 
 .file-result-inspector__selection {
+  width: var(--size-21);
   padding: var(--size-1);
   background-color: var(--bg-level-2);
 }
