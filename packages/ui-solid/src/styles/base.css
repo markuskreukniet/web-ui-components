@@ -140,7 +140,7 @@
   --dialog-overlay: light-dark(var(--lt-dialog-overlay), var(--dt-dialog-overlay));
 }
 
-* {
+*, *::before, *::after {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
@@ -162,6 +162,8 @@ h2 {
 }
 
 small {
+  display: block;
+  padding-top: var(--size-1);
   color: var(--fg-level-3);
 }
 
@@ -180,21 +182,6 @@ dialog > div {
   padding-top: var(--size-1);
 }
 
-/* surface */
-.surface {
-  --v-offset: 1px;
-  --blur: 2px;
-
-  border: var(--fg-border-level-1);
-  border-radius: var(--size-2);
-  padding: var(--size-2);
-  background-color: var(--bg-level-1);
-  width: calc(var(--size-55) + (2 * var(--size-2)) + 2px);
-  box-shadow:
-    0 var(--v-offset) var(--blur) var(--fg-level-2),
-    0 calc(var(--v-offset) + var(--blur)) calc(var(--blur) + var(--size-r-1)) var(--fg-level-3);
-}
-
 /* file-path */
 .file-path {
   font-family: var(--font-family-monospace);
@@ -207,7 +194,7 @@ dialog > div {
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding-top: var(--size-1);
+  padding-bottom: var(--size-1);
   background: linear-gradient(to bottom, var(--bg-level-1) 0%, var(--bg-level-2) 100%);
 }
 
@@ -335,7 +322,8 @@ table:has(tbody > tr > td > input[type="checkbox"]:checked) > tbody > tr > td {
   cursor: default;
 }
 
-table:not(:has(tbody > tr > td > input[type="checkbox"]:checked)) > tbody > tr > td {
+/* TODO: checkbox td is nu te small */
+table:not(:has(tbody > tr > td > input[type="checkbox"]:checked)) > tbody > tr > td:not(:has(input[type="checkbox"])) {
   cursor: pointer;
 }
 
@@ -351,8 +339,6 @@ tbody + tbody > tr:first-of-type > td {
 
 /* file-result-table */
 .file-result-table {
-  flex: 0 0 auto;
-  max-height: var(--size-34);
   overflow-y: auto; /* TODO: style scrollbar */
 }
 
@@ -360,7 +346,40 @@ tbody + tbody > tr:first-of-type > td {
   background-color: var(--bg-level-2);
 }
 
+/* surface-page, surface-dialog */
+.surface-page, .surface-dialog {
+  --v-offset: 1px;
+  --blur: 2px;
+
+  --padding-border: calc((2 * var(--size-2)) + 2px);
+
+  border: var(--fg-border-level-1);
+  background-color: var(--bg-level-1);
+  box-shadow:
+    0 var(--v-offset) var(--blur) var(--fg-level-2),
+    0 calc(var(--v-offset) + var(--blur)) calc(var(--blur) + var(--size-r-1)) var(--fg-level-3);
+}
+
+.surface-page {
+  border-top: none;
+  border-radius: 0 0 var(--size-2) var(--size-2);
+  padding: var(--size-1) var(--size-2);
+  width: calc(var(--size-55) + var(--padding-border));
+}
+
+.surface-dialog {
+  border-radius: var(--size-2);
+  padding: var(--size-2);
+  width: calc(var(--size-34) + var(--padding-border));
+}
+
 /* stepper */
+.stepper {
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+}
+
 .stepper > ol {
   display: flex;
   list-style: none;
@@ -377,13 +396,26 @@ tbody + tbody > tr:first-of-type > td {
   box-shadow: inset 0 -3px 0 var(--primary-level-1);
 }
 
+.stepper__body {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
 .stepper__step-info {
   padding-top: var(--size-1);
 }
 
 /* file-result-inspector */
+.file-result-inspector {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
 .file-result-inspector > div:first-of-type {
   display: flex;
+  min-height: 0;
   padding: var(--size-1) 0;
 }
 
@@ -395,7 +427,7 @@ tbody + tbody > tr:first-of-type > td {
 }
 
 .file-result-inspector__selection {
-  flex: 1 1 auto;
+  flex: 1 0 auto; /* TODO: what does auto do? */
   padding: var(--size-1);
   background-color: var(--bg-level-2);
   border-left: var(--fg-border-level-2);
@@ -417,7 +449,7 @@ tbody + tbody > tr:first-of-type > td {
 
 /* file-path-selection-form */
 .file-path-selection-form {
-  padding: var(--size-1) 0;
+  padding-top: var(--size-1);
 }
 
 /* file-path-selector-group */

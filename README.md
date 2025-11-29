@@ -230,6 +230,7 @@ This pattern makes it explicit that the function handles a specific UI event, en
 - add to README: do not use `forEach()`, use `for…of` instead. It is from sonarqube. Ask AI why it is better
 - use space component, for example in DeleteFilesDialog?
 - type CProps = AProps & BProps; together can be duplicate, but it is correct. Also, check for places where it went wrong.
+- when comparing files for duplicates. Take 50% of the biggest file size. Files bigger than that size get compared for the first 20% if that is the same then the other 80%.
 
 ## Code to use:
 

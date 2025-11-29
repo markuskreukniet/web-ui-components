@@ -31,7 +31,7 @@ export const DeleteFilesDialog: Component<DeleteFilesDialogProps> = props => {
         >
           <dialog
             open
-            class="surface"
+            class="surface-dialog"
           >
             <h2>{props.hasSingleSelectedGroupRow ? 'Delete file?' : `Delete ${props.count} selected files?`}</h2>
             <p>
