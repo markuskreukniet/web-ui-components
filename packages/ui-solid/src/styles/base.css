@@ -28,7 +28,8 @@
   --size-r-2: calc(var(--size-r-1) * var(--golden-ratio-reciprocal));
   --size-r-3: calc(var(--size-r-2) * var(--golden-ratio-reciprocal));
 
-  --row-padding: calc(((var(--golden-ratio-rem) * var(--golden-ratio)) - var(--golden-ratio-rem)) / 2);
+  --row-padding: calc((var(--golden-ratio-rem) - var(--size-1)) / 2);
+  --row-padding-halved: calc(var(--row-padding) / 2); /* TODO: use it */
 
   --maximum-list-items: 8;
   --ul-height: calc(
@@ -131,6 +132,24 @@
   --attention-level-4: light-dark(var(--lt-attention-level-4), var(--dt-attention-level-4));
   --attention-level-5: light-dark(var(--lt-attention-level-5), var(--dt-attention-level-5));
 
+  --lt-destructive-level-1: oklch(var(--lt-lightness-level-1) var(--lt-chroma) var(--hue-red));
+  --lt-destructive-level-2: oklch(var(--lt-lightness-level-2) var(--lt-chroma) var(--hue-red));
+  --lt-destructive-level-3: oklch(var(--lt-lightness-level-3) var(--lt-chroma) var(--hue-red));
+  --lt-destructive-level-4: oklch(var(--lt-lightness-level-4) var(--lt-chroma) var(--hue-red));
+  --lt-destructive-level-5: oklch(var(--lt-lightness-level-5) var(--lt-chroma) var(--hue-red));
+
+  --dt-destructive-level-1: oklch(var(--dt-lightness-level-1) var(--dt-chroma) var(--hue-red));
+  --dt-destructive-level-2: oklch(var(--dt-lightness-level-2) var(--dt-chroma) var(--hue-red));
+  --dt-destructive-level-3: oklch(var(--dt-lightness-level-3) var(--dt-chroma) var(--hue-red));
+  --dt-destructive-level-4: oklch(var(--dt-lightness-level-4) var(--dt-chroma) var(--hue-red));
+  --dt-destructive-level-5: oklch(var(--dt-lightness-level-5) var(--dt-chroma) var(--hue-red));
+
+  --destructive-level-1: light-dark(var(--lt-destructive-level-1), var(--dt-destructive-level-1));
+  --destructive-level-2: light-dark(var(--lt-destructive-level-2), var(--dt-destructive-level-2));
+  --destructive-level-3: light-dark(var(--lt-destructive-level-3), var(--dt-destructive-level-3));
+  --destructive-level-4: light-dark(var(--lt-destructive-level-4), var(--dt-destructive-level-4));
+  --destructive-level-5: light-dark(var(--lt-destructive-level-5), var(--dt-destructive-level-5));
+
   --lt-dialog-overlay-alpha: 0.4;
   --dt-dialog-overlay-alpha: 0.2;
 
@@ -140,7 +159,7 @@
   --dialog-overlay: light-dark(var(--lt-dialog-overlay), var(--dt-dialog-overlay));
 }
 
-* {
+*, *::before, *::after {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
@@ -162,6 +181,8 @@ h2 {
 }
 
 small {
+  display: block;
+  padding-top: var(--size-1);
   color: var(--fg-level-3);
 }
 
@@ -180,21 +201,6 @@ dialog > div {
   padding-top: var(--size-1);
 }
 
-/* surface */
-.surface {
-  --v-offset: 1px;
-  --blur: 2px;
-
-  border: var(--fg-border-level-1);
-  border-radius: var(--size-2);
-  padding: var(--size-2);
-  background-color: var(--bg-level-1);
-  width: calc(var(--size-55) + (2 * var(--size-2)) + 2px);
-  box-shadow:
-    0 var(--v-offset) var(--blur) var(--fg-level-2),
-    0 calc(var(--v-offset) + var(--blur)) calc(var(--blur) + var(--size-r-1)) var(--fg-level-3);
-}
-
 /* file-path */
 .file-path {
   font-family: var(--font-family-monospace);
@@ -207,7 +213,7 @@ dialog > div {
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding-top: var(--size-1);
+  padding-bottom: var(--size-1);
   background: linear-gradient(to bottom, var(--bg-level-1) 0%, var(--bg-level-2) 100%);
 }
 
@@ -233,20 +239,30 @@ button:disabled {
   opacity: var(--golden-ratio-reciprocal);
 }
 
-.button--primary {
+.button--primary, .button--primary-destructive {
   text-transform: uppercase;
 }
 
-.button--primary:has(> svg), .button--secondary:has(> svg), .button--tertiary:has(> svg) {
+.button--primary:has(> svg),
+.button--primary-destructive:has(> svg),
+.button--secondary:has(> svg),
+.button--tertiary:has(> svg) {
   padding: var(--size-r-3);
   display: block;
   width: var(--golden-ratio-rem);
   height: var(--golden-ratio-rem);
 }
 
+.button--primary:not(:has(> svg)), .button--primary-destructive:not(:has(> svg)) {
+  padding: var(--size-r-1) var(--size-2);
+}
+
 .button--primary:not(:has(> svg)) {
   background-color: var(--primary-level-5);
-  padding: var(--size-r-1) var(--size-2);
+}
+
+.button--primary-destructive:not(:has(> svg)) {
+  background-color: var(--destructive-level-5);
 }
 
 .button--secondary:not(:has(> svg)) {
@@ -293,7 +309,7 @@ label > span {
   padding-left: var(--row-padding);
 }
 
-/* table */
+/* table */ /* TODO: input with td is missing a bottom padding */
 table {
   border-collapse: separate;
   border-spacing: 0;
@@ -307,8 +323,17 @@ th {
   padding-bottom: var(--row-padding);
 }
 
+th, td {
+  padding-left: var(--row-padding);
+  padding-right: var(--row-padding);
+}
+
 td {
-  padding: var(--row-padding) 0;
+  padding-top: var(--row-padding);
+}
+
+tbody:not(:last-of-type) > tr:last-of-type > td {
+  padding-bottom: var(--row-padding);
 }
 
 td:first-of-type {
@@ -319,23 +344,11 @@ td:nth-of-type(2) {
   text-align: left;
 }
 
-th:first-of-type, td:first-of-type {
-  padding-left: var(--row-padding);
-}
-
-th:last-of-type, td:last-of-type {
-  padding-right: var(--row-padding);
-}
-
-th + th, td + td {
-  padding-left: var(--size-1);
-}
-
 table:has(tbody > tr > td > input[type="checkbox"]:checked) > tbody > tr > td {
   cursor: default;
 }
 
-table:not(:has(tbody > tr > td > input[type="checkbox"]:checked)) > tbody > tr > td {
+table:not(:has(tbody > tr > td > input[type="checkbox"]:checked)) > tbody > tr > td:not(:has(input[type="checkbox"])) {
   cursor: pointer;
 }
 
@@ -351,8 +364,6 @@ tbody + tbody > tr:first-of-type > td {
 
 /* file-result-table */
 .file-result-table {
-  flex: 0 0 auto;
-  max-height: var(--size-34);
   overflow-y: auto; /* TODO: style scrollbar */
 }
 
@@ -360,7 +371,40 @@ tbody + tbody > tr:first-of-type > td {
   background-color: var(--bg-level-2);
 }
 
+/* surface-page, surface-dialog */
+.surface-page, .surface-dialog {
+  --v-offset: 1px;
+  --blur: 2px;
+
+  --padding-border: calc((2 * var(--size-2)) + 2px);
+
+  border: var(--fg-border-level-1);
+  background-color: var(--bg-level-1);
+  box-shadow:
+    0 var(--v-offset) var(--blur) var(--fg-level-2),
+    0 calc(var(--v-offset) + var(--blur)) calc(var(--blur) + var(--size-r-1)) var(--fg-level-3);
+}
+
+.surface-page {
+  border-top: none;
+  border-radius: 0 0 var(--size-2) var(--size-2);
+  padding: var(--size-1) var(--size-2);
+  width: calc(var(--size-55) + var(--padding-border));
+}
+
+.surface-dialog {
+  border-radius: var(--size-2);
+  padding: var(--size-2);
+  width: calc(var(--size-34) + var(--padding-border));
+}
+
 /* stepper */
+.stepper {
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+}
+
 .stepper > ol {
   display: flex;
   list-style: none;
@@ -377,13 +421,26 @@ tbody + tbody > tr:first-of-type > td {
   box-shadow: inset 0 -3px 0 var(--primary-level-1);
 }
 
+.stepper__body {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
 .stepper__step-info {
   padding-top: var(--size-1);
 }
 
 /* file-result-inspector */
+.file-result-inspector {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
 .file-result-inspector > div:first-of-type {
   display: flex;
+  min-height: 0;
   padding: var(--size-1) 0;
 }
 
@@ -395,7 +452,7 @@ tbody + tbody > tr:first-of-type > td {
 }
 
 .file-result-inspector__selection {
-  flex: 1 1 auto;
+  flex: 1 0 0;
   padding: var(--size-1);
   background-color: var(--bg-level-2);
   border-left: var(--fg-border-level-2);
@@ -411,13 +468,17 @@ tbody + tbody > tr:first-of-type > td {
   font-weight: bold;
 }
 
+.file-result-inspector__selection > div > span:nth-of-type(even) {
+  overflow-wrap: anywhere;
+}
+
 .file-result-inspector__selection > div + div {
   padding-top: var(--size-1);
 }
 
 /* file-path-selection-form */
 .file-path-selection-form {
-  padding: var(--size-1) 0;
+  padding-top: var(--size-1);
 }
 
 /* file-path-selector-group */

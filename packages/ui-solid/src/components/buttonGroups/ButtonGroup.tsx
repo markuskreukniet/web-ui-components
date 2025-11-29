@@ -5,7 +5,5 @@ type ButtonGroupProps = {
 }
 
 export const ButtonGroup: ParentComponent<ButtonGroupProps> = props => (
-  <div class={props.alignEnd ? 'button-group--align-end' : 'button-group--align-start'}>
-    {props.children}
-  </div>
+  <div class={props.alignEnd ? 'button-group--align-end' : 'button-group--align-start'}>{props.children}</div>
 )

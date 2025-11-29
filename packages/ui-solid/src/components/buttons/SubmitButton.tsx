@@ -1,14 +1,9 @@
-import { Button, ButtonVariants } from './Button'
+import { PrimaryButton } from './PrimaryButton'
 import type { Component } from 'solid-js'
-import type { ButtonBaseProps } from './Button'
+import type { ButtonParentProps } from './Button'
 
-type SubmitButtonProps = ButtonBaseProps
+type SubmitButtonProps = ButtonParentProps
 
 export const SubmitButton: Component<SubmitButtonProps> = props => (
-  <Button
-    {...props}
-    variant={ButtonVariants.primary}
-  >
-    Submit
-  </Button>
+  <PrimaryButton {...props}>Submit</PrimaryButton>
 )

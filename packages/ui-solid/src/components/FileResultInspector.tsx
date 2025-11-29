@@ -131,7 +131,7 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
             checked={allowSelectingAllRows()}
             onChange={handlerChange}
           />
-          <span>⚠ Allow deleting non-duplicate files (dangerous)</span>
+          <span>⚠ Allow deletion of non-duplicate files (advanced — use with caution)</span>
         </label>
 
         {props.canDelete && (
@@ -140,12 +140,14 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
               open={open()}
               count={count()}
               hasSingleSelectedGroupRow={hasSingleSelectedGroupRow()}
+              isDestructive={allowSelectingAllRows()}
               onClose={handlerOpen(false)}
               onConfirm={async () => props.onChange(selectedGroupRows())}
             />
 
             <DeleteFilesButton
               hasSingleSelectedGroupRow={hasSingleSelectedGroupRow()}
+              isDestructive={allowSelectingAllRows()}
               isLoading={props.isLoading}
               disabled={hasNotSelectedGroupRows()}
               onPress={handlerOpen(true)}

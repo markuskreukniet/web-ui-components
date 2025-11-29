@@ -44,7 +44,7 @@ function createResolvedFilePath(filePath: string, isDirectory: boolean): Resolve
     elidedPath: filePath
   }
 
-  let maximumCharacters = 55
+  let maximumCharacters = 89
   if (filePath.length > maximumCharacters) {
     maximumCharacters--
     path.elidedPath = `${

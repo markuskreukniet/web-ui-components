@@ -22,8 +22,9 @@ web-ui-components/
 │   │   ├── package.json
 │   │   └── vite.config.ts
 │   ├── ui-solid/                     # SolidJS-based UI components, mirroring the structure of the ui-react/ directory.
-│   ├── ui-core/                      # Shared styles and logic utilities
+│   ├── shared/
 │   │   ├── src/
+│   │   │   ├── i18n/
 │   │   │   ├── monads/
 │   │   │   │   └── either.ts
 │   │   │   ├── utils/                # Framework-agnostic utility modules organized under ui-core, rather than modules/, to reflect their shared use across UI implementations.
@@ -36,7 +37,8 @@ web-ui-components/
 │   │   └── vite.config.ts
 ├── apps/
 │   ├── react-playground/
-│   └── solid-playground/
+│   ├── solid-playground/
+│   └── electron/
 ├── package-lock.json
 ├── package.json                      # Root workspace configuration
 ├── pnpm-lock.yaml                    # Generated lockfile (only present in a pnpm-managed project)
@@ -230,6 +232,10 @@ This pattern makes it explicit that the function handles a specific UI event, en
 - add to README: do not use `forEach()`, use `for…of` instead. It is from sonarqube. Ask AI why it is better
 - use space component, for example in DeleteFilesDialog?
 - type CProps = AProps & BProps; together can be duplicate, but it is correct. Also, check for places where it went wrong.
+- when comparing files for duplicates. Take 50% of the biggest file size. Files bigger than that size get compared for the first 20% if that is the same then the other 80%.
+- Should the primary button in step 2 only be red when there are more then duplicates selected? maybe not
+- prettier max 1 html attribute on 1 line
+- file path selection + table max length cut off
 
 ## Code to use:
 
