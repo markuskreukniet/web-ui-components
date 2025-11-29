@@ -335,6 +335,7 @@ table:has(tbody > tr > td > input[type="checkbox"]:checked) > tbody > tr > td {
   cursor: default;
 }
 
+/* TODO: bug, eerste td heeft pointer */
 table:not(:has(tbody > tr > td > input[type="checkbox"]:checked)) > tbody > tr > td {
   cursor: pointer;
 }
