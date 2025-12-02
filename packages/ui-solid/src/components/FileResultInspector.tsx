@@ -131,7 +131,7 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
             checked={allowSelectingAllRows()}
             onChange={handlerChange}
           />
-          <span>⚠ Allow deleting non-duplicate files (dangerous)</span>
+          <span>⚠ Allow deletion of non-duplicate files (advanced — use with caution)</span>
         </label>
 
         {props.canDelete && (

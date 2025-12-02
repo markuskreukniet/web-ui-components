@@ -152,8 +152,8 @@ export const DuplicateCleanupPage: Component = () => {
           ),
           createStep(
             'File Inspection',
-            '',
-            '',
+            'File Review and Deletion',
+            'Select a file to inspect it in more detail, or choose the files you want to delete. By default, only duplicate files can be deleted; enabling advanced mode allows deletion of any file.',
             <FileResultInspector
               columns={columns}
               rowGroups={rowGroups()}
@@ -161,7 +161,7 @@ export const DuplicateCleanupPage: Component = () => {
               canDelete
               onChange={handlerSelectedGroupRows}
             />,
-            ''
+            'Select one or more files to enable deletion.'
           )
         ]}
         lastEnabledStepIndex={isArrayEmpty(rowGroups()) ? 0 : 1}

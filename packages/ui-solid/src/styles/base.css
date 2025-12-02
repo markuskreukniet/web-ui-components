@@ -353,7 +353,7 @@ tbody + tbody > tr:first-of-type > td {
 /* file-result-table */
 .file-result-table {
   flex: 0 0 auto;
-  max-height: var(--size-34);
+  max-height: var(--size-34); /* TODO: too high now */
   overflow-y: auto; /* TODO: style scrollbar */
 }
 
