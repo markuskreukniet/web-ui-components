@@ -138,8 +138,8 @@ export const DuplicateCleanupPage: Component = () => {
         steps={[
           createStep(
             'File Selection',
-            'Select file(s) and/or folder(s)',
-            'Choose file(s) and/or folder(s) that you want to check for duplicates.',
+            'Select Files and Directories',
+            'Choose the files and directories you want to include for duplicate checking. Any duplicate file paths or duplicate subpaths will be automatically filtered out.',
             <FilePathSelectionForm
               filePathSelectorMode={FilePathSelectorModes.regularFileAndDirectory}
               isLoading={isLoading()}
