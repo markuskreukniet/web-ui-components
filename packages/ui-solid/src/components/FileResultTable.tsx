@@ -137,12 +137,16 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
     )
 
     renderCheckbox = (groupI, rowI) => {
+      // TODO: onMouseDownStopPropagation is now useless, remove it from all places
+
       // Prevent the checkbox click from bubbling to the row’s onMouseDown.
       // Otherwise, it would also select the row, leading to an unintended row toggle alongside the checkbox change.
+      const checked = props.selectedGroupRows().get(groupI)?.has(rowI) ?? false
+
       return (
-        <td>
+        <td onMouseDown={() => setRowCheckboxState(groupI, rowI, !checked)}>
           <CheckboxInput
-            checked={props.selectedGroupRows().get(groupI)?.has(rowI) ?? false}
+            checked={checked}
             onChange={checked => setRowCheckboxState(groupI, rowI, checked)}
             onMouseDownStopPropagation
           />
@@ -175,7 +179,6 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
 
                     return (
                       <tr
-                        onMouseDown={() => handlerRow(groupI, rowI)}
                         classList={{
                           'file-result-table__selected-row':
                             props.selectedGroupRow()?.group === groupI &&
@@ -184,7 +187,11 @@ export const FileResultTable: Component<FileResultTableProps> = props => {
                       >
                         {renderCheckbox(groupI, rowI)}
                         <For each={row.cells}>
-                          {(cell, cellIndex) => <td>{renderers[cellIndex()](cell)}</td>}
+                          {(cell, cellIndex) =>
+                            <td onMouseDown={() => handlerRow(groupI, rowI)}>
+                              {renderers[cellIndex()](cell)}
+                            </td>
+                          }
                         </For>
                       </tr>
                     )

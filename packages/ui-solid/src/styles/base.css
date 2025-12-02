@@ -335,7 +335,7 @@ table:has(tbody > tr > td > input[type="checkbox"]:checked) > tbody > tr > td {
   cursor: default;
 }
 
-/* TODO: klikken boven checkbox is alsnog row openen */
+/* TODO: checkbox td is nu te small */
 table:not(:has(tbody > tr > td > input[type="checkbox"]:checked)) > tbody > tr > td:not(:has(input[type="checkbox"])) {
   cursor: pointer;
 }
