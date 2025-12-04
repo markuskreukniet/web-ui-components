@@ -162,6 +162,8 @@ h2 {
 }
 
 small {
+  display: block;
+  padding-top: var(--size-1);
   color: var(--fg-level-3);
 }
 
@@ -418,7 +420,7 @@ tbody + tbody > tr:first-of-type > td {
 
 /* file-path-selection-form */
 .file-path-selection-form {
-  padding: var(--size-1) 0;
+  padding-top: var(--size-1);
 }
 
 /* file-path-selector-group */
