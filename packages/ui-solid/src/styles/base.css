@@ -354,8 +354,6 @@ tbody + tbody > tr:first-of-type > td {
 
 /* file-result-table */
 .file-result-table {
-  flex: 0 0 auto;
-  max-height: var(--size-34); /* TODO: too high now */
   overflow-y: auto; /* TODO: style scrollbar */
 }
 
@@ -364,6 +362,12 @@ tbody + tbody > tr:first-of-type > td {
 }
 
 /* stepper */
+.stepper {
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+}
+
 .stepper > ol {
   display: flex;
   list-style: none;
@@ -380,13 +384,26 @@ tbody + tbody > tr:first-of-type > td {
   box-shadow: inset 0 -3px 0 var(--primary-level-1);
 }
 
+.stepper__body {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
 .stepper__step-info {
   padding-top: var(--size-1);
 }
 
 /* file-result-inspector */
+.file-result-inspector {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
 .file-result-inspector > div:first-of-type {
   display: flex;
+  min-height: 0;
   padding: var(--size-1) 0;
 }
 
@@ -398,7 +415,7 @@ tbody + tbody > tr:first-of-type > td {
 }
 
 .file-result-inspector__selection {
-  flex: 1 1 auto;
+  flex: 1 0 auto; /* TODO: what does auto do? */
   padding: var(--size-1);
   background-color: var(--bg-level-2);
   border-left: var(--fg-border-level-2);

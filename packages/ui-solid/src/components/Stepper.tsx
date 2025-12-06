@@ -86,7 +86,7 @@ export const Stepper: Component<StepperProps> = props => {
           </TertiaryButton>
         </ButtonGroup>
       )}
-      <div>
+      <div class="stepper__body">
         <div class="stepper__step-info">
           <h2>{`Step ${increment(stepIndex())} of ${props.steps.length}: ${step().heading}`}</h2>
           <p>{step().instructions}</p>
