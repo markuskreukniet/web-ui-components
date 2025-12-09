@@ -28,7 +28,7 @@
   --size-r-2: calc(var(--size-r-1) * var(--golden-ratio-reciprocal));
   --size-r-3: calc(var(--size-r-2) * var(--golden-ratio-reciprocal));
 
-  --row-padding: calc(((var(--golden-ratio-rem) * var(--golden-ratio)) - var(--golden-ratio-rem)) / 2);
+  --row-padding: calc((var(--golden-ratio-rem) - var(--size-1)) / 2);
 
   --maximum-list-items: 8;
   --ul-height: calc(
@@ -280,7 +280,7 @@ label > span {
   padding-left: var(--row-padding);
 }
 
-/* table */
+/* table */ /* TODO: input with td is missing a bottom padding */
 table {
   border-collapse: separate;
   border-spacing: 0;
@@ -294,8 +294,17 @@ th {
   padding-bottom: var(--row-padding);
 }
 
+th, td {
+  padding-left: var(--row-padding);
+  padding-right: var(--row-padding);
+}
+
 td {
-  padding: var(--row-padding) 0;
+  padding-top: var(--row-padding);
+}
+
+tbody:not(:last-of-type) > tr:last-of-type > td {
+  padding-bottom: var(--row-padding);
 }
 
 td:first-of-type {
@@ -306,23 +315,10 @@ td:nth-of-type(2) {
   text-align: left;
 }
 
-th:first-of-type, td:first-of-type {
-  padding-left: var(--row-padding);
-}
-
-th:last-of-type, td:last-of-type {
-  padding-right: var(--row-padding);
-}
-
-th + th, td + td {
-  padding-left: var(--size-1);
-}
-
 table:has(tbody > tr > td > input[type="checkbox"]:checked) > tbody > tr > td {
   cursor: default;
 }
 
-/* TODO: checkbox td is nu te small */
 table:not(:has(tbody > tr > td > input[type="checkbox"]:checked)) > tbody > tr > td:not(:has(input[type="checkbox"])) {
   cursor: pointer;
 }
