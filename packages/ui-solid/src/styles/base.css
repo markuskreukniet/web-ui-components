@@ -28,7 +28,8 @@
   --size-r-2: calc(var(--size-r-1) * var(--golden-ratio-reciprocal));
   --size-r-3: calc(var(--size-r-2) * var(--golden-ratio-reciprocal));
 
-  --row-padding: calc((var(--golden-ratio-rem) - var(--size-1)) / 2); /* TODO: is line-padding better naming? */
+  --row-padding: calc((var(--golden-ratio-rem) - var(--size-1)) / 2);
+  --row-padding-halved: calc(var(--row-padding) / 2); /* TODO: use it */
 
   --maximum-list-items: 8;
   --ul-height: calc(
