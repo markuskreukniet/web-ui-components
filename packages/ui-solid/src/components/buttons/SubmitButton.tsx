@@ -5,9 +5,7 @@ import type { ButtonParentProps } from './Button'
 type SubmitButtonProps = ButtonParentProps
 
 export const SubmitButton: Component<SubmitButtonProps> = props => (
-  <PrimaryButton
-    {...props}
-  >
+  <PrimaryButton {...props}>
     Submit
   </PrimaryButton>
 )
