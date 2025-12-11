@@ -1,5 +1,5 @@
 import { splitProps, onMount } from 'solid-js';
-import { SecondaryButton } from './SecondaryButton'
+import { PrimaryButton } from './PrimaryButton'
 import type { Component } from 'solid-js'
 import type { ButtonParentProps } from './Button'
 
@@ -19,11 +19,11 @@ export const DeleteFilesButton: Component<DeleteFilesButtonProps> = props => {
   })
 
   return (
-    <SecondaryButton
+    <PrimaryButton
       ref={button}
       {...rest}
     >
       {local.hasSingleSelectedGroupRow ? 'Delete file' : 'Delete selected files'}
-    </SecondaryButton>
+    </PrimaryButton>
   )
 }
