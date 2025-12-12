@@ -132,6 +132,24 @@
   --attention-level-4: light-dark(var(--lt-attention-level-4), var(--dt-attention-level-4));
   --attention-level-5: light-dark(var(--lt-attention-level-5), var(--dt-attention-level-5));
 
+  --lt-destructive-level-1: oklch(var(--lt-lightness-level-1) var(--lt-chroma) var(--hue-red));
+  --lt-destructive-level-2: oklch(var(--lt-lightness-level-2) var(--lt-chroma) var(--hue-red));
+  --lt-destructive-level-3: oklch(var(--lt-lightness-level-3) var(--lt-chroma) var(--hue-red));
+  --lt-destructive-level-4: oklch(var(--lt-lightness-level-4) var(--lt-chroma) var(--hue-red));
+  --lt-destructive-level-5: oklch(var(--lt-lightness-level-5) var(--lt-chroma) var(--hue-red));
+
+  --dt-destructive-level-1: oklch(var(--dt-lightness-level-1) var(--dt-chroma) var(--hue-red));
+  --dt-destructive-level-2: oklch(var(--dt-lightness-level-2) var(--dt-chroma) var(--hue-red));
+  --dt-destructive-level-3: oklch(var(--dt-lightness-level-3) var(--dt-chroma) var(--hue-red));
+  --dt-destructive-level-4: oklch(var(--dt-lightness-level-4) var(--dt-chroma) var(--hue-red));
+  --dt-destructive-level-5: oklch(var(--dt-lightness-level-5) var(--dt-chroma) var(--hue-red));
+
+  --destructive-level-1: light-dark(var(--lt-destructive-level-1), var(--dt-destructive-level-1));
+  --destructive-level-2: light-dark(var(--lt-destructive-level-2), var(--dt-destructive-level-2));
+  --destructive-level-3: light-dark(var(--lt-destructive-level-3), var(--dt-destructive-level-3));
+  --destructive-level-4: light-dark(var(--lt-destructive-level-4), var(--dt-destructive-level-4));
+  --destructive-level-5: light-dark(var(--lt-destructive-level-5), var(--dt-destructive-level-5));
+
   --lt-dialog-overlay-alpha: 0.4;
   --dt-dialog-overlay-alpha: 0.2;
 
@@ -244,7 +262,7 @@ button:disabled {
 }
 
 .button--primary-destructive:not(:has(> svg)) {
-  background-color: red; /* TODO: color */
+  background-color: var(--destructive-level-5);
 }
 
 .button--secondary:not(:has(> svg)) {
