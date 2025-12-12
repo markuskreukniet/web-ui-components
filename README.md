@@ -231,7 +231,7 @@ This pattern makes it explicit that the function handles a specific UI event, en
 - use space component, for example in DeleteFilesDialog?
 - type CProps = AProps & BProps; together can be duplicate, but it is correct. Also, check for places where it went wrong.
 - when comparing files for duplicates. Take 50% of the biggest file size. Files bigger than that size get compared for the first 20% if that is the same then the other 80%.
-- the delete button on step 2 should be a primary button and become a red primary button with the checkbox enabled. Same for the confirmation dialog. Improvement is only red with there is actually more then duplicates selected? maybe not
+- Should the primary button in step 2 only be red when there are more then duplicates selected? maybe not
 
 ## Code to use:
 
