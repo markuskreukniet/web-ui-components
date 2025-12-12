@@ -221,20 +221,30 @@ button:disabled {
   opacity: var(--golden-ratio-reciprocal);
 }
 
-.button--primary {
+.button--primary, .button--primary-destructive {
   text-transform: uppercase;
 }
 
-.button--primary:has(> svg), .button--secondary:has(> svg), .button--tertiary:has(> svg) {
+.button--primary:has(> svg),
+.button--primary-destructive:has(> svg),
+.button--secondary:has(> svg),
+.button--tertiary:has(> svg) {
   padding: var(--size-r-3);
   display: block;
   width: var(--golden-ratio-rem);
   height: var(--golden-ratio-rem);
 }
 
+.button--primary:not(:has(> svg)), .button--primary-destructive:not(:has(> svg)) {
+  padding: var(--size-r-1) var(--size-2);
+}
+
 .button--primary:not(:has(> svg)) {
   background-color: var(--primary-level-5);
-  padding: var(--size-r-1) var(--size-2);
+}
+
+.button--primary-destructive:not(:has(> svg)) {
+  background-color: red; /* TODO: color */
 }
 
 .button--secondary:not(:has(> svg)) {
