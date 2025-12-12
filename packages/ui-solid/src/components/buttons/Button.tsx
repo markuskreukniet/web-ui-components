@@ -2,8 +2,14 @@ import { ProgressCircle } from '../ProgressCircle'
 import type { Component, JSX, ParentProps } from 'solid-js'
 import type { VoidFunction } from "../../types/types"
 
+// TODO: correct place and implementation?
+export type IsDestructiveProps = {
+  isDestructive: boolean
+}
+
 export const ButtonVariants = {
   primary: 'button--primary',
+  primaryDestructive: 'button--primary-destructive',
   secondary: 'button--secondary',
   tertiary: 'button--tertiary'
 } as const

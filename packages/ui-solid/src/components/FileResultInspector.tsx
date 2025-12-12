@@ -140,12 +140,14 @@ export const FileResultInspector: Component<FileResultInspectorProps> = props =>
               open={open()}
               count={count()}
               hasSingleSelectedGroupRow={hasSingleSelectedGroupRow()}
+              isDestructive={allowSelectingAllRows()}
               onClose={handlerOpen(false)}
               onConfirm={async () => props.onChange(selectedGroupRows())}
             />
 
             <DeleteFilesButton
               hasSingleSelectedGroupRow={hasSingleSelectedGroupRow()}
+              isDestructive={allowSelectingAllRows()}
               isLoading={props.isLoading}
               disabled={hasNotSelectedGroupRows()}
               onPress={handlerOpen(true)}

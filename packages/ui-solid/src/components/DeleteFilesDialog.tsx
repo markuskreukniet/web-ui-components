@@ -4,9 +4,10 @@ import { AlignEndButtonGroup } from "./buttonGroups/AlignEndButtonGroup"
 import { DeleteFilesButton } from "./buttons/DeleteFilesButton"
 import { TertiaryButton } from "./buttons/TertiaryButton"
 import type { Component } from "solid-js"
+import type { IsDestructiveProps } from './buttons/Button'
 import type { VoidFunction } from "../types/types"
 
-type DeleteFilesDialogProps = {
+type DeleteFilesDialogProps = IsDestructiveProps & {
   open: boolean
   count: number
   hasSingleSelectedGroupRow: boolean
@@ -43,6 +44,7 @@ export const DeleteFilesDialog: Component<DeleteFilesDialogProps> = props => {
               <TertiaryButton onPress={props.onClose}>Cancel</TertiaryButton>
               <DeleteFilesButton
                 hasSingleSelectedGroupRow={props.hasSingleSelectedGroupRow}
+                isDestructive={props.isDestructive}
                 onPress={props.onConfirm}
               />
             </AlignEndButtonGroup>
