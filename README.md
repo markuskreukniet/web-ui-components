@@ -22,8 +22,9 @@ web-ui-components/
 │   │   ├── package.json
 │   │   └── vite.config.ts
 │   ├── ui-solid/                     # SolidJS-based UI components, mirroring the structure of the ui-react/ directory.
-│   ├── ui-core/                      # Shared styles and logic utilities
+│   ├── shared/
 │   │   ├── src/
+│   │   │   ├── i18n/
 │   │   │   ├── monads/
 │   │   │   │   └── either.ts
 │   │   │   ├── utils/                # Framework-agnostic utility modules organized under ui-core, rather than modules/, to reflect their shared use across UI implementations.
