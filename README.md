@@ -233,6 +233,8 @@ This pattern makes it explicit that the function handles a specific UI event, en
 - type CProps = AProps & BProps; together can be duplicate, but it is correct. Also, check for places where it went wrong.
 - when comparing files for duplicates. Take 50% of the biggest file size. Files bigger than that size get compared for the first 20% if that is the same then the other 80%.
 - Should the primary button in step 2 only be red when there are more then duplicates selected? maybe not
+- prettier max 1 html attribute on 1 line
+- file path selection + table max length cut off
 
 ## Code to use:
 
