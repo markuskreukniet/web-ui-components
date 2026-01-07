@@ -16,10 +16,11 @@ web-ui-components/
 │   │   │   │   ├── components/
 │   │   │   │   └── modules/
 │   │   │   └── index.ts              # Module entry point: re-exports public TypeScript modules and components only; no side-effect imports (e.g., global CSS)
-│   │   ├── build/                    # Package-local build tooling, excluded from source and distribution.
-│   │   │       └── prepare-css.js    # Prepares CSS for build; implemented in JS to keep tooling lightweight and separate from TypeScript code.
 │   │   ├── dist/                     # Generated build outputs excluded from source control.
 │   │   ├── package.json
+│   │   ├── tsconfig.json
+│   │   ├── tsconfig.app.json
+│   │   ├── tsconfig.build.json
 │   │   └── vite.config.ts
 │   ├── ui-solid/                     # SolidJS-based UI components, mirroring the structure of the ui-react/ directory.
 │   ├── shared/
@@ -27,23 +28,27 @@ web-ui-components/
 │   │   │   ├── i18n/
 │   │   │   ├── monads/
 │   │   │   │   └── either.ts
-│   │   │   ├── utils/                # Framework-agnostic utility modules organized under ui-core, rather than modules/, to reflect their shared use across UI implementations.
+│   │   │   ├── utils/                # Framework-agnostic utility modules.
 │   │   │   │   └── errors.ts
-│   │   │   ├── types/                # Framework-agnostic type definitions in ui-core, rather than modules/, to reflect their shared use across UI implementations.
+│   │   │   ├── types/                # Framework-agnostic type definitions.
 │   │   │   └── styles/
 │   │   │       ├── index.css         # Entry point (e.g. @import './base.css')
 │   │   │       └── base.css
+│   │   ├── build/                    # Package-local build tooling, excluded from source and distribution.
+│   │   │       └── prepare-css.mjs   # Prepares CSS for build; implemented in JS to keep tooling lightweight and separate from TypeScript code.
 │   │   ├── package.json
 │   │   └── vite.config.ts
+│   └── tsconfig.package.json
 ├── apps/
 │   ├── react-playground/
 │   ├── solid-playground/
-│   └── electron/
+│   ├── electron/
+│   └── tsconfig.app.json
+├── scripts/
+│   └── dev-solid-workspace.mjs
 ├── package-lock.json
 ├── package.json                      # Root workspace configuration
-├── pnpm-lock.yaml                    # Generated lockfile (only present in a pnpm-managed project)
-├── pnpm-workspace.yaml               # Workspace configuration (only present in a pnpm-managed project)
-├── tsconfig.json                     # Shared TypeScript settings
+├── tsconfig.base.json                # Workspace-wide base TypeScript configuration extended by all packages and apps
 ├── .gitignore
 └── README.md
 ```
@@ -212,13 +217,11 @@ This pattern makes it explicit that the function handles a specific UI event, en
 - add function return types
 - Is the project naming still correct since there are modules and components?
 - check naming in all files
-- make UI core project
+- make the shared project
 - Add a toggle to show removed rows
 - Use context instead of prop down drilling? Also update README then
 - if too many error in error toast, show scrollbar
-- fix/check tsconfig files and use extending of files
-- add dependency "@types/node"?
-- update bootstrapping.md with styles, possible when there is the UI core project
+- update bootstrapping.md with styles, possible when there is the shared project
 - remove all useless files from ui-solid
 - add to solid-playground .gitignore?
 - make the whole td with a checkbox clickable without adding JS/TS?
@@ -236,6 +239,32 @@ This pattern makes it explicit that the function handles a specific UI event, en
 - Should the primary button in step 2 only be red when there are more then duplicates selected? maybe not
 - prettier max 1 html attribute on 1 line
 - file path selection + table max length cut off
+- test and style toasts
+- check if the vite.config.ts and package.json files, and similar files are correct and needed
+- is solid-playground good naming? should internal of ui-solid be removed there and go to solid-playground?
+- fix prettier? style of prepare-css.mjs and dev-solid-workspace.mjs
+
+- recheck if tsconfig files are correct. bootstrapping.md has tsconfigs in it we can use for easy copying.
+- add dependency "@types/node"?
+- in a tsconfig.json in compilerOptions.tsBuildInfoFile, with a value such as "./node_modules/.tmp/tsconfig.node.tsbuildinfo" or "./node_modules/.tmp/tsconfig.app.tsbuildinfo".
+- use tsconfig.node.json in a package when needed, and update then the tsconfig.json of that package with for example:
+
+```
+{
+  "extends": "../tsconfig.package.json",
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
+}
+```
+
+- use web-ui-components/packages/ui-solid/src/vite-env.d.ts with this content below. Is it useful somewhere else?
+
+```
+/// <reference types="vite/client" />
+```
 
 ## Code to use:
 

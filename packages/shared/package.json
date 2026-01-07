@@ -1,0 +1,12 @@
+{
+  "name": "shared",
+  "private": true,
+  "files": ["dist"],
+  "exports": {
+    "./styles/*": "./dist/styles/*"
+  },
+  "scripts": {
+    "build": "node build/prepare-css.mjs",
+    "dev": "node build/prepare-css.mjs --watch"
+  }
+}
