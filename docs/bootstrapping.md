@@ -11,16 +11,27 @@ npm version:
 9. web-ui-components/packages/ui-solid/src/components/HelloWorld.tsx: `import type { Component } from 'solid-js';export const HelloWorld: Component = () => {return <p>Hello from ui-solid!</p>;};`
 10. web-ui-components/packages/ui-solid/src/index.ts: `export { HelloWorld } from './components/HelloWorld';`
 11. add `"dependencies": {"ui-solid": "*"}` to web-ui-components/apps/solid-playground/package.json
-12. add `import { HelloWorld } from 'ui-solid';` and `<HelloWorld />` to web-ui-components/apps/solid-playground/src/App.tsx
+12. add `import { HelloWorld } from 'ui-solid';`, `<HelloWorld />`, and `import 'ui-solid/styles.css'` to web-ui-components/apps/solid-playground/src/App.tsx
 13. change the web-ui-components/packages/ui-solid/vite.config.ts with the content from below
-14. add web-ui-components/packages/ui-solid/tsconfig.build.json with the content from below
-15. change web-ui-components/packages/ui-solid/package.json with the content from below
-16. web-ui-components: npm install
-17. web-ui-components/packages/ui-solid: npm run build
 
-18. (untested) (between bullet 15 and 16, new 16) add web-ui-components/packages/ui-solid/build/prepare-css.js with the content from below
-19. (untested) (change bullet 12) add `import { HelloWorld } from 'ui-solid';`, `<HelloWorld />`, and `import 'ui-solid/styles.css'` to web-ui-components/apps/solid-playground/src/App.tsx
-20. (untested) change web-ui-components/apps/solid-playground/package.json with the content from below
+14. add or change these files with contents from below:
+
+- web-ui-components/tsconfig.base.json
+- web-ui-components/packages/tsconfig.package.json
+- web-ui-components/packages/ui-solid/tsconfig.json
+- web-ui-components/packages/ui-solid/tsconfig.app.json
+- web-ui-components/packages/ui-solid/tsconfig.build.json
+- web-ui-components/apps/tsconfig.app.json
+- web-ui-components/apps/solid-playground/tsconfig.json
+
+15. remove web-ui-components/packages/ui-solid/tsconfig.node.json
+
+16. change web-ui-components/packages/ui-solid/package.json with the content from below
+17. add web-ui-components/packages/ui-solid/build/prepare-css.js with the content from below
+18. web-ui-components: npm install
+19. web-ui-components/packages/ui-solid: npm run build
+20. remove web-ui-components/packages/ui-solid/index.html
+21. change web-ui-components/apps/solid-playground/package.json with the content from below
 
 pnpm version:
 
@@ -28,23 +39,23 @@ pnpm version:
 2. add `"private": true,` to web-ui-components/package.json
 3. add the web-ui-components/pnpm-workspace.yaml with the content from below
 4. web-ui-components/apps/solid-playground: pnpx degit solidjs/templates/ts .
-5. remove .gitignore and pnpm-lock.yaml from web-ui-components/apps/solid-playground
+5. same as the npm version
 6. web-ui-components/packages/ui-solid: pnpm create vite . --template solid-ts
-7. move .gitignore from web-ui-components/packages/ui-solid to web-ui-components
-8. (is needed?) add `dist` to web-ui-components/.gitignore
-9. web-ui-components/packages/ui-solid/src/components/HelloWorld.tsx: `import type { Component } from 'solid-js';export const HelloWorld: Component = () => {return <p>Hello from ui-solid!</p>;};`
-10. web-ui-components/packages/ui-solid/src/index.ts: `export { HelloWorld } from './components/HelloWorld';`
+7. same as the npm version
+8. same as the npm version
+9. same as the npm version
+10. same as the npm version
 11. add `"dependencies": {"ui-solid": "workspace:*"}` to web-ui-components/apps/solid-playground/package.json
-12. add `import { HelloWorld } from 'ui-solid';` and `<HelloWorld />` to web-ui-components/apps/solid-playground/src/App.tsx
-13. change the web-ui-components/packages/ui-solid/vite.config.ts with the content from below
-14. add web-ui-components/packages/ui-solid/tsconfig.build.json with the content from below
-15. change web-ui-components/packages/ui-solid/package.json with the content from below
-16. web-ui-components: pnpm install
-17. web-ui-components/packages/ui-solid: pnpm build
-
-18. (untested) (between bullet 15 and 16, new 16) add web-ui-components/packages/ui-solid/build/prepare-css.js with the content from below
-19. (untested) (change bullet 12) add `import { HelloWorld } from 'ui-solid';`, `<HelloWorld />`, and `import 'ui-solid/styles.css'` to web-ui-components/apps/solid-playground/src/App.tsx
-20. (untested) change web-ui-components/apps/solid-playground/package.json with the content from below
+12. same as the npm version
+13. same as the npm version
+14. same as the npm version
+15. same as the npm version
+16. same as the npm version
+17. same as the npm version
+18. web-ui-components: pnpm install
+19. web-ui-components/packages/ui-solid: pnpm build
+20. same as the npm version
+21. same as the npm version
 
 web-ui-components/pnpm-workspace.yaml:
 
@@ -88,26 +99,7 @@ export default defineConfig({
 });
 ```
 
-web-ui-components/packages/ui-solid/tsconfig.build.json:
-
-```
-{
-  "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "declaration": true,
-    "emitDeclarationOnly": true,
-    "outDir": "dist/tsc",
-    "rootDir": "src",
-    "jsx": "preserve",
-    "jsxImportSource": "solid-js",
-    "moduleResolution": "node"
-  },
-  "include": ["src"]
-}
-```
-
-web-ui-components/packages/ui-solid/package.json (new):
+web-ui-components/packages/ui-solid/package.json:
 
 ```
 {
@@ -115,9 +107,9 @@ web-ui-components/packages/ui-solid/package.json (new):
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "types": "dist/tsc/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/tsc/index.d.ts",
       "import": "./dist/vite/ui-solid.js",
       "require": "./dist/vite/ui-solid.cjs"
     },
@@ -126,37 +118,6 @@ web-ui-components/packages/ui-solid/package.json (new):
   "scripts": {
     "dev": "vite",
     "build": "tsc -p tsconfig.build.json && vite build && node build/prepare-css.js",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "solid-js": "^1.9.5"
-  },
-  "devDependencies": {
-    "typescript": "~5.7.2",
-    "vite": "^6.3.1",
-    "vite-plugin-solid": "^2.11.6"
-  }
-}
-```
-
-web-ui-components/packages/ui-solid/package.json (old):
-
-```
-{
-  "name": "ui-solid",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "types": "dist/tsc/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/vite/ui-solid.js",
-      "require": "./dist/vite/ui-solid.cjs"
-    }
-  },
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc -p tsconfig.build.json && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -214,6 +175,121 @@ web-ui-components/apps/solid-playground/package.json:
   "dependencies": {
     "solid-js": "^1.9.5",
     "ui-solid": "*"
+  }
+}
+```
+
+web-ui-components/tsconfig.base.json:
+
+```
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "useDefineForClassFields": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  }
+}
+```
+
+web-ui-components/packages/tsconfig.package.json:
+
+```
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "composite": true,
+
+    /* Linting */
+    "noUncheckedSideEffectImports": true
+  }
+}
+```
+
+web-ui-components/packages/ui-solid/tsconfig.json:
+
+```
+{
+  "extends": "../tsconfig.package.json",
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" }
+  ]
+}
+```
+
+web-ui-components/packages/ui-solid/tsconfig.app.json:
+
+```
+{
+  "extends": "../tsconfig.package.json",
+  "compilerOptions": {
+    /* Bundler mode */
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js"
+  },
+  "include": ["src"]
+}
+```
+
+web-ui-components/packages/ui-solid/tsconfig.build.json:
+
+```
+{
+  "extends": "../tsconfig.package.json",
+  "compilerOptions": {
+    "outDir": "dist/tsc",
+    "rootDir": "src",
+
+    /* Bundler mode */
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js"
+  },
+  "include": ["src"]
+}
+```
+
+web-ui-components/apps/tsconfig.app.json:
+
+```
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+
+    /* Bundler mode */
+    "noEmit": true
+  }
+}
+```
+
+web-ui-components/apps/solid-playground/tsconfig.json:
+
+```
+{
+  "extends": "../tsconfig.app.json",
+  "compilerOptions": {
+    /* Bundler mode */
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
+
+    "types": ["vite/client"]
   }
 }
 ```

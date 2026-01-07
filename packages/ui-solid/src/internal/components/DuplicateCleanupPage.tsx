@@ -40,11 +40,11 @@ export const DuplicateCleanupPage: Component = () => {
     return right('')
   }
 
-  const deleteSelectedFiles = async (rows: SelectedGroupRows): Promise<DeleteSelectedFilesResult> => {
+  const deleteSelectedFiles = async (_: SelectedGroupRows): Promise<DeleteSelectedFilesResult> => {
     return new Map()
   }
 
-  const detectDuplicateFiles =  async (paths: ResolvedFilePaths): Promise<DetectDuplicateFilesResultEither> => {
+  const detectDuplicateFiles =  async (_: ResolvedFilePaths): Promise<DetectDuplicateFilesResultEither> => {
     return right({rowGroups: [], duplicateFileCount: 0})
   }
 
