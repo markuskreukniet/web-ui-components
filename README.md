@@ -27,9 +27,9 @@ web-ui-components/
 │   │   │   ├── i18n/
 │   │   │   ├── monads/
 │   │   │   │   └── either.ts
-│   │   │   ├── utils/                # Framework-agnostic utility modules organized under ui-core, rather than modules/, to reflect their shared use across UI implementations.
+│   │   │   ├── utils/                # Framework-agnostic utility modules.
 │   │   │   │   └── errors.ts
-│   │   │   ├── types/                # Framework-agnostic type definitions in ui-core, rather than modules/, to reflect their shared use across UI implementations.
+│   │   │   ├── types/                # Framework-agnostic type definitions.
 │   │   │   └── styles/
 │   │   │       ├── index.css         # Entry point (e.g. @import './base.css')
 │   │   │       └── base.css
@@ -212,13 +212,13 @@ This pattern makes it explicit that the function handles a specific UI event, en
 - add function return types
 - Is the project naming still correct since there are modules and components?
 - check naming in all files
-- make UI core project
+- make the shared project
 - Add a toggle to show removed rows
 - Use context instead of prop down drilling? Also update README then
 - if too many error in error toast, show scrollbar
 - fix/check tsconfig files and use extending of files
 - add dependency "@types/node"?
-- update bootstrapping.md with styles, possible when there is the UI core project
+- update bootstrapping.md with styles, possible when there is the shared project
 - remove all useless files from ui-solid
 - add to solid-playground .gitignore?
 - make the whole td with a checkbox clickable without adding JS/TS?
@@ -236,6 +236,7 @@ This pattern makes it explicit that the function handles a specific UI event, en
 - Should the primary button in step 2 only be red when there are more then duplicates selected? maybe not
 - prettier max 1 html attribute on 1 line
 - file path selection + table max length cut off
+- test and style toasts
 
 ## Code to use:
 
