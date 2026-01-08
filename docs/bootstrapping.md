@@ -18,10 +18,11 @@ npm version:
 16. web-ui-components: npm install
 17. web-ui-components/packages/ui-solid: npm run build
 
-18. (untested) (between bullet 15 and 16, new 16) add web-ui-components/packages/ui-solid/build/prepare-css.js with the content from below
-19. (untested) (change bullet 12) add `import { HelloWorld } from 'ui-solid';`, `<HelloWorld />`, and `import 'ui-solid/styles.css'` to web-ui-components/apps/solid-playground/src/App.tsx
-20. (untested) remove web-ui-components/packages/ui-solid/index.html
-21. (untested) change web-ui-components/apps/solid-playground/package.json with the content from below
+18. change `"moduleResolution": "node",` to `"moduleResolution": "bundler",` in web-ui-components/apps/solid-playground/tsconfig.json
+19. (untested) (between bullet 15 and 16, new 16) add web-ui-components/packages/ui-solid/build/prepare-css.js with the content from below
+20. (untested) (change bullet 12) add `import { HelloWorld } from 'ui-solid';`, `<HelloWorld />`, and `import 'ui-solid/styles.css'` to web-ui-components/apps/solid-playground/src/App.tsx
+21. (untested) remove web-ui-components/packages/ui-solid/index.html
+22. (untested) change web-ui-components/apps/solid-playground/package.json with the content from below
 
 pnpm version:
 
@@ -43,10 +44,11 @@ pnpm version:
 16. web-ui-components: pnpm install
 17. web-ui-components/packages/ui-solid: pnpm build
 
-18. (untested) (between bullet 15 and 16, new 16) add web-ui-components/packages/ui-solid/build/prepare-css.js with the content from below
-19. (untested) (change bullet 12) add `import { HelloWorld } from 'ui-solid';`, `<HelloWorld />`, and `import 'ui-solid/styles.css'` to web-ui-components/apps/solid-playground/src/App.tsx
-20. (untested) remove web-ui-components/packages/ui-solid/index.html
-21. (untested) change web-ui-components/apps/solid-playground/package.json with the content from below
+18. change `"moduleResolution": "node",` to `"moduleResolution": "bundler",` in web-ui-components/apps/solid-playground/tsconfig.json
+19. (untested) (between bullet 15 and 16, new 16) add web-ui-components/packages/ui-solid/build/prepare-css.js with the content from below
+20. (untested) (change bullet 12) add `import { HelloWorld } from 'ui-solid';`, `<HelloWorld />`, and `import 'ui-solid/styles.css'` to web-ui-components/apps/solid-playground/src/App.tsx
+21. (untested) remove web-ui-components/packages/ui-solid/index.html
+22. (untested) change web-ui-components/apps/solid-playground/package.json with the content from below
 
 web-ui-components/pnpm-workspace.yaml:
 
@@ -117,9 +119,9 @@ web-ui-components/packages/ui-solid/package.json (new):
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "types": "dist/tsc/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/tsc/index.d.ts",
       "import": "./dist/vite/ui-solid.js",
       "require": "./dist/vite/ui-solid.cjs"
     },
