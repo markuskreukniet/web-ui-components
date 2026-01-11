@@ -1,15 +1,11 @@
 {
+  "extends": "../tsconfig.app.json",
   "compilerOptions": {
-    "strict": true,
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
+    /* Bundler mode */
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
+
     "types": ["vite/client"],
-    "noEmit": true,
     "isolatedModules": true
   }
 }

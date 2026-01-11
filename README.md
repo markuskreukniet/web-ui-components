@@ -20,6 +20,7 @@ web-ui-components/
 │   │   │       └── prepare-css.js    # Prepares CSS for build; implemented in JS to keep tooling lightweight and separate from TypeScript code.
 │   │   ├── dist/                     # Generated build outputs excluded from source control.
 │   │   ├── package.json
+│   │   ├── tsconfig.json
 │   │   └── vite.config.ts
 │   ├── ui-solid/                     # SolidJS-based UI components, mirroring the structure of the ui-react/ directory.
 │   ├── shared/
@@ -35,15 +36,17 @@ web-ui-components/
 │   │   │       └── base.css
 │   │   ├── package.json
 │   │   └── vite.config.ts
+│   └── tsconfig.package.json
 ├── apps/
 │   ├── react-playground/
 │   ├── solid-playground/
-│   └── electron/
+│   ├── electron/
+│   └── tsconfig.app.json
 ├── package-lock.json
 ├── package.json                      # Root workspace configuration
 ├── pnpm-lock.yaml                    # Generated lockfile (only present in a pnpm-managed project)
 ├── pnpm-workspace.yaml               # Workspace configuration (only present in a pnpm-managed project)
-├── tsconfig.json                     # Shared TypeScript settings
+├── tsconfig.base.json                # Workspace-wide base TypeScript configuration extended by all packages and apps
 ├── .gitignore
 └── README.md
 ```
@@ -216,7 +219,7 @@ This pattern makes it explicit that the function handles a specific UI event, en
 - Add a toggle to show removed rows
 - Use context instead of prop down drilling? Also update README then
 - if too many error in error toast, show scrollbar
-- fix/check tsconfig files and use extending of files
+- fix/check tsconfig files and use extending of files (use tsconfig.json, tsconfig.app.json, tsconfig.node.json, tsconfig.lib.json, tsconfig.package.json, en tsconfig.base.json)
 - add dependency "@types/node"?
 - update bootstrapping.md with styles, possible when there is the shared project
 - remove all useless files from ui-solid
@@ -237,6 +240,7 @@ This pattern makes it explicit that the function handles a specific UI event, en
 - prettier max 1 html attribute on 1 line
 - file path selection + table max length cut off
 - test and style toasts
+- in a tsconfig.json in compilerOptions.tsBuildInfoFile, with a value such as "./node_modules/.tmp/tsconfig.node.tsbuildinfo" or "./node_modules/.tmp/tsconfig.app.tsbuildinfo".
 
 ## Code to use:
 
