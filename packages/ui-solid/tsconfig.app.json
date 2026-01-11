@@ -6,7 +6,6 @@
     "moduleDetection": "force",
 
     /* Linting */
-    "erasableSyntaxOnly": true,
     "noUncheckedSideEffectImports": true
   },
   "include": ["src"]
