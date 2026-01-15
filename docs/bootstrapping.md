@@ -33,6 +33,7 @@ npm version:
 - web-ui-components/packages/ui-solid/src/index.tsx
 - web-ui-components/packages/ui-solid/src/assets/solid.svg
 - web-ui-components/packages/ui-solid/src/assets
+- web-ui-components/packages/ui-solid/src/vite-env.d.ts
 
 16. change web-ui-components/packages/ui-solid/package.json with the content from below
 17. add web-ui-components/packages/ui-solid/build/prepare-css.js with the content from below

@@ -257,6 +257,12 @@ This pattern makes it explicit that the function handles a specific UI event, en
 }
 ```
 
+- use web-ui-components/packages/ui-solid/src/vite-env.d.ts with this content below. Is it useful somewhere else?
+
+```
+/// <reference types="vite/client" />
+```
+
 ## Code to use:
 
 ```
