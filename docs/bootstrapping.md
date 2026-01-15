@@ -24,7 +24,13 @@ npm version:
 - web-ui-components/apps/tsconfig.app.json
 - web-ui-components/apps/solid-playground/tsconfig.json
 
-15. remove web-ui-components/packages/ui-solid/tsconfig.node.json
+15. remove these files:
+
+- web-ui-components/packages/ui-solid/tsconfig.node.json
+- web-ui-components/packages/ui-solid/App.css
+- web-ui-components/packages/ui-solid/App.tsx
+- web-ui-components/packages/ui-solid/index.css
+- web-ui-components/packages/ui-solid/index.tsx
 
 16. change web-ui-components/packages/ui-solid/package.json with the content from below
 17. add web-ui-components/packages/ui-solid/build/prepare-css.js with the content from below
