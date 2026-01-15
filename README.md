@@ -240,6 +240,7 @@ This pattern makes it explicit that the function handles a specific UI event, en
 - prettier max 1 html attribute on 1 line
 - file path selection + table max length cut off
 - test and style toasts
+- check if the vite.config.ts and package.json files, and similar files are correct and needed
 
 - recheck if tsconfig files are correct. bootstrapping.md has tsconfigs in it we can use for easy copying.
 - add dependency "@types/node"?
