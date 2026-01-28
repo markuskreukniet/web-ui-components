@@ -1,7 +1,7 @@
 import { For } from 'solid-js'
 import { CheckboxInput } from './CheckboxInput'
 import { TertiaryIconButton } from './buttons/iconButtons/TertiaryIconButton'
-import { isMapEmpty } from '../utils/collection-size'
+import { isMapEmpty } from 'shared'
 import type { Accessor, Component, JSX, Setter } from 'solid-js'
 import type { Renderer, Renderers } from "./FileResultInspector"
 import type { VoidFunction } from "../types/types"

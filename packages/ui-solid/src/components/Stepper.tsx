@@ -1,7 +1,7 @@
 import { createSignal, For } from 'solid-js'
 import { ButtonGroup } from "./buttonGroups/ButtonGroup"
 import { TertiaryButton } from './buttons/TertiaryButton'
-import { isStrictEqual0 } from '../utils/utils'
+import { isStrictEqual0 } from 'shared'
 import type { Component, JSX } from 'solid-js'
 
 type Step = {

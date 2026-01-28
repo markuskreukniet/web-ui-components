@@ -31,9 +31,10 @@ web-ui-components/
 │   │   │   ├── utils/                # Framework-agnostic utility modules.
 │   │   │   │   └── errors.ts
 │   │   │   ├── types/                # Framework-agnostic type definitions.
-│   │   │   └── styles/
-│   │   │       ├── index.css         # Entry point (e.g. @import './base.css')
-│   │   │       └── base.css
+│   │   │   ├── styles/
+│   │   │   │   ├── index.css         # Entry point (e.g. @import './base.css')
+│   │   │   │   └── base.css
+│   │   │   └── index.ts
 │   │   ├── build/                    # Package-local build tooling, excluded from source and distribution.
 │   │   │       └── prepare-css.mjs   # Prepares CSS for build; implemented in JS to keep tooling lightweight and separate from TypeScript code.
 │   │   ├── package.json
@@ -248,6 +249,9 @@ This pattern makes it explicit that the function handles a specific UI event, en
 - add dependency "@types/node"?
 - in a tsconfig.json in compilerOptions.tsBuildInfoFile, with a value such as "./node_modules/.tmp/tsconfig.node.tsbuildinfo" or "./node_modules/.tmp/tsconfig.app.tsbuildinfo".
 - use tsconfig.node.json in a package when needed, and update then the tsconfig.json of that package with for example:
+
+- shared/src/monads/ moet eigenlijk shared/src/modules/monads/ zijn?
+- add "sideEffects": in package.json?
 
 ```
 {

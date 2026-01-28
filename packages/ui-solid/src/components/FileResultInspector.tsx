@@ -3,7 +3,7 @@ import { DeleteFilesButton } from './buttons/DeleteFilesButton'
 import { CheckboxInput } from './CheckboxInput'
 import { DeleteFilesDialog } from './DeleteFilesDialog'
 import { FileResultColumnTypes, FileResultTable } from './FileResultTable'
-import { isStrictEqual1 } from '../utils/utils'
+import { isStrictEqual1 } from 'shared'
 import type { Component, JSX } from 'solid-js'
 import type {
   FileResultTableDataProps,
