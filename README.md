@@ -218,7 +218,6 @@ This pattern makes it explicit that the function handles a specific UI event, en
 - add function return types
 - Is the project naming still correct since there are modules and components?
 - check naming in all files
-- make the shared project
 - Add a toggle to show removed rows
 - Use context instead of prop down drilling? Also update README then
 - if too many error in error toast, show scrollbar
@@ -252,7 +251,6 @@ This pattern makes it explicit that the function handles a specific UI event, en
 
 - use "emitDeclarationOnly" in a package.json?
 
-- shared/src/monads/ moet eigenlijk shared/src/modules/monads/ zijn?
 - add "sideEffects": in package.json?
 
 - rename source to input and target to output. FilePathSelectionGroup and FilePathSelectionGroups is not good naming?
