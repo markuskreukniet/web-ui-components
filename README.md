@@ -241,20 +241,18 @@ This pattern makes it explicit that the function handles a specific UI event, en
 - file path selection + table max length cut off
 - test and style toasts
 - check if the vite.config.ts and package.json files, and similar files are correct and needed
-- is solid-playground good naming? should internal of ui-solid be removed there and go to solid-playground?
 - fix prettier? style of prepare-css.mjs and dev-solid-workspace.mjs
 
 - recheck if tsconfig files are correct. bootstrapping.md has tsconfigs in it we can use for easy copying.
 - add dependency "@types/node"?
 - in a tsconfig.json in compilerOptions.tsBuildInfoFile, with a value such as "./node_modules/.tmp/tsconfig.node.tsbuildinfo" or "./node_modules/.tmp/tsconfig.app.tsbuildinfo".
 - use tsconfig.node.json in a package when needed, and update then the tsconfig.json of that package with for example:
-
 - use "emitDeclarationOnly" in a package.json?
-
 - add "sideEffects": in package.json?
 
 - rename source to input and target to output. FilePathSelectionGroup and FilePathSelectionGroups is not good naming?
 - move code to new repo with new name
+- fix App.tsx in playground. is solid-playground good naming? should internal of ui-solid be removed there and go to solid-playground?
 
 ```
 {
