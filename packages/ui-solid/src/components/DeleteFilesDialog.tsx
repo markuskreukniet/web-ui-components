@@ -5,7 +5,7 @@ import { DeleteFilesButton } from "./buttons/DeleteFilesButton"
 import { TertiaryButton } from "./buttons/TertiaryButton"
 import type { Component } from "solid-js"
 import type { IsDestructiveProps } from './buttons/PrimaryDestructiveButton'
-import type { VoidFunction } from "../types/types"
+import type { VoidFunction } from "shared"
 
 type DeleteFilesDialogProps = IsDestructiveProps & {
   open: boolean

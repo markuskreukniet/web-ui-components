@@ -4,15 +4,13 @@ import { FilePathSelectorModes } from '../../components/FilePathSelectorGroup'
 import { FileResultInspector } from '../../components/FileResultInspector'
 import { FileResultColumnTypes } from '../../components/FileResultTable'
 import { createStep, Stepper } from '../../components/Stepper'
-import { isLeft, isRight, right } from '../../modules/monads/either'
+import { isArrayEmpty, isLeft, isRight, right, isStrictEqual1 } from 'shared'
 import { addErrorToastFromEither, useToastContext } from '../../modules/toasts/toast-context'
-import { isArrayEmpty, isStrictEqual1 } from 'shared'
 import type { Component } from 'solid-js'
 import type { InputOutputContextEither } from '../../components/FilePathSelectionGroups'
 import type { ResolvedFilePaths } from '../../components/FilePathSelectorGroup'
 import type { FileResultColumns, RowGroup, RowGroups, SelectedGroupRows } from '../../components/FileResultTable'
-import type { Either } from '../../modules/monads/either'
-import type { SelectFilePath } from '../../types/types'
+import type { Either, SelectFilePath } from 'shared'
 
 type DetectDuplicateFilesResult = {
   rowGroups: RowGroups,

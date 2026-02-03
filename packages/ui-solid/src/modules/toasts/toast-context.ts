@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'solid-js'
 import type { ToastStore } from './create-toast-store'
-import type { Either } from '../monads/either'
+import type { Either } from 'shared'
 
 // ToastContext is a globally accessible SolidJS context object that provides access to the toast store.
 // It is named using PascalCase to align with JSX conventions,

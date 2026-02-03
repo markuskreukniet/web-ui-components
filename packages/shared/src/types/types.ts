@@ -1,4 +1,4 @@
-import type { Either } from '../modules/monads/either'
+import type { Either } from '../monads/either'
 
 export type VoidFunction = () => void
 

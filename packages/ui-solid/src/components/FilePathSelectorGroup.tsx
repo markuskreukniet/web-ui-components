@@ -4,12 +4,10 @@ import { ButtonGroup } from "./buttonGroups/ButtonGroup"
 import { CloseButton } from './buttons/iconButtons/CloseButton'
 import { TertiaryButton } from './buttons/TertiaryButton'
 import { FilePathSelector, FilePathTypes } from './FilePathSelector'
-import { isRight, left, right } from '../modules/monads/either'
-import { isArrayEmpty } from 'shared'
+import { isArrayEmpty, isRight, left, right } from 'shared'
 import type { Component, JSX } from 'solid-js'
 import type { IsDirectory, SelectedFilePathEither } from './FilePathSelector'
-import type { Either } from '../modules/monads/either'
-import type { SelectFilePathProps } from '../types/types'
+import type { Either, SelectFilePathProps } from 'shared'
 
 export const FilePathSelectorModes = {
   ...FilePathTypes,

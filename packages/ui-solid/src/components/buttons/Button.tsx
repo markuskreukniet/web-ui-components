@@ -1,6 +1,6 @@
 import { ProgressCircle } from '../ProgressCircle'
 import type { Component, JSX, ParentProps } from 'solid-js'
-import type { VoidFunction } from "../../types/types"
+import type { VoidFunction } from "shared"
 
 export const ButtonVariants = {
   primary: 'button--primary',

@@ -4,7 +4,7 @@ import { TertiaryIconButton } from './buttons/iconButtons/TertiaryIconButton'
 import { isMapEmpty } from 'shared'
 import type { Accessor, Component, JSX, Setter } from 'solid-js'
 import type { Renderer, Renderers } from "./FileResultInspector"
-import type { VoidFunction } from "../types/types"
+import type { VoidFunction } from "shared"
 
 export const FileResultColumnTypes = {
   text: 'text',

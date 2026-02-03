@@ -11,7 +11,7 @@ import type {
   SelectedGroupRow,
   SelectedGroupRows
 } from './FileResultTable'
-import type { IsLoadingProps } from '../types/types'
+import type { IsLoadingProps } from 'shared'
 
 type FileResultInspectorProps = FileResultTableDataProps & IsLoadingProps & {
   canDelete: boolean

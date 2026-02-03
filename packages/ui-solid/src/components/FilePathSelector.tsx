@@ -1,8 +1,7 @@
 import { SecondaryButton } from './buttons/SecondaryButton'
-import { mapRight } from '../modules/monads/either'
+import { mapRight } from 'shared'
 import type { Component } from 'solid-js'
-import type { Either } from '../modules/monads/either'
-import type { SelectFilePathProps } from '../types/types'
+import type { Either, SelectFilePathProps } from 'shared'
 
 export const FilePathTypes = {
   regularFile: 'regularFile',

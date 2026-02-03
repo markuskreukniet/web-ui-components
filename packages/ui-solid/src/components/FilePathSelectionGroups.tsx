@@ -1,12 +1,10 @@
 import { createSignal } from 'solid-js'
 import { SubmitButton } from './buttons/SubmitButton'
 import { FilePathSelectorGroup, FilePathSelectorModes } from './FilePathSelectorGroup'
-import { isRight, left, right } from '../modules/monads/either'
-import { isArrayEmpty } from 'shared'
+import { isArrayEmpty, isRight, left, right } from 'shared'
 import type { Component } from 'solid-js'
 import type { FilePathSelectorGroupBaseProps, ResolvedFilePaths, ResolvedPathsEither } from './FilePathSelectorGroup'
-import type { Either } from '../modules/monads/either'
-import type { IsLoadingProps } from '../types/types'
+import type { Either, IsLoadingProps } from 'shared'
 
 type InputOutputContext = {
   inputFilePaths: ResolvedFilePaths,
