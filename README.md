@@ -247,8 +247,7 @@ This pattern makes it explicit that the function handles a specific UI event, en
 - add dependency "@types/node"?
 - in a tsconfig.json in compilerOptions.tsBuildInfoFile, with a value such as "./node_modules/.tmp/tsconfig.node.tsbuildinfo" or "./node_modules/.tmp/tsconfig.app.tsbuildinfo".
 - use tsconfig.node.json in a package when needed, and update then the tsconfig.json of that package with for example:
-- use "emitDeclarationOnly" in a package.json?
-- add "sideEffects": in package.json?
+- use "emitDeclarationOnly" / "sideEffects" in a package.json?
 
 - rename source to input and target to output. FilePathSelectionGroup and FilePathSelectionGroups is not good naming?
 - move code to new repo with new name
